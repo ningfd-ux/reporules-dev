@@ -5,7 +5,7 @@ const COMING_SOON =
   "inline-flex items-center rounded border border-zinc-700 px-2.5 py-1 font-mono text-[11px] text-zinc-500";
 
 const WORKFLOW_CARD =
-  "group rounded-xl border border-[#2a2d35] bg-[#16181d] p-6 transition-colors hover:border-zinc-600";
+  "group rounded-xl border border-[#2a2d35] bg-[#16181d] p-6 transition-colors hover:border-[#3b4150]";
 
 export default function Home() {
   return (
@@ -22,7 +22,7 @@ export default function Home() {
             Copy battle-tested AI workflows for your next project.
           </p>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Card 1: Claude Code SaaS */}
+            {/* Card 1 */}
             <Link
               href="/workflows/claude-code-saas"
               className={WORKFLOW_CARD}
@@ -34,11 +34,10 @@ export default function Home() {
                 Claude Code SaaS Workflow
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-                Scalable Next.js architecture for long-term AI-assisted
-                development.
+                Scalable Next.js workflow for long-term AI-assisted development.
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
-                {["Next.js", "Claude Code", "Cursor", "Supabase"].map(
+                {["Next.js", "Cursor", "Claude Code", "Supabase"].map(
                   (tag) => (
                     <span
                       key={tag}
@@ -69,7 +68,7 @@ export default function Home() {
               </div>
               <div className="mt-4 flex items-center justify-between">
                 <div className="font-mono text-xs text-zinc-500">
-                  24 rules &middot; 12 prompts &middot; 6 workflows
+                  24 rules &middot; 12 prompts
                 </div>
                 <span className="font-mono text-xs text-zinc-500">
                   Updated 3 days ago
@@ -82,20 +81,20 @@ export default function Home() {
               </div>
             </Link>
 
-            {/* Card 2: Coming Soon */}
+            {/* Card 2 */}
             <div className={WORKFLOW_CARD}>
               <span className={COMING_SOON}>Coming Soon</span>
               <h3 className="mt-3 text-base font-semibold text-zinc-100">
                 Cursor Monorepo Workflow
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-                Shared AI workflow for scalable monorepo architecture.
+                Shared repo workflow for Turborepo and multi-package projects.
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {["Turborepo", "pnpm", "shared packages"].map((tag) => (
                   <span
                     key={tag}
-                    className="rounded border border-[#2a2d35] bg-zinc-950 px-2 py-0.5 font-moto text-[11px] text-zinc-400"
+                    className="rounded border border-[#2a2d35] bg-zinc-950 px-2 py-0.5 font-mono text-[11px] text-zinc-400"
                   >
                     {tag}
                   </span>
@@ -103,20 +102,20 @@ export default function Home() {
               </div>
               <div className="mt-4 flex items-center justify-between">
                 <div className="font-mono text-xs text-zinc-500">
-                  18 rules &middot; 8 prompts
+                  18 rules &middot; 9 prompts
                 </div>
-                <span className="font-mono text-xs text-zinc-600">Draft</span>
+                <span className={COMING_SOON}>Coming Soon</span>
               </div>
             </div>
 
-            {/* Card 3: Coming Soon */}
+            {/* Card 3 */}
             <div className={WORKFLOW_CARD}>
               <span className={COMING_SOON}>Coming Soon</span>
               <h3 className="mt-3 text-base font-semibold text-zinc-100">
                 AI Startup Workflow
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-                Lean AI coding workflow for fast-moving startup teams.
+                Lean AI coding standards for fast-moving startup teams.
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {["Next.js", "Stripe", "MVP"].map((tag) => (
@@ -130,107 +129,9 @@ export default function Home() {
               </div>
               <div className="mt-4 flex items-center justify-between">
                 <div className="font-mono text-xs text-zinc-500">
-                  12 rules &middot; 6 prompts
+                  15 rules &middot; 7 prompts
                 </div>
-                <span className="font-mono text-xs text-zinc-600">Draft</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* AI Constraints */}
-      <section className="border-t border-[#2a2d35] bg-[#0f1115] px-6 py-20">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="text-center text-3xl font-semibold tracking-tight text-zinc-100 sm:text-4xl">
-            AI Constraints
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-center font-mono text-sm text-zinc-400">
-            Team-wide rules applied across all AI-generated code.
-          </p>
-          <div className="mt-12 grid gap-4 sm:grid-cols-2">
-            {[
-              "Never fetch inside client components",
-              "Avoid duplicated hooks",
-              "Reuse shared UI primitives",
-              "Prefer feature-based folders",
-              "Keep business logic isolated",
-              "Avoid large components over 200 lines",
-              "Prefer server state over client state",
-              "Keep PRs under 300 LOC",
-            ].map((item) => (
-              <div
-                key={item}
-                className="rounded-lg border border-[#2a2d35] bg-[#16181d] p-4 font-mono text-sm text-zinc-400"
-              >
-                <span className="text-zinc-500">$</span> {item}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Workflow Goals */}
-      <section className="border-t border-[#2a2d35] bg-[#12151b] px-6 py-20">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="text-center text-3xl font-semibold tracking-tight text-zinc-100 sm:text-4xl">
-            Workflow Goals
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-center font-mono text-sm text-zinc-400">
-            What this workflow is designed to achieve.
-          </p>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              [
-                "Reduce inconsistent AI output",
-                "AI tools generate different patterns without clear constraints. Standardized workflows produce predictable code.",
-              ],
-              [
-                "Keep repo structure predictable",
-                "Feature-based architecture prevents AI from creating scattered utilities and duplicated logic.",
-              ],
-              [
-                "Improve long-term maintainability",
-                "Server-first patterns and shared primitives keep the codebase clean across months of development.",
-              ],
-              [
-                "Scale AI coding across teams",
-                "Consistent rules and prompts let multiple developers use AI without introducing conflicting patterns.",
-              ],
-            ].map(([title, desc]) => (
-              <div
-                key={title}
-                className="rounded-xl border border-[#2a2d35] bg-[#16181d] p-5"
-              >
-                <h3 className="text-base font-semibold text-zinc-100">
-                  {title}
-                </h3>
-                <p className="mt-2 font-mono text-xs leading-relaxed text-zinc-400">
-                  {desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Recent Changes */}
-      <section className="border-t border-[#2a2d35] bg-[#0f1115] px-6 py-20">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="text-center text-3xl font-semibold tracking-tight text-zinc-100 sm:text-4xl">
-            Recent Changes
-          </h2>
-          <div className="mx-auto mt-12 max-w-xl rounded-xl border border-[#2a2d35] bg-[#151922] p-5 font-mono text-sm text-zinc-400">
-            <div className="mb-4 text-xs text-zinc-500">// changelog</div>
-            <div className="space-y-3">
-              <div>
-                <div className="text-xs text-blue-300">v0.4.2</div>
-                <div className="mt-1 space-y-1">
-                  <div>- added billing workflow</div>
-                  <div>- improved repo constraints</div>
-                  <div>- updated testing standards</div>
-                  <div>- fixed duplicated hooks guidance</div>
-                </div>
+                <span className={COMING_SOON}>Coming Soon</span>
               </div>
             </div>
           </div>
@@ -238,19 +139,16 @@ export default function Home() {
       </section>
 
       {/* Team Standards */}
-      <section className="border-t border-[#2a2d35] bg-[#12151b] px-6 py-20">
+      <section className="border-t border-[#2a2d35] bg-[#0f1115] px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-center text-3xl font-semibold tracking-tight text-zinc-100 sm:text-4xl">
             Team Standards
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-center font-mono text-sm text-zinc-400">
-            Shared conventions that keep AI-generated code consistent across the
-            team.
+            Shared conventions that keep AI-generated code consistent across the team.
           </p>
           <div className="mx-auto mt-12 max-w-2xl rounded-xl border border-[#2a2d35] bg-[#16181d] p-6 font-mono text-sm text-zinc-400">
-            <div className="mb-4 text-xs text-zinc-500">
-              // team standards
-            </div>
+            <div className="mb-4 text-xs text-zinc-500">// team standards</div>
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <span className="text-green-500">+</span>
@@ -273,6 +171,29 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Recent Changes */}
+      <section className="border-t border-[#2a2d35] bg-[#12151b] px-6 py-20">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-center text-3xl font-semibold tracking-tight text-zinc-100 sm:text-4xl">
+            Recent Changes
+          </h2>
+          <div className="mx-auto mt-12 max-w-xl rounded-xl border border-[#2a2d35] bg-[#151922] p-5 font-mono text-sm text-zinc-400">
+            <div className="mb-4 text-xs text-zinc-500">// changelog</div>
+            <div className="space-y-3">
+              <div>
+                <div className="text-xs text-blue-300">v0.4.2</div>
+                <div className="mt-1 space-y-1">
+                  <div>- added billing workflow</div>
+                  <div>- improved repo constraints</div>
+                  <div>- updated testing standards</div>
+                  <div>- fixed duplicated hooks guidance</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Legacy Notes */}
       <section className="border-t border-[#2a2d35] bg-[#0f1115] px-6 py-20">
         <div className="mx-auto max-w-6xl">
@@ -283,9 +204,7 @@ export default function Home() {
             Real projects have history. These are tracked in memory.md.
           </p>
           <div className="mx-auto mt-12 max-w-2xl rounded-xl border border-[#2a2d35] bg-[#16181d] p-6">
-            <div className="mb-4 font-mono text-xs text-zinc-500">
-              // legacy
-            </div>
+            <div className="mb-4 font-mono text-xs text-zinc-500">// legacy</div>
             <div className="space-y-3 font-mono text-sm text-zinc-400">
               <div className="flex items-start gap-2">
                 <span className="mt-1 text-amber-400">*</span>

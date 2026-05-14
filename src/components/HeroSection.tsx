@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Copy, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export default function HeroSection() {
   return (
@@ -33,28 +33,21 @@ export default function HeroSection() {
               >
                 Browse Workflows
               </Link>
-              <button className="rounded-xl border border-zinc-700 bg-transparent px-6 py-3 font-medium text-zinc-300 transition-colors hover:bg-zinc-900">
-                <Copy className="mr-2 inline-block h-4 w-4" />
-                Copy Rules
-              </button>
-            </div>
-
-            <div className="mt-4 flex items-center gap-6">
-              <p className="text-sm text-zinc-500">
-                Used in scalable AI-assisted codebases
-              </p>
               <Link
                 href="/docs"
-                className="text-sm text-zinc-400 transition-colors hover:text-zinc-200"
+                className="rounded-xl border border-zinc-700 bg-transparent px-6 py-3 font-medium text-zinc-300 transition-colors hover:bg-zinc-900"
               >
-                Read Documentation <ArrowRight className="ml-0.5 inline-block h-3 w-3" />
+                Open Docs
               </Link>
             </div>
+
+            <p className="mt-4 text-sm text-zinc-500">
+              Used in scalable AI-assisted codebases
+            </p>
           </div>
 
-          {/* RIGHT: Workflow Preview — IDE style */}
+          {/* RIGHT: Workflow Preview */}
           <div className="overflow-hidden rounded-xl border border-[#2a2d35] bg-[#181b21]">
-            {/* Title bar — compact IDE style */}
             <div className="flex h-10 items-center justify-between border-b border-[#2a2d35] bg-[#1f232b] px-4 font-mono text-xs text-zinc-500">
               <div className="flex items-center gap-2">
                 <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />

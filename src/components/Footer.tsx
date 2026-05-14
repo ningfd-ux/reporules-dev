@@ -17,9 +17,7 @@ export default function Footer() {
               Claude Code SaaS
             </Link>
             <span className="text-sm text-zinc-600">Cursor Monorepo</span>
-            <span className="text-sm text-zinc-600">
-              AI Startup Workflow
-            </span>
+            <span className="text-sm text-zinc-600">AI Startup Workflow</span>
           </nav>
         </div>
 
@@ -65,6 +63,12 @@ export default function Footer() {
               className="text-sm text-zinc-400 transition-colors hover:text-blue-300"
             >
               PR Workflow
+            </Link>
+            <Link
+              href="/docs/what-are-ai-coding-standards"
+              className="text-sm text-zinc-400 transition-colors hover:text-blue-300"
+            >
+              Migration Notes
             </Link>
           </nav>
         </div>
