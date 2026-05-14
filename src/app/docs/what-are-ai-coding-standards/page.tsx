@@ -1,144 +1,109 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "What Are AI Coding Standards? — RepoRules.dev",
-  description:
-    "Learn how AI coding standards help AI agents generate consistent, maintainable, and repository-aware code.",
+  description: "Learn how AI coding standards help AI agents generate consistent, maintainable, and repository-aware code.",
 };
+
+const SIDEBAR_LINK = "block text-sm text-zinc-400 transition-colors hover:text-blue-300";
+
+const SECTIONS = [
+  { label: "Getting Started", href: "/docs/what-are-ai-coding-standards" },
+  { label: "Workflows", href: "/workflows" },
+  { label: "Rules", href: "/rules" },
+  { label: "Constraints", href: "/docs/what-are-ai-coding-standards" },
+  { label: "Testing", href: "/docs/why-ai-generated-code-breaks" },
+  { label: "PR Workflow", href: "/docs/why-ai-generated-code-breaks" },
+  { label: "Migration Notes", href: "/docs/why-ai-generated-code-breaks" },
+];
 
 export default function WhatAreAICodingStandards() {
   return (
-    <div className="mx-auto max-w-3xl px-6 py-16">
-      <Link
-        href="/docs"
-        className="mb-8 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
-      >
-        <ArrowLeft className="h-4 w-4" /> Back to Docs
-      </Link>
+    <div className="mx-auto flex max-w-7xl gap-12 px-6 py-20">
+      <aside className="hidden w-56 shrink-0 lg:block">
+        <nav className="sticky top-24 space-y-3">
+          <p className="mb-4 text-xs font-medium uppercase tracking-wider text-zinc-500">Docs</p>
+          {SECTIONS.map((s) => (
+            <Link key={s.label} href={s.href} className={SIDEBAR_LINK}>
+              {s.label}
+            </Link>
+          ))}
+        </nav>
+      </aside>
 
-      <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-        What Are AI Coding Standards?
-      </h1>
-      <p className="mt-4 text-lg text-muted-foreground">
-        AI coding standards are structured guidelines that tell AI coding tools
-        how to generate code for your specific repository.
-      </p>
-
-      <div className="mt-12 space-y-8 text-sm leading-relaxed text-muted-foreground">
-        <section>
-          <h2 className="mb-4 text-xl font-semibold text-foreground">
-            Why standards matter for AI-generated code
-          </h2>
-          <p>
-            Without explicit guidance, AI coding tools generate code based on
-            general patterns from their training data. This leads to:
-          </p>
-          <ul className="mt-4 space-y-2">
-            <li className="flex items-start gap-2">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-              Inconsistent code style across files
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-              Wrong framework patterns (e.g., using Pages Router in a Next.js App Router project)
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-              Missing error handling or validation specific to your stack
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-              Security anti-patterns that your project specifically avoids
-            </li>
-          </ul>
-        </section>
-
-        <section>
-          <h2 className="mb-4 text-xl font-semibold text-foreground">
-            How AI coding standards differ from traditional linting
-          </h2>
-          <p>
-            While linters (ESLint, Prettier) enforce formatting and catch syntax
-            errors, AI coding standards operate at a higher level of abstraction.
-            They guide architectural decisions, framework conventions, and data
-            flow patterns that linters can&apos;t enforce.
-          </p>
-          <div className="mt-6 overflow-hidden rounded-xl border border-border/40">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border/40 bg-card">
-                  <th className="px-4 py-3 text-left font-medium text-foreground">Aspect</th>
-                  <th className="px-4 py-3 text-left font-medium text-foreground">Linter</th>
-                  <th className="px-4 py-3 text-left font-medium text-foreground">AI Standards</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["Formatting", "Enforces", "Not needed"],
-                  ["Syntax errors", "Catches", "Prevents"],
-                  ["Architecture", "Limited", "Full guidance"],
-                  ["Framework patterns", "Not applicable", "Specific rules"],
-                  ["Data flow", "Not applicable", "Detailed"],
-                  ["Security", "Basic", "Context-aware"],
-                ].map(([aspect, linter, standards]) => (
-                  <tr key={aspect} className="border-b border-border/20">
-                    <td className="px-4 py-3 text-foreground">{aspect}</td>
-                    <td className="px-4 py-3">{linter}</td>
-                    <td className="px-4 py-3">{standards}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section>
-          <h2 className="mb-4 text-xl font-semibold text-foreground">
-            Example: Before and after
-          </h2>
-          <p className="mb-4">
-            Without standards, an AI tool might generate a client component that
-            fetches data directly. With standards, it knows to use a Server
-            Component instead.
-          </p>
-          <div className="rounded-lg bg-zinc-950 p-4 font-mono text-xs leading-relaxed text-zinc-400">
-            <span className="text-zinc-500">// Without standards:</span>
-            {`
-"use client";
-export default function UserProfile() {
-  const [user, setUser] = useState(null);
-  useEffect(() => { fetch("/api/user").then(...) }, []);
-  return <div>{user.name}</div>;
-}`}
-          </div>
-          <div className="mt-4 rounded-lg bg-zinc-950 p-4 font-mono text-xs leading-relaxed text-zinc-400">
-            <span className="text-zinc-500">// With standards:</span>
-            {`
-export default async function UserProfile() {
-  const user = await getUser();
-  return <div>{user.name}</div>;
-}`}
-          </div>
-        </section>
-
-        <section>
-          <h2 className="mb-4 text-xl font-semibold text-foreground">
-            Get started
-          </h2>
-          <p className="mb-6">
-            Ready to generate standards for your repository? Paste your
-            package.json and get repository-aware AI coding standards in
-            seconds.
-          </p>
-          <Link
-            href="/generator"
-            className="inline-flex h-10 items-center justify-center rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground hover:bg-primary/80"
-          >
-            Generate Standards
+      <div className="min-w-0 flex-1 space-y-12">
+        <div>
+          <Link href="/docs" className="mb-8 inline-block font-mono text-sm text-zinc-500 hover:text-blue-300">
+            &larr; Back to Docs
           </Link>
-        </section>
+          <h1 className="mt-4 text-3xl font-semibold tracking-tight text-zinc-100">
+            What Are AI Coding Standards?
+          </h1>
+          <p className="mt-4 font-mono text-sm leading-relaxed text-zinc-400">
+            AI coding standards are structured guidelines that tell AI coding tools how to generate code
+            for your specific repository. They bridge the gap between an AI model's general knowledge and
+            your project's specific requirements.
+          </p>
+        </div>
+
+        <div className="space-y-8 font-mono text-sm leading-relaxed text-zinc-400">
+          <section>
+            <h2 className="mb-4 text-lg font-semibold text-zinc-100">Why standards matter</h2>
+            <div className="space-y-3">
+              <p>Without explicit guidance, AI tools generate code based on general patterns. This leads to:</p>
+              <ul className="space-y-1">
+                {[
+                  "Inconsistent code style across files",
+                  "Wrong framework patterns (Pages Router in an App Router project)",
+                  "Missing error handling specific to your stack",
+                  "Security anti-patterns your project avoids",
+                ].map((i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-600" />
+                    {i}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="mb-4 text-lg font-semibold text-zinc-100">Linters vs AI Standards</h2>
+            <div className="rounded-xl border border-[#2a2d35] bg-[#16181d] overflow-hidden">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-[#2a2d35]">
+                    <th className="px-4 py-3 text-left font-medium text-zinc-100">Aspect</th>
+                    <th className="px-4 py-3 text-left font-medium text-zinc-100">Linter</th>
+                    <th className="px-4 py-3 text-left font-medium text-zinc-100">AI Standards</th>
+                  </tr>
+                </thead>
+                <tbody className="text-zinc-400">
+                  {[["Formatting","Enforces","Not needed"],["Syntax errors","Catches","Prevents"],["Architecture","Limited","Full guidance"],["Framework patterns","Not applicable","Specific rules"],["Data flow","Not applicable","Detailed"],["Security","Basic","Context-aware"]].map(([a,l,s]) => (
+                    <tr key={a} className="border-b border-[#2a2d35] last:border-0">
+                      <td className="px-4 py-3">{a}</td>
+                      <td className="px-4 py-3">{l}</td>
+                      <td className="px-4 py-3">{s}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section>
+            <h2 className="mb-4 text-lg font-semibold text-zinc-100">Example: Before and after</h2>
+            <div className="rounded-xl border border-[#2a2d35] bg-[#16181d] p-4">
+              <div className="text-xs text-zinc-500 mb-2">// without standards</div>
+              <pre className="font-mono text-sm text-zinc-400">{"export default function Page() {\n  const [data, setData] = useState(null)\n  useEffect(() => { fetch('/api/data').then(...) }, [])\n  return <div>{data?.name}</div>\n}"}</pre>
+            </div>
+            <div className="mt-4 rounded-xl border border-[#2a2d35] bg-[#16181d] p-4">
+              <div className="text-xs text-zinc-500 mb-2">// with standards (server-first)</div>
+              <pre className="font-mono text-sm text-zinc-400">{"export default async function Page() {\n  const data = await getData()\n  return <div>{data.name}</div>\n}"}</pre>
+            </div>
+          </section>
+        </div>
       </div>
     </div>
   );
