@@ -175,7 +175,17 @@ export async function onRequest(context) {
       }
 
       const data = await response.json();
-      const content = JSON.parse(data.choices[0].message.content);
+      let content;
+      try {
+        content = JSON.parse(data.choices[0].message.content);
+      } catch (parseErr) {
+        // DeepSeek returned truncated/invalid JSON - likely timeout
+        const rawContent = data.choices[0]?.message?.content || "";
+        return new Response(
+          JSON.stringify({ error: "Generation timed out. Try again.", raw: rawContent.substring(0, 200) }),
+          { status: 408, headers: { ...corsHeaders(), "Content-Type": "application/json" } },
+        );
+      }
 
       return new Response(
         JSON.stringify(content),
