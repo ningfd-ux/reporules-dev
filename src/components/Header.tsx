@@ -37,9 +37,9 @@ export default function Header() {
 
         <Link
           href="/docs"
-          className="rounded-xl bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-900 transition-all duration-200 hover:bg-white hover:-translate-y-[1px]"
+          className="inline-flex h-11 items-center justify-center rounded-lg border border-zinc-700 px-5 text-sm text-zinc-300 transition-colors hover:border-zinc-500"
         >
-          Open Docs
+          Open Documentation Viewer
         </Link>
       </div>
     </header>

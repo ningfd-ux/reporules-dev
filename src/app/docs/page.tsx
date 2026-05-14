@@ -3,17 +3,16 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
-const NAV_ITEMS = [
+const LEFT_NAV = [
   { id: "architecture", label: "Architecture" },
-  { id: "repository-structure", label: "Repository Structure" },
+  { id: "repository-files", label: "Repository Files" },
   { id: "ai-constraints", label: "AI Constraints" },
   { id: "testing-workflow", label: "Testing Workflow" },
-  { id: "pr-workflow", label: "PR Workflow" },
+  { id: "pr-governance", label: "PR Governance" },
   { id: "migration-notes", label: "Migration Notes" },
   { id: "technical-debt", label: "Technical Debt" },
+  { id: "incident-log", label: "Incident Log" },
 ];
-
-const CARD = "rounded-xl border border-[#2a2d35] bg-[#16181d] p-6";
 
 export default function DocsPage() {
   const [activeSection, setActiveSection] = useState("architecture");
@@ -23,9 +22,7 @@ export default function DocsPage() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
         });
       },
       { threshold: 0.3 },
@@ -37,15 +34,15 @@ export default function DocsPage() {
   return (
     <main className="min-h-screen bg-[#0d0f14] text-zinc-100">
       <div className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid grid-cols-1 gap-14 lg:grid-cols-[260px_1fr]">
-          {/* Sidebar */}
-          <aside className="w-[260px] border-r border-[#22252d] pr-6">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[260px_1fr_280px]">
+          {/* Left Sidebar */}
+          <aside className="border-r border-[#22252d] pr-6">
             <div className="sticky top-24">
               <div className="mb-5 font-mono text-xs uppercase tracking-wide text-zinc-500">
                 Documentation
               </div>
               <div className="space-y-1">
-                {NAV_ITEMS.map((item) => (
+                {LEFT_NAV.map((item) => (
                   <a
                     key={item.id}
                     href={`#${item.id}`}
@@ -63,7 +60,7 @@ export default function DocsPage() {
           </aside>
 
           {/* Main Content */}
-          <div className="max-w-4xl">
+          <div className="min-w-0">
             {/* Hero */}
             <div className="mb-14">
               <div className="mb-6 inline-flex items-center rounded-full border border-zinc-700 bg-zinc-900 px-3 py-1 font-mono text-xs text-zinc-300">
@@ -75,8 +72,8 @@ export default function DocsPage() {
                 for AI-assisted repositories
               </h1>
               <p className="mt-5 max-w-3xl text-lg leading-8 text-zinc-300">
-                Repository governance, migration strategy, architecture
-                constraints and AI workflow standards.
+                Repository governance systems, migration workflows, architecture
+                constraints and engineering standards.
               </p>
               <div className="mt-6 flex gap-5 font-mono text-xs text-zinc-500">
                 <span>24 documents</span>
@@ -86,15 +83,15 @@ export default function DocsPage() {
             </div>
 
             {/* Architecture */}
-            <section id="architecture" className="mt-14">
+            <section id="architecture" className="mt-16">
               <div className="mb-3 font-mono text-xs uppercase tracking-wide text-zinc-500">
                 Architecture
               </div>
               <h2 className="mb-6 text-3xl font-semibold tracking-tight">
                 Repository architecture
               </h2>
-              <div className={CARD}>
-                <p className="text-sm leading-7 text-zinc-300">
+              <div className="rounded-xl border border-[#2a2d35] bg-[#16181d] p-6">
+                <p className="leading-7 text-zinc-300">
                   Repositories are organized around feature boundaries instead of
                   technical layers.
                 </p>
@@ -105,55 +102,62 @@ export default function DocsPage() {
                   <br />
                   shared/
                   <br />
-                  workflows/
-                  <br />
                   validators/
                   <br />
-                  prompts/
+                  workflows/
                   <br />
                   migration-notes/
                 </div>
               </div>
             </section>
 
-            {/* Repository Structure */}
-            <section id="repository-structure" className="mt-14">
+            {/* Repository Files */}
+            <section id="repository-files" className="mt-16">
               <div className="mb-3 font-mono text-xs uppercase tracking-wide text-zinc-500">
-                Repository Structure
+                Repository Files
               </div>
               <h2 className="mb-6 text-3xl font-semibold tracking-tight">
-                Repository files
+                Governance files
               </h2>
               <div className="rounded-xl border border-[#2a2d35] bg-[#151922] p-6">
-                <div className="font-mono text-sm leading-7 text-zinc-400">
-                  <Link href="/repository/rules" className="hover:text-zinc-200 transition-colors">rules.md</Link>
-                  <br />
-                  <Link href="/repository/memory" className="hover:text-zinc-200 transition-colors">memory.md</Link>
-                  <br />
-                  architecture.md
-                  <br />
-                  <Link href="/repository/migration-notes" className="hover:text-zinc-200 transition-colors">migration-notes.md</Link>
-                  <br />
-                  testing-guidelines.md
-                  <br />
-                  pr-checklist.md
-                  <br />
-                  turbo.json
-                  <br />
-                  pnpm-workspace.yaml
+                <div className="space-y-4">
+                  <Link
+                    href="/repository/rules"
+                    className="block font-mono text-sm text-zinc-300 transition-colors hover:text-zinc-100"
+                  >
+                    rules.md
+                  </Link>
+                  <Link
+                    href="/repository/memory"
+                    className="block font-mono text-sm text-zinc-300 transition-colors hover:text-zinc-100"
+                  >
+                    memory.md
+                  </Link>
+                  <Link
+                    href="/repository/migration-notes"
+                    className="block font-mono text-sm text-zinc-300 transition-colors hover:text-zinc-100"
+                  >
+                    migration-notes.md
+                  </Link>
+                  <div className="font-mono text-sm text-zinc-500">
+                    architecture.md
+                  </div>
+                  <div className="font-mono text-sm text-zinc-500">
+                    testing-workflow.md
+                  </div>
                 </div>
               </div>
             </section>
 
             {/* AI Constraints */}
-            <section id="ai-constraints" className="mt-14">
+            <section id="ai-constraints" className="mt-16">
               <div className="mb-3 font-mono text-xs uppercase tracking-wide text-zinc-500">
                 AI Constraints
               </div>
               <h2 className="mb-6 text-3xl font-semibold tracking-tight">
-                AI repository constraints
+                AI engineering constraints
               </h2>
-              <div className={CARD}>
+              <div className="rounded-xl border border-[#2a2d35] bg-[#16181d] p-6">
                 <div className="font-mono text-sm leading-7 text-zinc-400">
                   - avoid large rewrites
                   <br />
@@ -161,84 +165,78 @@ export default function DocsPage() {
                   <br />
                   - avoid duplicated business logic
                   <br />
-                  - preserve server/client boundaries
+                  - preserve package boundaries
                   <br />
-                  - reuse validation schemas
-                  <br />
-                  - reduce architectural drift
+                  - reduce architecture drift
                 </div>
               </div>
             </section>
 
             {/* Testing Workflow */}
-            <section id="testing-workflow" className="mt-14">
+            <section id="testing-workflow" className="mt-16">
               <div className="mb-3 font-mono text-xs uppercase tracking-wide text-zinc-500">
                 Testing Workflow
               </div>
               <h2 className="mb-6 text-3xl font-semibold tracking-tight">
                 Repository testing workflow
               </h2>
-              <div className={CARD}>
+              <div className="rounded-xl border border-[#2a2d35] bg-[#16181d] p-6">
                 <div className="font-mono text-sm leading-7 text-zinc-400">
                   1. validate architecture boundaries
                   <br />
-                  2. run shared validation tests
+                  2. run validation tests
                   <br />
                   3. verify migration compatibility
                   <br />
                   4. execute repository integration tests
                   <br />
-                  5. confirm PR consistency checks
+                  5. confirm PR consistency
                 </div>
               </div>
             </section>
 
-            {/* PR Workflow */}
-            <section id="pr-workflow" className="mt-14">
+            {/* PR Governance */}
+            <section id="pr-governance" className="mt-16">
               <div className="mb-3 font-mono text-xs uppercase tracking-wide text-zinc-500">
-                PR Workflow
+                PR Governance
               </div>
               <h2 className="mb-6 text-3xl font-semibold tracking-tight">
-                Pull request governance
+                Pull request standards
               </h2>
-              <div className={CARD}>
+              <div className="rounded-xl border border-[#2a2d35] bg-[#16181d] p-6">
                 <div className="font-mono text-sm leading-7 text-zinc-400">
-                  - validate repository boundaries
+                  - preserve repository boundaries
                   <br />
-                  - review duplicated business logic
+                  - avoid duplicated validation
                   <br />
-                  - confirm migration safety
+                  - verify migration safety
                   <br />
-                  - preserve folder consistency
-                  <br />
-                  - avoid breaking shared validators
+                  - review architectural consistency
                 </div>
               </div>
             </section>
 
             {/* Migration Notes */}
-            <section id="migration-notes" className="mt-14">
+            <section id="migration-notes" className="mt-16">
               <div className="mb-3 font-mono text-xs uppercase tracking-wide text-zinc-500">
                 Migration Notes
               </div>
               <h2 className="mb-6 text-3xl font-semibold tracking-tight">
-                Ongoing repository migrations
+                Active repository migrations
               </h2>
               <div className="rounded-xl border border-[#2a2d35] bg-[#151922] p-6">
                 <div className="font-mono text-sm leading-7 text-zinc-400">
                   - dashboard validation migration in progress
                   <br />
-                  - old auth hooks pending cleanup
+                  - old analytics hooks pending cleanup
                   <br />
-                  - analytics queries still use client fetching
-                  <br />
-                  - shared billing utilities require refactor
+                  - billing services require standardization
                 </div>
               </div>
             </section>
 
             {/* Technical Debt */}
-            <section id="technical-debt" className="mt-14">
+            <section id="technical-debt" className="mt-16">
               <div className="mb-3 font-mono text-xs uppercase tracking-wide text-zinc-500">
                 Technical Debt
               </div>
@@ -252,14 +250,12 @@ export default function DocsPage() {
                   - inconsistent validator naming
                   <br />
                   - oversized shared utility modules
-                  <br />
-                  - legacy analytics service dependencies
                 </div>
               </div>
             </section>
 
             {/* Incident Log */}
-            <section className="mt-16">
+            <section id="incident-log" className="mt-16">
               <div className="mb-3 font-mono text-xs uppercase tracking-wide text-zinc-500">
                 Incident Log
               </div>
@@ -285,6 +281,41 @@ export default function DocsPage() {
               </div>
             </section>
           </div>
+
+          {/* Right Sidebar */}
+          <aside className="hidden space-y-6 lg:block">
+            <div className="rounded-xl border border-[#2a2d35] bg-[#16181d] p-5">
+              <div className="mb-4 text-sm font-medium">Repository Signals</div>
+              <div className="space-y-3 text-sm text-zinc-300">
+                <div>✓ Shared validation layer</div>
+                <div>✓ Migration governance</div>
+                <div>✓ AI repository workflows</div>
+                <div>✓ Monorepo architecture</div>
+              </div>
+            </div>
+            <div className="rounded-xl border border-[#2a2d35] bg-[#151922] p-5">
+              <div className="mb-4 text-sm font-medium">Generated From</div>
+              <div className="font-mono text-xs leading-7 text-zinc-500">
+                42 SaaS repositories
+                <br />
+                18 monorepo systems
+                <br />
+                11 AI engineering workflows
+              </div>
+            </div>
+            <div className="rounded-xl border border-[#2a2d35] bg-[#151922] p-5">
+              <div className="mb-4 text-sm font-medium">Documentation Files</div>
+              <div className="font-mono text-xs leading-7 text-zinc-500">
+                rules.md
+                <br />
+                memory.md
+                <br />
+                migration-notes.md
+                <br />
+                architecture.md
+              </div>
+            </div>
+          </aside>
         </div>
       </div>
     </main>
