@@ -36,10 +36,10 @@ export default function Header() {
         </nav>
 
         <Link
-          href="/docs"
+          href="/repository/rules"
           className="inline-flex h-11 items-center justify-center rounded-lg border border-zinc-700 px-5 text-sm text-zinc-300 transition-colors hover:border-zinc-500"
         >
-          Open Documentation Viewer
+          View Repository Files
         </Link>
       </div>
     </header>
