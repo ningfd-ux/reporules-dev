@@ -32,11 +32,11 @@ export default function Footer() {
         <div>
           <p className="mb-4 text-xs font-medium uppercase tracking-wider text-zinc-500">Docs</p>
           <nav className="flex flex-col gap-2.5">
-            <Link href="/docs/repository-aware-generation" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">Architecture</Link>
-            <Link href="/docs/what-are-ai-coding-standards" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">Constraints</Link>
-            <Link href="/docs/what-are-ai-coding-standards" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">Testing Workflow</Link>
-            <Link href="/docs/what-are-ai-coding-standards" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">PR Workflow</Link>
-            <Link href="/docs/what-are-ai-coding-standards" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">Migration Notes</Link>
+            <Link href="/docs#architecture" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">Architecture</Link>
+            <Link href="/docs#ai-constraints" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">Constraints</Link>
+            <Link href="/docs#testing-workflow" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">Testing Workflow</Link>
+            <Link href="/docs#pr-workflow" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">PR Workflow</Link>
+            <Link href="/docs#migration-notes" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">Migration Notes</Link>
           </nav>
         </div>
       </div>

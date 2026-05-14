@@ -104,7 +104,7 @@ export default function WorkflowsPage() {
           </div>
           <div className="mt-6 font-mono text-xs text-zinc-500">
             <span>18 rules &middot; 9 prompts</span>
-            <span className="ml-4 rounded border border-zinc-700 px-2 py-0.5 text-zinc-500">Coming Soon</span>
+            <span className="ml-4 inline-flex items-center rounded-lg border border-zinc-800 bg-[#12151b] px-3 py-1.5 font-mono text-xs text-zinc-500 cursor-not-allowed">Workflow In Progress</span>
           </div>
         </div>
 
@@ -125,7 +125,7 @@ export default function WorkflowsPage() {
           </div>
           <div className="mt-6 font-mono text-xs text-zinc-500">
             <span>15 rules &middot; 7 prompts</span>
-            <span className="ml-4 rounded border border-zinc-700 px-2 py-0.5 text-zinc-500">Coming Soon</span>
+            <span className="ml-4 inline-flex items-center rounded-lg border border-zinc-800 bg-[#12151b] px-3 py-1.5 font-mono text-xs text-zinc-500 cursor-not-allowed">Workflow In Progress</span>
           </div>
         </div>
       </div>

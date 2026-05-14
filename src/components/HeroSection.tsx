@@ -29,7 +29,7 @@ export default function HeroSection() {
             <div className="mt-8 flex items-center gap-4">
               <Link
                 href="/workflows"
-                className="rounded-xl bg-zinc-100 px-6 py-3 font-medium text-zinc-900 transition-all hover:bg-white"
+                className="rounded-xl bg-zinc-100 px-6 py-3 font-medium text-zinc-900 transition-all duration-200 hover:bg-white hover:-translate-y-[1px]"
               >
                 Open Workflow Library
               </Link>

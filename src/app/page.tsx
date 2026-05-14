@@ -1,9 +1,6 @@
 import Link from "next/link";
 import HeroSection from "@/components/HeroSection";
 
-const COMING =
-  "inline-flex items-center rounded border border-zinc-700 px-2.5 py-1 font-mono text-[11px] text-zinc-500";
-
 const CARD =
   "group rounded-xl border border-[#2a2d35] bg-[#16181d] p-6 transition-colors hover:border-[#3b4150]";
 
@@ -49,14 +46,14 @@ export default function Home() {
                 <p className="font-mono text-[10px] text-zinc-500">Last constraint update: 2 days ago</p>
                 <p className="font-mono text-[10px] text-zinc-500">Recommended for: SaaS, AI products, internal tools</p>
               </div>
-              <div className="mt-3">
-                <span className="font-mono text-sm text-zinc-400 group-hover:text-blue-300">View Full Workflow &rarr;</span>
+              <div className="mt-6 inline-flex items-center rounded-lg border border-zinc-700 px-4 py-2 font-mono text-sm text-zinc-300 transition-colors hover:bg-zinc-900">
+                Open Workflow
               </div>
             </Link>
 
             {/* Card 2 */}
             <div className={CARD}>
-              <span className={COMING}>Coming Soon</span>
+              <span className="inline-flex items-center rounded-lg border border-zinc-800 bg-[#12151b] px-4 py-2 font-mono text-xs text-zinc-500 cursor-not-allowed">Workflow In Progress</span>
               <h3 className="mt-3 text-base font-semibold text-zinc-100">Cursor Monorepo Workflow</h3>
               <p className="mt-2 text-sm leading-relaxed text-zinc-400">Shared repo workflow for Turborepo and multi-package projects.</p>
               <div className="mt-4 flex flex-wrap gap-2">
@@ -66,13 +63,13 @@ export default function Home() {
               </div>
               <div className="mt-4 flex items-center justify-between">
                 <span className="font-mono text-xs text-zinc-500">18 rules &middot; 9 prompts</span>
-                <span className={COMING}>Coming Soon</span>
+                <span className="inline-flex items-center rounded-lg border border-zinc-800 bg-[#12151b] px-4 py-2 font-mono text-xs text-zinc-500 cursor-not-allowed">Workflow In Progress</span>
               </div>
             </div>
 
             {/* Card 3 */}
             <div className={CARD}>
-              <span className={COMING}>Coming Soon</span>
+              <span className="inline-flex items-center rounded-lg border border-zinc-800 bg-[#12151b] px-4 py-2 font-mono text-xs text-zinc-500 cursor-not-allowed">Workflow In Progress</span>
               <h3 className="mt-3 text-base font-semibold text-zinc-100">AI Startup Workflow</h3>
               <p className="mt-2 text-sm leading-relaxed text-zinc-400">Lean AI coding standards for fast-moving startup teams.</p>
               <div className="mt-4 flex flex-wrap gap-2">
@@ -82,7 +79,7 @@ export default function Home() {
               </div>
               <div className="mt-4 flex items-center justify-between">
                 <span className="font-mono text-xs text-zinc-500">15 rules &middot; 7 prompts</span>
-                <span className={COMING}>Coming Soon</span>
+                <span className="inline-flex items-center rounded-lg border border-zinc-800 bg-[#12151b] px-4 py-2 font-mono text-xs text-zinc-500 cursor-not-allowed">Workflow In Progress</span>
               </div>
             </div>
           </div>
