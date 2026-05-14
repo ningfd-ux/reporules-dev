@@ -247,12 +247,21 @@ export default function GeneratorPage() {
 
           {/* Error state */}
           {error && (
-            <div className="flex flex-col items-center justify-center py-20 text-center">
-              <AlertCircle className="mb-4 h-12 w-12 text-red-500" />
-              <h3 className="text-lg font-medium text-zinc-100">Generation failed</h3>
-              <p className="mt-2 max-w-sm text-sm text-red-400">{error}</p>
-              <Button variant="outline" onClick={handleGenerate} className="mt-6">Try Again</Button>
-            </div>
+            error.includes("limit") ? (
+              <div className="rounded-xl border border-[#2a2d35] bg-[#151922] p-6 mt-6">
+                <div className="text-lg font-medium mb-3 text-zinc-100">Generation limit reached</div>
+                <p className="text-zinc-500 leading-7">
+                  Repository generation is temporarily limited to prevent abuse. Please try again later.
+                </p>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-20 text-center">
+                <AlertCircle className="mb-4 h-12 w-12 text-red-500" />
+                <h3 className="text-lg font-medium text-zinc-100">Generation failed</h3>
+                <p className="mt-2 max-w-sm text-sm text-red-400">{error}</p>
+                <Button variant="outline" onClick={handleGenerate} className="mt-6">Try Again</Button>
+              </div>
+            )
           )}
 
           {/* Results */}

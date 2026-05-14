@@ -1,52 +1,108 @@
-# TASKS - Restore API + Fix Static Export
+# TASKS — Rate Limit & Abuse Protection
 
 ## Context
-- Staging host: C:\Users\P1\reporules
-- Cloudflare Pages: reporules-dev (npm run build -> /out)
-- Domain: reporules.dev (verifying on Cloudflare)
-- API key: DEEPSEEK_API_KEY set as Cloudflare Secret (sk-b470****c74c4)
-- Model: deepseek-chat (DeepSeek V4)
-- Current issue: next.config.ts missing output: "export" -> build goes to .next/ not /out/
+Generator is calling DeepSeek API per request with no rate limits. Need to add IP-based rate limiting using Cloudflare KV + input validation + timeout protection.
 
-## Task 1: Fix next.config.ts
+## KV Namespace Already Created
+- Name: `REPORULES_RATE_LIMIT`
+- ID: `191f6503571c4861b8c0b7e752a938d6`
+- Binding name in wrangler.toml: `RATE_LIMIT_KV`
 
-File: C:\Users\P1\reporules\next.config.ts
+## Task 1 — Create Rate Limit Helper
 
-Change from:
-  const nextConfig: NextConfig = {};
-to:
-  const nextConfig: NextConfig = {
-    output: "export",
-    images: { unoptimized: true },
-  };
+Create file: `src/lib/rate-limit.ts`
 
-## Task 2: Create functions/api/generate.ts
+```typescript
+export async function checkRateLimit(
+  kv: KVNamespace,
+  ip: string
+): Promise<{ success: boolean; message?: string }> {
+  const hourKey = `hour:${ip}:${new Date().getHours()}`;
+  const dayKey = `day:${ip}:${new Date().toDateString()}`;
 
-Create Cloudflare Pages Function: C:\Users\P1\reporules\functions\api\generate.ts
+  const hourCount = Number(await kv.get(hourKey)) || 0;
+  const dayCount = Number(await kv.get(dayKey)) || 0;
 
-Same prompt logic as src/app/api/generate/route.ts but use Cloudflare Workers API:
-- context.request.json() instead of req.json()
-- context.env.DEEPSEEK_API_KEY instead of process.env.DEEPSEEK_API_KEY
-- Return new Response() instead of NextResponse.json()
-- Add CORS headers for POST and OPTIONS
-- Remove response_format: { type: "json_object" } (may not be needed, or keep it - the model should support it)
+  if (hourCount >= 3) {
+    return { success: false, message: "Hourly generation limit reached. Please try again later." };
+  }
 
-## Task 3: Build locally
+  if (dayCount >= 10) {
+    return { success: false, message: "Daily generation limit reached. Please try again tomorrow." };
+  }
 
-cd C:\Users\P1\reporules && npm run build
+  await kv.put(hourKey, String(hourCount + 1), { expirationTtl: 3600 });
+  await kv.put(dayKey, String(dayCount + 1), { expirationTtl: 86400 });
 
-Should produce /out directory. Fix any errors.
+  return { success: true };
+}
+```
 
-## Task 4: Git push
+## Task 2 — Update Cloudflare Function
 
-Before push: enable TUN mode in 0dcloud VPN (required for CLI tools to reach GitHub)
+File: `functions/api/generate.ts`
 
-cd C:\Users\P1\reporules
-git add -A
-git commit -m "fix: static export + pages function api"
-git push origin main
+### 2a. Add rate limit check at function start
+```typescript
+const ip = request.headers.get("cf-connecting-ip") || "unknown";
 
-## Verification
-1. Check Cloudflare deploy log for errors
-2. Visit reporules-dev.pages.dev
-3. POST /api/generate with sample package.json
+const rateLimit = await checkRateLimit(env.RATE_LIMIT_KV, ip);
+if (!rateLimit.success) {
+  return new Response(JSON.stringify({ error: rateLimit.message }), {
+    status: 429,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+```
+
+### 2b. Add input validation
+```typescript
+if (input.length > 5000) {
+  return new Response(JSON.stringify({ error: "Input too large. Maximum 5000 characters." }), {
+    status: 400,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
+const blockedPatterns = [
+  "ignore previous instructions",
+  "system prompt",
+  "reveal prompt",
+  "developer message",
+];
+const lower = input.toLowerCase();
+const blocked = blockedPatterns.some((pattern) => lower.includes(pattern));
+if (blocked) {
+  return new Response(JSON.stringify({ error: "Invalid repository input." }), {
+    status: 400,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+```
+
+### 2c. Add timeout to DeepSeek API call
+Wrap the fetch call with AbortController, 60 second timeout.
+
+### 2d. Add logging
+```typescript
+console.log(JSON.stringify({
+  ip, timestamp: Date.now(), inputLength: input.length,
+  repoType: "unknown", tokens: 2500,
+}));
+```
+
+### 2e. IMPORTANT — Import path
+The functions/ directory runs in Cloudflare Pages Workers runtime. The import for rate-limit.ts must use a path relative to functions/. If `../src/lib/rate-limit` doesn't work, inline the logic directly.
+
+## Task 3 — Update Frontend Error Handling
+
+File: `src/app/generator/page.tsx`
+
+Handle these error cases:
+- 429 rate limit → show limit reached UI
+- Timeout (AbortError) → show timeout message
+- 400 validation → show API error message
+
+## Task 4 — Verification
+- [ ] npm run build succeeds
+- [ ] git add && git commit && git push
