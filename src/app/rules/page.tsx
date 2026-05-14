@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Search } from "lucide-react";
 
 const RULES = [
@@ -334,14 +335,14 @@ export default function RulesPage() {
             {/* Repository Files */}
             <div className="mt-12 rounded-xl border border-[#2a2d35] bg-[#151922] p-5">
               <div className="mb-4 text-sm font-medium">Repository Files</div>
-              <div className="font-mono text-xs leading-7 text-zinc-500">
-                rules.md<br />
-                memory.md<br />
-                architecture.md<br />
-                migration-notes.md<br />
-                testing-guidelines.md<br />
-                pnpm-workspace.yaml<br />
-                turbo.json
+              <div className="font-mono text-xs leading-7">
+                <Link href="/repository/rules" className="text-zinc-500 hover:text-zinc-200 transition-colors">rules.md</Link><br />
+                <Link href="/repository/memory" className="text-zinc-500 hover:text-zinc-200 transition-colors">memory.md</Link><br />
+                <span className="text-zinc-600">architecture.md</span><br />
+                <Link href="/repository/migration-notes" className="text-zinc-500 hover:text-zinc-200 transition-colors">migration-notes.md</Link><br />
+                <span className="text-zinc-600">testing-guidelines.md</span><br />
+                <span className="text-zinc-600">pnpm-workspace.yaml</span><br />
+                <span className="text-zinc-600">turbo.json</span>
               </div>
             </div>
 

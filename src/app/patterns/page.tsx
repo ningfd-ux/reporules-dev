@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Search } from "lucide-react";
 
 const patterns = [
@@ -272,13 +273,13 @@ export default function PatternsPage() {
             <div className="mt-12 rounded-xl border border-[#2a2d35] bg-[#151922] p-5">
               <div className="mb-4 text-sm font-medium">Repository Files</div>
               <div className="font-mono text-xs leading-7 text-zinc-500">
-                rules.md
+                <Link href="/repository/rules" className="hover:text-zinc-200 transition-colors">rules.md</Link>
                 <br />
-                memory.md
+                <Link href="/repository/memory" className="hover:text-zinc-200 transition-colors">memory.md</Link>
                 <br />
                 architecture.md
                 <br />
-                migration-notes.md
+                <Link href="/repository/migration-notes" className="hover:text-zinc-200 transition-colors">migration-notes.md</Link>
                 <br />
                 pnpm-workspace.yaml
                 <br />

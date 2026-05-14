@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 const NAV_ITEMS = [
   { id: "architecture", label: "Architecture" },
@@ -125,13 +126,13 @@ export default function DocsPage() {
               </h2>
               <div className="rounded-xl border border-[#2a2d35] bg-[#151922] p-6">
                 <div className="font-mono text-sm leading-7 text-zinc-400">
-                  rules.md
+                  <Link href="/repository/rules" className="hover:text-zinc-200 transition-colors">rules.md</Link>
                   <br />
-                  memory.md
+                  <Link href="/repository/memory" className="hover:text-zinc-200 transition-colors">memory.md</Link>
                   <br />
                   architecture.md
                   <br />
-                  migration-notes.md
+                  <Link href="/repository/migration-notes" className="hover:text-zinc-200 transition-colors">migration-notes.md</Link>
                   <br />
                   testing-guidelines.md
                   <br />

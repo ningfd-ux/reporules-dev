@@ -10,10 +10,10 @@ export default function Footer() {
             Repository
           </p>
           <nav className="flex flex-col gap-2.5">
-            <span className="text-sm text-zinc-400">rules.md</span>
-            <span className="text-sm text-zinc-400">memory.md</span>
-            <span className="text-sm text-zinc-400">migration-notes.md</span>
-            <span className="text-sm text-zinc-400">architecture.md</span>
+            <Link href="/repository/rules" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">rules.md</Link>
+            <Link href="/repository/memory" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">memory.md</Link>
+            <Link href="/repository/migration-notes" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">migration-notes.md</Link>
+            <span className="text-sm text-zinc-600">architecture.md</span>
           </nav>
         </div>
 
@@ -109,8 +109,7 @@ export default function Footer() {
 
       <div className="mx-auto mt-10 max-w-7xl border-t border-[#2a2d35] px-6 pt-6">
         <p className="text-xs text-zinc-500">
-          Structured repository governance for scalable AI-assisted engineering
-          systems.
+          Structured repository governance for scalable AI-assisted engineering systems.
         </p>
       </div>
     </footer>

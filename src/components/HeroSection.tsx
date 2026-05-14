@@ -1,49 +1,50 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 export default function HeroSection() {
   return (
     <>
-      <section className="min-h-[82vh] bg-[#0f1115]">
+      <section className="min-h-[82vh] bg-[#0d0f14]">
         <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-6 pt-16 lg:grid-cols-2 lg:pt-20">
           {/* LEFT */}
           <div>
             <span className="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-900 px-3 py-1 text-xs text-zinc-300">
-              AI Workflow Standards
+              Repository Governance
             </span>
 
             <h1 className="mt-4 max-w-2xl text-5xl font-semibold leading-tight tracking-tight text-zinc-100">
-              AI workflow systems
+              Repository governance systems
               <br />
-              for long-term codebases
+              for AI-assisted engineering teams
             </h1>
 
             <p className="mt-6 max-w-xl text-lg leading-8 text-zinc-300">
-              Copy battle-tested repo structures, prompts and rules
+              Structured repository rules, workflows,
               <br />
-              to keep AI-generated code clean and maintainable.
+              architecture constraints and migration standards
+              <br />
+              designed for scalable AI-generated codebases.
             </p>
 
             <div className="mt-8 flex items-center gap-4">
               <Link
                 href="/workflows"
-                className="rounded-xl bg-zinc-100 px-6 py-3 font-medium text-zinc-900 transition-all duration-200 hover:bg-white hover:-translate-y-[1px]"
+                className="inline-flex h-11 items-center rounded-lg bg-zinc-100 px-6 text-sm font-medium text-zinc-900 transition-all duration-200 hover:bg-zinc-200"
               >
-                Open Workflow Library
+                Browse Repository Systems
               </Link>
               <Link
                 href="/docs"
-                className="rounded-xl border border-zinc-700 bg-transparent px-6 py-3 font-medium text-zinc-300 transition-colors hover:bg-zinc-900"
+                className="inline-flex h-11 items-center rounded-lg border border-zinc-700 px-6 text-sm font-medium text-zinc-300 transition-colors hover:border-zinc-500"
               >
-                Read Documentation
+                View Governance Docs
               </Link>
             </div>
 
-            <p className="mt-5 max-w-lg text-sm text-zinc-500">
-              Built for Cursor, Claude Code and scalable AI-assisted repositories.
-            </p>
+            <div className="mt-6 font-mono text-xs text-zinc-500">
+              Maintained by RepoRules · Updated continuously
+            </div>
           </div>
 
           {/* RIGHT: Workflow Preview */}
@@ -163,21 +164,15 @@ export default function HeroSection() {
           <div className="rounded-xl border border-zinc-800 bg-[#16181d] p-6 font-mono text-sm">
             <h3 className="mb-4 text-sm font-semibold text-zinc-200">Common AI Repo Problems</h3>
             <div className="space-y-1 text-zinc-400">
-              <div>- duplicated hooks across features</div>
-              <div>- inconsistent naming conventions</div>
-              <div>- mixed client/server logic</div>
-              <div>- oversized utility files</div>
-              <div>- scattered validation schemas</div>
-              <div>- validation logic copied across features</div>
-              <div>- server actions mixed with UI logic</div>
-              <div>- prompt outputs inconsistent across modules</div>
+              {["duplicated hooks across features", "inconsistent naming conventions", "mixed client/server logic", "oversized utility files", "scattered validation schemas", "validation logic copied across features", "server actions mixed with UI logic", "prompt outputs inconsistent across modules"].map((i) => (
+                <div key={i}>- {i}</div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Results Section */}
-      <div className="border-t border-[#2a2d35] bg-[#0f1115]">
+      <div className="border-t border-[#2a2d35] bg-[#0d0f14]">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-6 py-8 sm:grid-cols-3">
           <div className="font-mono text-sm text-zinc-400">Reduce inconsistent AI output</div>
           <div className="font-mono text-sm text-zinc-400">Keep repo structures predictable</div>
