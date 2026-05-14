@@ -1,87 +1,89 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, Copy, Check } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Claude Code SaaS Workflow — RepoRules.dev",
+  title: "Claude Code SaaS Repository System — RepoRules.dev",
   description:
-    "Production-ready AI coding workflow for Next.js SaaS projects using Claude Code, Cursor and modern repo standards.",
+    "A structured repository workflow designed for scalable AI-assisted SaaS engineering.",
 };
 
-const CODE_STYLES =
-  "overflow-x-auto rounded-lg border border-zinc-800 bg-zinc-950 p-4 font-mono text-sm leading-relaxed";
-
-function CodeBlock({ children }: { children: string }) {
-  return (
-    <div className={CODE_STYLES}>
-      <pre className="text-zinc-300">{children}</pre>
-    </div>
-  );
-}
+const CODE =
+  "overflow-x-auto rounded-xl border border-[#2a2d35] bg-[#16181d] p-6 font-mono text-sm leading-7";
+const CARD =
+  "rounded-xl border border-zinc-800 bg-[#16181d] p-6 font-mono text-sm leading-7 text-zinc-400";
+const SECTION_TITLE = "text-2xl font-semibold tracking-tight text-zinc-100 mb-6";
 
 export default function ClaudeCodeSaaS() {
   return (
-    <div className="mx-auto max-w-4xl px-6 py-16">
-      {/* Back link */}
-      <Link
-        href="/"
-        className="mb-8 inline-flex items-center gap-1 text-sm text-zinc-500 hover:text-zinc-300"
-      >
-        <ArrowLeft className="h-4 w-4" /> Back to Workflows
-      </Link>
+    <div className="mx-auto max-w-7xl px-6 py-20">
+      {/* Tag */}
+      <span className="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-900 px-3 py-1 font-mono text-xs text-zinc-300">
+        Production AI Workflow
+      </span>
 
       {/* H1 */}
-      <h1 className="text-4xl font-semibold tracking-tight text-white">
-        Claude Code SaaS Workflow
+      <h1 className="mt-6 text-5xl font-semibold leading-tight tracking-tight text-zinc-100">
+        Claude Code SaaS Repository System
       </h1>
-      <p className="mt-4 text-lg leading-8 text-zinc-400">
-        Production-ready AI coding workflow for Next.js SaaS projects using
-        Claude Code, Cursor and modern repo standards.
+
+      {/* Subtitle */}
+      <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-300">
+        A structured repository workflow designed for scalable AI-assisted SaaS engineering.
       </p>
 
-      {/* Overview */}
-      <section className="mt-16">
-        <h2 className="text-2xl font-semibold text-white">Overview</h2>
-        <p className="mt-4 text-sm leading-relaxed text-zinc-400">
-          This workflow is designed for AI-assisted SaaS development using:
-        </p>
-        <div className="mt-4 flex flex-wrap gap-2 text-sm text-zinc-400">
-          {[
-            "Next.js App Router",
-            "TypeScript",
-            "Tailwind CSS",
-            "Supabase",
-            "Stripe",
-            "Claude Code",
-            "Cursor",
-          ].map((item) => (
-            <span
-              key={item}
-              className="rounded-md border border-zinc-800 bg-zinc-900 px-2.5 py-1 font-mono text-xs text-zinc-400"
-            >
-              {item}
-            </span>
-          ))}
+      {/* Repo stats */}
+      <div className="mt-8 flex gap-5 font-mono text-xs text-zinc-500">
+        <span>24 rules</span>
+        <span>12 prompts</span>
+        <span>6 workflows</span>
+        <span>Updated 3 days ago</span>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="mt-8 flex flex-wrap gap-3">
+        {["Copy rules.md", "Copy prompts", "Open Docs"].map((a) => (
+          <button
+            key={a}
+            className="rounded-lg border border-zinc-700 px-3 py-2 font-mono text-xs text-zinc-400 transition-colors hover:bg-zinc-900"
+          >
+            {a}
+          </button>
+        ))}
+      </div>
+
+      {/* Repository Context */}
+      <section className="mt-14">
+        <h2 className={SECTION_TITLE}>Repository Context</h2>
+        <div className={CARD}>
+          <span className="text-zinc-500">Stack:</span>
+          <div className="ml-4">- Next.js App Router</div>
+          <div className="ml-4">- Supabase</div>
+          <div className="ml-4">- Stripe</div>
+          <div className="ml-4">- shadcn/ui</div>
+          <div className="ml-4">- pnpm</div>
+          <div className="ml-4">- Turborepo</div>
+          <div className="mt-4">
+            <span className="text-zinc-500">Architecture:</span>
+          </div>
+          <div className="ml-4">- server-first</div>
+          <div className="ml-4">- feature-based</div>
+          <div className="ml-4">- shared UI primitives</div>
+          <div className="mt-4">
+            <span className="text-zinc-500">Constraints:</span>
+          </div>
+          <div className="ml-4">- avoid duplicated hooks</div>
+          <div className="ml-4">- avoid mixed concerns</div>
+          <div className="ml-4">- keep PRs under 300 LOC</div>
         </div>
-        <p className="mt-4 text-sm leading-relaxed text-zinc-400">
-          The goal is to keep AI-generated code predictable, maintainable and
-          consistent across long-term projects.
-        </p>
       </section>
 
-      {/* Repo Structure */}
-      <section className="mt-16">
-        <h2 className="text-2xl font-semibold text-white">
-          Recommended Repo Structure
-        </h2>
-        <p className="mt-4 text-sm leading-relaxed text-zinc-400">
-          Feature-based architecture prevents AI tools from generating
-          duplicated logic and inconsistent folder structures.
-        </p>
-        <div className="mt-6">
-          <CodeBlock>{`/app
-  /(marketing)
+      {/* Repo Tree */}
+      <section className="mt-14">
+        <h2 className={SECTION_TITLE}>Repository Structure</h2>
+        <div className={CODE}>
+          <pre className="text-zinc-400 leading-6">{`/app
   /(dashboard)
+  /(marketing)
   /api
 
 /components
@@ -93,11 +95,14 @@ export default function ClaudeCodeSaaS() {
   /billing
   /dashboard
   /settings
+  /analytics
+  /notifications
 
 /lib
   /db
   /stripe
   /auth
+  /validators
   /utils
 
 /prompts
@@ -106,581 +111,118 @@ export default function ClaudeCodeSaaS() {
 
 /tests
 
+legacy/
+  deprecated/
+
+README.md
+TODO.md
+.env.example
+pnpm-workspace.yaml
+turbo.json
+architecture.md
+migration-notes.md
+testing-guidelines.md
 memory.md
-rules.md`}</CodeBlock>
+rules.md`}</pre>
         </div>
       </section>
 
-      {/* Architecture Principles */}
-      <section className="mt-16">
-        <h2 className="text-2xl font-semibold text-white">
-          Architecture Principles
-        </h2>
-
-        <div className="mt-8 space-y-8">
-          <div>
-            <h3 className="text-base font-medium text-white">
-              Feature-First Structure
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-              Each business feature owns:
-            </p>
-            <ul className="mt-2 space-y-1 text-sm text-zinc-400">
-              {["components", "hooks", "actions", "schemas", "tests"].map(
-                (item) => (
-                  <li key={item} className="flex items-center gap-2">
-                    <span className="h-1 w-1 rounded-full bg-zinc-600" />
-                    {item}
-                  </li>
-                ),
-              )}
-            </ul>
-            <p className="mt-2 text-sm text-zinc-500">
-              Avoid global business logic.
-            </p>
-          </div>
-
-          <div>
-            <h3 className="text-base font-medium text-white">
-              Server-First Architecture
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-              Prefer:
-            </p>
-            <ul className="mt-2 space-y-1 text-sm text-zinc-400">
-              {["Server Components", "Server Actions", "async data fetching on server"].map(
-                (item) => (
-                  <li key={item} className="flex items-center gap-2">
-                    <span className="h-1 w-1 rounded-full bg-zinc-600" />
-                    {item}
-                  </li>
-                ),
-              )}
-            </ul>
-            <p className="mt-2 text-sm text-zinc-500">
-              Avoid unnecessary client-side state.
-            </p>
-          </div>
-
-          <div>
-            <h3 className="text-base font-medium text-white">
-              Shared UI Layer
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-              Reusable UI primitives belong inside <code className="rounded bg-zinc-800 px-1 py-0.5 font-mono text-xs">/components/ui</code>
-            </p>
-            <p className="mt-1 text-sm text-zinc-400">
-              Business-specific UI belongs inside{" "}
-              <code className="rounded bg-zinc-800 px-1 py-0.5 font-mono text-xs">/features/*</code>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* rules.md */}
-      <section className="mt-16">
-        <h2 className="text-2xl font-semibold text-white">rules.md</h2>
-        <div className="mt-6">
-          <CodeBlock>{`# AI Coding Rules
-
-## Architecture
-
-- Use feature-based architecture
-- Keep business logic inside features/
-- Shared UI belongs inside /components/ui
-- Avoid global utilities unless reusable
-
----
-
-## React
-
-- Prefer Server Components by default
-- Use Client Components only for interactivity
-- Never fetch directly inside client components
-- Avoid unnecessary useEffect usage
-
----
-
-## API
-
-- Prefer Server Actions over REST APIs
-- Keep route handlers thin
-- Centralize validation schemas
-
----
-
-## Components
-
-- Keep components under 200 lines
-- Prefer composition over abstraction
-- Avoid deeply nested props
-
----
-
-## Naming
-
-- Use explicit names
-- Avoid generic folders like helpers/, misc/, temp/
-- Use feature-oriented naming
-
----
-
-## Styling
-
-- Use Tailwind utilities
-- Reuse shared UI primitives
-- Avoid duplicated utility patterns
-
----
-
-## State Management
-
-- Prefer server state
-- Avoid unnecessary global state
-- Keep local state isolated
-
----
-
-## Performance
-
-- Avoid unnecessary client bundles
-- Lazy load heavy components
-- Prefer streaming when possible
-
----
-
-## Code Quality
-
-- Avoid duplicated hooks
-- Avoid duplicated validation logic
-- Keep functions focused and small`}</CodeBlock>
-        </div>
-      </section>
-
-      {/* memory.md */}
-      <section className="mt-16">
-        <h2 className="text-2xl font-semibold text-white">memory.md</h2>
-        <div className="mt-6">
-          <CodeBlock>{`# Project Memory
-
-## Stack
-
-- Next.js App Router
-- TypeScript
-- Tailwind CSS
-- Supabase
-- Stripe
-
----
-
-## Architecture
-
-- Feature-first structure
-- Server Components by default
-- Shared UI primitives
-- Minimal client-side state
-
----
-
-## Important Constraints
-
-- Never fetch inside client components
-- Never create duplicated hooks
-- Never create duplicate folder structures
-- Avoid introducing alternative architecture patterns
-
----
-
-## UI Rules
-
-- Reuse shared UI primitives
-- Keep spacing consistent
-- Avoid inline styles
-- Prefer accessibility-first components
-
----
-
-## Testing Standards
-
-- Use React Testing Library
-- Test user behavior
-- Avoid snapshot-heavy tests
-
----
-
-## Code Style
-
-- Prefer readability over abstractions
-- Keep components composable
-- Prefer explicit naming`}</CodeBlock>
-        </div>
-      </section>
-
-      {/* File Organization */}
-      <section className="mt-16">
-        <h2 className="text-2xl font-semibold text-white">
-          File Organization Standards
-        </h2>
-
-        <div className="mt-8 space-y-6">
-          <div>
-            <h3 className="mb-3 text-base font-medium text-white">
-              Feature Structure
-            </h3>
-            <CodeBlock>{`/features/auth
-  /components
-  /hooks
-  /actions
-  /schemas
-  /tests`}</CodeBlock>
-          </div>
-
-          <div>
-            <h3 className="mb-3 text-base font-medium text-white">
-              Shared UI
-            </h3>
-            <p className="mb-3 text-sm text-zinc-400">
-              <code className="rounded bg-zinc-800 px-1 py-0.5 font-mono text-xs">/components/ui</code> contains:
-            </p>
-            <div className="flex flex-wrap gap-2 text-sm text-zinc-400">
-              {[
-                "buttons",
-                "inputs",
-                "dialogs",
-                "cards",
-                "tables",
-              ].map((item) => (
-                <span
-                  key={item}
-                  className="rounded-md border border-zinc-800 bg-zinc-900 px-2.5 py-1 font-mono text-xs text-zinc-500"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h3 className="mb-3 text-base font-medium text-white">
-              Shared Logic
-            </h3>
-            <p className="mb-3 text-sm text-zinc-400">
-              <code className="rounded bg-zinc-800 px-1 py-0.5 font-mono text-xs">/lib</code> contains:
-            </p>
-            <div className="flex flex-wrap gap-2 text-sm text-zinc-400">
-              {[
-                "database clients",
-                "auth helpers",
-                "integrations",
-                "utilities",
-              ].map((item) => (
-                <span
-                  key={item}
-                  className="rounded-md border border-zinc-800 bg-zinc-900 px-2.5 py-1 font-mono text-xs text-zinc-500"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Prompt Workflow */}
-      <section className="mt-16">
-        <h2 className="text-2xl font-semibold text-white">
-          Prompt Workflow
-        </h2>
-
-        <div className="mt-8 space-y-8">
-          <div>
-            <h3 className="text-base font-medium text-white">
-              Generate New Feature
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-              Generate a new dashboard feature following the existing project
-              architecture.
-            </p>
-            <p className="mt-3 text-sm font-medium text-zinc-300">
-              Requirements:
-            </p>
-            <ul className="mt-2 space-y-1 text-sm text-zinc-400">
-              {[
-                "Use feature-based folder structure",
-                "Prefer Server Components",
-                "Reuse shared UI components",
-                "Add loading states",
-                "Add error states",
-                "Keep components small and composable",
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-2">
-                  <span className="h-1 w-1 rounded-full bg-zinc-600" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-base font-medium text-white">
-              Refactor Existing Feature
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-              Refactor this feature without changing business logic.
-            </p>
-            <p className="mt-3 text-sm font-medium text-zinc-300">
-              Requirements:
-            </p>
-            <ul className="mt-2 space-y-1 text-sm text-zinc-400">
-              {[
-                "Remove duplicated logic",
-                "Improve readability",
-                "Keep server-first architecture",
-                "Preserve folder structure",
-                "Reuse existing patterns",
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-2">
-                  <span className="h-1 w-1 rounded-full bg-zinc-600" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-base font-medium text-white">
-              Generate Tests
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-              Generate tests following existing testing standards.
-            </p>
-            <p className="mt-3 text-sm font-medium text-zinc-300">
-              Requirements:
-            </p>
-            <ul className="mt-2 space-y-1 text-sm text-zinc-400">
-              {[
-                "Use React Testing Library",
-                "Prefer user behavior testing",
-                "Avoid snapshots",
-                "Cover loading states",
-                "Cover error states",
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-2">
-                  <span className="h-1 w-1 rounded-full bg-zinc-600" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* AI Constraints */}
-      <section className="mt-16">
-        <h2 className="text-2xl font-semibold text-white">
-          AI Constraints
-        </h2>
-        <ul className="mt-6 space-y-2 text-sm text-zinc-400">
-          {[
-            "Never create duplicate folder structures",
-            "Never fetch directly inside client components",
-            "Never introduce new UI patterns without reuse",
-            "Avoid unnecessary abstractions",
-            "Avoid giant utility files",
-            "Keep feature boundaries strict",
-            "Prefer explicit naming over generic naming",
-            "Avoid business logic inside shared components",
-          ].map((item) => (
-            <li key={item} className="flex items-start gap-2">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-600" />
-              {item}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* Testing Workflow */}
-      <section className="mt-16">
-        <h2 className="text-2xl font-semibold text-white">
-          Testing Workflow
-        </h2>
-        <p className="mt-4 text-sm leading-relaxed text-zinc-400">
-          All AI-generated features must include:
-        </p>
-        <ul className="mt-4 space-y-1 text-sm text-zinc-400">
-          {[
-            "loading states",
-            "error states",
-            "empty states",
-            "accessibility checks",
-            "unit tests",
-          ].map((item) => (
-            <li key={item} className="flex items-center gap-2">
-              <span className="h-1 w-1 rounded-full bg-zinc-600" />
-              {item}
-            </li>
-          ))}
-        </ul>
-
-        <h3 className="mt-8 text-base font-medium text-white">
-          Testing Stack
-        </h3>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {["React Testing Library", "Vitest", "Playwright"].map((item) => (
-            <span
-              key={item}
-              className="rounded-md border border-zinc-800 bg-zinc-900 px-2.5 py-1 font-mono text-xs text-zinc-400"
-            >
-              {item}
-            </span>
-          ))}
-        </div>
-
-        <h3 className="mt-8 text-base font-medium text-white">
-          Testing Rules
-        </h3>
-        <ul className="mt-4 space-y-1 text-sm text-zinc-400">
-          {[
-            "Test behavior instead of implementation",
-            "Avoid excessive mocking",
-            "Prefer integration-style tests",
-          ].map((item) => (
-            <li key={item} className="flex items-center gap-2">
-              <span className="h-1 w-1 rounded-full bg-zinc-600" />
-              {item}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* Pull Request Workflow */}
-      <section className="mt-16">
-        <h2 className="text-2xl font-semibold text-white">
-          Pull Request Workflow
-        </h2>
-        <p className="mt-4 text-sm leading-relaxed text-zinc-400">
-          Before merging AI-generated code:
-        </p>
-        <ul className="mt-4 space-y-1 text-sm text-zinc-400">
-          {[
-            "Check for duplicated logic",
-            "Check for duplicated hooks",
-            "Verify folder consistency",
-            "Verify naming consistency",
-            "Ensure tests are included",
-            "Ensure server-first architecture is preserved",
-          ].map((item) => (
-            <li key={item} className="flex items-center gap-2">
-              <span className="h-1 w-1 rounded-full bg-zinc-600" />
-              {item}
-            </li>
-          ))}
-        </ul>
-
-        <h3 className="mt-8 text-base font-medium text-white">
-          PR Guidelines
-        </h3>
-        <ul className="mt-4 space-y-1 text-sm text-zinc-400">
-          {[
-            "Keep PRs focused",
-            "Avoid mixed concerns",
-            "Prefer incremental refactors",
-            "Keep PRs under 300 LOC when possible",
-          ].map((item) => (
-            <li key={item} className="flex items-center gap-2">
-              <span className="h-1 w-1 rounded-full bg-zinc-600" />
-              {item}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* Before / After */}
-      <section className="mt-16">
-        <h2 className="text-2xl font-semibold text-white">
-          Before Applying Workflow Standards
-        </h2>
-        <div className="mt-6 grid gap-6 sm:grid-cols-2">
-          <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 p-5">
-            <ul className="space-y-2 text-sm text-zinc-400">
-              {[
-                "duplicated hooks",
-                "mixed server/client logic",
-                "inconsistent folder structures",
-                "large components",
-                "duplicated utility files",
-                "scattered business logic",
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-2">
-                  <span className="h-1 w-1 rounded-full bg-red-500" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="rounded-lg border border-zinc-800 bg-zinc-900/50 p-5">
-            <ul className="space-y-2 text-sm text-zinc-400">
-              {[
-                "predictable architecture",
-                "reusable UI patterns",
-                "cleaner AI-generated code",
-                "smaller components",
-                "consistent folder structure",
-                "easier long-term maintenance",
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-2">
-                  <span className="h-1 w-1 rounded-full bg-green-500" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* Recommended Stack */}
-      <section className="mt-16">
-        <h2 className="text-2xl font-semibold text-white">
-          Recommended Stack
-        </h2>
-        <div className="mt-6 grid gap-6 sm:grid-cols-2">
+      {/* Workflow Steps */}
+      <section className="mt-14">
+        <h2 className={SECTION_TITLE}>Workflow Steps</h2>
+        <div className="space-y-8">
           {[
             {
-              label: "Frontend",
-              items: ["Next.js App Router", "Tailwind CSS", "shadcn/ui"],
+              step: "Step 1 — Repository Planning",
+              constraints: [
+                "define feature boundaries",
+                "avoid shared business logic",
+                "keep folder naming predictable",
+              ],
+              output: ["repo structure", "feature folders", "architecture notes"],
+              failures: [
+                "oversized shared utils",
+                "mixed feature concerns",
+                "inconsistent naming",
+              ],
             },
             {
-              label: "Backend",
-              items: ["Supabase", "PostgreSQL"],
+              step: "Step 2 — Feature Planning",
+              constraints: [
+                "avoid duplicated hooks",
+                "isolate business logic",
+                "reuse validation schemas",
+              ],
+              output: ["feature folder", "server actions", "validation layer"],
+              failures: [
+                "repeated schemas",
+                "client-side fetching",
+                "oversized components",
+              ],
             },
             {
-              label: "Payments",
-              items: ["Stripe"],
+              step: "Step 3 — AI Implementation",
+              constraints: [
+                "follow repo conventions",
+                "reuse shared primitives",
+                "preserve server-first architecture",
+              ],
+              output: [
+                "predictable code structure",
+                "isolated business logic",
+                "reusable UI",
+              ],
+              failures: [
+                "inconsistent prompt output",
+                "duplicated logic",
+                "unstable patterns",
+              ],
             },
             {
-              label: "Deployment",
-              items: ["Vercel"],
+              step: "Step 4 — PR Validation",
+              constraints: [
+                "avoid mixed concerns",
+                "keep PRs focused",
+                "preserve architecture consistency",
+              ],
+              output: [
+                "stable PR review",
+                "predictable diffs",
+                "maintainable repo history",
+              ],
+              failures: [
+                "oversized PRs",
+                "inconsistent architecture",
+                "duplicated patterns",
+              ],
             },
-            {
-              label: "AI Tools",
-              items: ["Claude Code", "Cursor"],
-            },
-          ].map((group) => (
-            <div
-              key={group.label}
-              className="rounded-lg border border-zinc-800 bg-zinc-900/50 p-4"
-            >
-              <h3 className="mb-2 text-sm font-medium text-zinc-300">
-                {group.label}
+          ].map((s) => (
+            <div key={s.step} className={CARD}>
+              <h3 className="mb-4 text-base font-semibold text-zinc-100">
+                {s.step}
               </h3>
-              <div className="flex flex-wrap gap-2">
-                {group.items.map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-md border border-zinc-800 bg-zinc-950 px-2 py-1 font-mono text-xs text-zinc-400"
-                  >
-                    {item}
-                  </span>
+              <div className="mt-3">
+                <span className="text-zinc-500">Constraints:</span>
+                {s.constraints.map((c) => (
+                  <div key={c} className="ml-4">
+                    - {c}
+                  </div>
+                ))}
+              </div>
+              <div className="mt-3">
+                <span className="text-zinc-500">Expected Output:</span>
+                {s.output.map((o) => (
+                  <div key={o} className="ml-4">
+                    - {o}
+                  </div>
+                ))}
+              </div>
+              <div className="mt-3">
+                <span className="text-zinc-500">Common Failures:</span>
+                {s.failures.map((f) => (
+                  <div key={f} className="ml-4">
+                    - {f}
+                  </div>
                 ))}
               </div>
             </div>
@@ -688,51 +230,111 @@ rules.md`}</CodeBlock>
         </div>
       </section>
 
-      {/* Workflow Goals */}
-      <section className="mt-16">
-        <h2 className="text-2xl font-semibold text-white">Workflow Goals</h2>
-        <p className="mt-4 text-sm leading-relaxed text-zinc-400">
-          This workflow is designed to:
-        </p>
-        <ul className="mt-4 space-y-2 text-sm text-zinc-400">
-          {[
-            "reduce inconsistent AI output",
-            "improve long-term maintainability",
-            "keep repo structure predictable",
-            "improve AI-assisted collaboration",
-            "reduce duplicated logic",
-            "scale AI coding across teams",
-          ].map((item) => (
-            <li key={item} className="flex items-start gap-2">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-600" />
-              {item}
-            </li>
-          ))}
-        </ul>
+      {/* Prompt */}
+      <section className="mt-14">
+        <h2 className={SECTION_TITLE}>Prompt</h2>
+        <div className={CARD}>
+          <pre className="leading-7 text-zinc-400">
+Refactor this feature following existing repo conventions.
+
+{"Requirements:"}
+{"- preserve server-first architecture"}
+{"- avoid duplicated validation logic"}
+{"- reuse shared UI primitives"}
+{"- keep business logic isolated"}
+
+{"Do not:"}
+{"- introduce new folder structures"}
+{"- fetch inside client components"}
+{"- create oversized utility files"}
+          </pre>
+        </div>
       </section>
 
-      {/* Copy CTA */}
-      <section className="mt-16 border-t border-zinc-800 pt-16">
-        <h2 className="text-2xl font-semibold text-white">
-          Copy This Workflow
-        </h2>
-        <p className="mt-4 text-sm leading-relaxed text-zinc-400">
-          Save these files to your repo and reference them in your AI tool
-          configuration.
-        </p>
-        <div className="mt-6 flex flex-wrap gap-4">
-          <button className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900 px-6 py-3 font-medium text-zinc-300 transition-colors hover:bg-zinc-800">
-            <Copy className="h-4 w-4" />
-            Copy rules.md
-          </button>
-          <button className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900 px-6 py-3 font-medium text-zinc-300 transition-colors hover:bg-zinc-800">
-            <Copy className="h-4 w-4" />
-            Copy memory.md
-          </button>
-          <button className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 font-medium text-black transition-opacity hover:opacity-90">
-            <Copy className="h-4 w-4" />
-            Copy Prompt Pack
-          </button>
+      {/* Team Workflow */}
+      <section className="mt-14">
+        <h2 className={SECTION_TITLE}>Team Workflow</h2>
+        <div className={CARD}>
+          <div className="leading-7">
+            {[
+              "1. feature planning",
+              "2. AI implementation",
+              "3. human review",
+              "4. PR validation",
+              "5. incremental refactor",
+            ].map((s) => (
+              <div key={s}>{s}</div>
+            ))}
+          </div>
+          <p className="mt-4 text-zinc-500">
+            All generated code must pass review before merge.
+          </p>
+        </div>
+      </section>
+
+      {/* Common Failures */}
+      <section className="mt-14">
+        <h2 className={SECTION_TITLE}>Common AI Engineering Failures</h2>
+        <div className={CARD}>
+          {[
+            "duplicated hooks",
+            "inconsistent naming",
+            "mixed client/server logic",
+            "oversized components",
+            "scattered utilities",
+            "repeated validation schemas",
+          ].map((f) => (
+            <div key={f}>- {f}</div>
+          ))}
+        </div>
+      </section>
+
+      {/* Migration Notes */}
+      <section className="mt-14">
+        <h2 className={SECTION_TITLE}>Migration Notes</h2>
+        <div className={CARD}>
+          {[
+            "dashboard still uses old hooks",
+            "billing refactor in progress",
+            "auth migration planned",
+            "validation migration partially completed",
+          ].map((n) => (
+            <div key={n} className="flex items-start gap-2">
+              <span className="mt-1 text-amber-400">*</span>
+              <span>{n}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Recent Changes */}
+      <section className="mt-14">
+        <h2 className={SECTION_TITLE}>Recent Changes</h2>
+        <div className="max-w-xl rounded-xl border border-[#2a2d35] bg-[#151922] p-5 font-mono text-sm text-zinc-400">
+          <div className="mb-4 text-xs text-zinc-500">// changelog</div>
+          <div className="space-y-4">
+            <div>
+              <div className="text-xs text-blue-300">v0.4.2</div>
+              <div className="mt-1 space-y-1">
+                <div>- improved billing workflow</div>
+                <div>- updated repo constraints</div>
+                <div>- added testing standards</div>
+                <div>- reduced duplicated logic</div>
+              </div>
+            </div>
+            <div>
+              <div className="text-xs text-blue-300">v0.4.1</div>
+              <div className="mt-1 space-y-1">
+                <div>- updated auth workflow</div>
+              </div>
+            </div>
+            <div>
+              <div className="text-xs text-blue-300">v0.4.0</div>
+              <div className="mt-1 space-y-1">
+                <div>- introduced repo constraints</div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
