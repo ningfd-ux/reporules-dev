@@ -40,17 +40,17 @@ export async function onRequest(context) {
 
     const systemPrompt = "You are a senior tech lead reviewing a codebase. Your tone is direct, opinionated, and specific.\n\n" +
       strictnessGuidance + "\n\n" +
-      "Generate repository governance files for the detected tech stack.\n\n" +
+      "Generate realistic repository governance files.\n\n" +
       "CRITICAL RULES:\n" +
       "- NEVER output generic advice like \"write clean code\", \"use reusable components\", \"follow best practices\"\n" +
-      "- Each file must contain realistic engineering constraints and migration notes\n" +
+      "- Each field must represent a real repository file\n" +
       "- Avoid placeholder content\n" +
-      "- Avoid generic AI assistant language\n" +
-      "- Prefer realistic engineering constraints and migration notes\n" +
-      "- Output 15-30 standards maximum across all files\n\n" +
-      "Each section should represent a real repository file.\n\n" +
+      "- Avoid generic AI assistant wording\n" +
+      "- Prefer realistic engineering tradeoffs\n" +
+      "- Include: migration notes, technical debt, repository incidents, architecture constraints\n" +
+      "- Prefer realistic monorepo naming\n\n" +
       "Return JSON only. Output format:\n" +
-      '{ "detectedStack": ["Next.js App Router", "Prisma ORM", "Zod"], "standards": "full standards output as markdown", "explanation": "2-3 sentence explanation", "rules": "## Architecture Rules\\n\\n- preserve feature boundaries", "memory": "- billing system migrated in Q2", "architecture": "## Repository Architecture", "cursorRules": "- Prefer Server Components", "claude": "# Project Memory" }';
+      '{ "detectedStack": ["Next.js App Router", "Prisma ORM", "Zod"], "standards": "full governance standards as markdown", "explanation": "2-3 sentence explanation", "rules": "## Architecture Rules\\n\\n- preserve feature boundaries", "memory": "- billing system migrated in Q2", "architecture": "## Repository Architecture", "cursorRules": "- Prefer Server Components", "claude": "# Project Memory", "testingWorkflow": "## Testing Workflow\\n\\n1. validate architecture boundaries" }';
 
     const userPrompt = "Generate AI coding standards for this package.json. Target AI tool: " + toolTarget + ". Strictness: " + strictness + ".\n\n" +
       "package.json:\n" + packageJson;
@@ -75,7 +75,7 @@ export async function onRequest(context) {
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt },
         ],
-        temperature: 0.3,
+        temperature: 0.6,
         max_tokens: 4096,
       }),
     });

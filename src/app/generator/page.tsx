@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Sparkles, Code2, Loader2, AlertCircle } from "lucide-react";
+import { Sparkles, Loader2, AlertCircle } from "lucide-react";
 import StackBadge from "@/components/StackBadge";
 import CodeBlock from "@/components/CodeBlock";
 import { detectStack, formatStackSummary } from "@/lib/detect-stack";
@@ -35,7 +35,17 @@ interface GenerateResult {
   architecture?: string;
   cursorRules?: string;
   claude?: string;
+  testingWorkflow?: string;
 }
+
+const FILE_TABS = [
+  { key: "rules", label: "rules.md" },
+  { key: "memory", label: "memory.md" },
+  { key: "architecture", label: "architecture.md" },
+  { key: "cursorRules", label: ".cursorrules" },
+  { key: "claude", label: "claude.md" },
+  { key: "testingWorkflow", label: "testing-workflow.md" },
+];
 
 export default function GeneratorPage() {
   const [packageJson, setPackageJson] = useState("");
@@ -44,6 +54,7 @@ export default function GeneratorPage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<GenerateResult | null>(null);
+  const [activeFile, setActiveFile] = useState("rules");
 
   const parsedDeps = useCallback(() => {
     try {
@@ -61,6 +72,19 @@ export default function GeneratorPage() {
   }, [parsedDeps]);
 
   const stackList = currentStack();
+
+  const getFileContent = (): string => {
+    if (!result) return "";
+    const map: Record<string, string | undefined> = {
+      rules: result.rules,
+      memory: result.memory,
+      architecture: result.architecture,
+      cursorRules: result.cursorRules,
+      claude: result.claude,
+      testingWorkflow: result.testingWorkflow,
+    };
+    return map[activeFile] || result.standards;
+  };
 
   const handleGenerate = async () => {
     setIsGenerating(true);
@@ -102,12 +126,12 @@ export default function GeneratorPage() {
   const downloadZip = async () => {
     if (!result) return;
     const zip = new JSZip();
-    const folder = zip.folder("repo-rules");
-    if (result.rules) folder?.file("rules.md", result.rules);
-    if (result.memory) folder?.file("memory.md", result.memory);
-    if (result.architecture) folder?.file("architecture.md", result.architecture);
-    if (result.cursorRules) folder?.file(".cursorrules", result.cursorRules);
-    if (result.claude) folder?.file("claude.md", result.claude);
+    if (result.rules) zip.file("rules.md", result.rules);
+    if (result.memory) zip.file("memory.md", result.memory);
+    if (result.architecture) zip.file("architecture.md", result.architecture);
+    if (result.cursorRules) zip.file(".cursorrules", result.cursorRules);
+    if (result.claude) zip.file("claude.md", result.claude);
+    if (result.testingWorkflow) zip.file("testing-workflow.md", result.testingWorkflow);
     const blob = await zip.generateAsync({ type: "blob" });
     saveAs(blob, "repo-rules-export.zip");
   };
@@ -149,47 +173,17 @@ export default function GeneratorPage() {
             <Separator className="my-8" />
 
             <div>
-              <h3 className="text-sm font-medium text-zinc-100">
-                AI Tool Target
-              </h3>
+              <h3 className="text-sm font-medium text-zinc-100">AI Tool Target</h3>
               <RadioGroup
                 value={toolTarget}
                 onValueChange={(v) => setToolTarget(v as ToolTarget)}
                 className="mt-3 flex flex-wrap gap-3"
               >
-                {(["cursor", "claude-code", "copilot", "generic"] as const).map(
-                  (tool) => (
-                    <div key={tool} className="flex items-center gap-2">
-                      <RadioGroupItem value={tool} id={`tool-${tool}`} />
-                      <Label htmlFor={`tool-${tool}`} className="text-sm capitalize text-zinc-300">
-                        {tool === "claude-code"
-                          ? "Claude Code"
-                          : tool === "generic"
-                            ? "Generic"
-                            : tool.charAt(0).toUpperCase() + tool.slice(1)}
-                      </Label>
-                    </div>
-                  ),
-                )}
-              </RadioGroup>
-            </div>
-
-            <Separator className="my-8" />
-
-            <div>
-              <h3 className="text-sm font-medium text-zinc-100">
-                Strictness Level
-              </h3>
-              <RadioGroup
-                value={strictness}
-                onValueChange={(v) => setStrictness(v as Strictness)}
-                className="mt-3 flex flex-wrap gap-3"
-              >
-                {(["relaxed", "balanced", "strict"] as const).map((level) => (
-                  <div key={level} className="flex items-center gap-2">
-                    <RadioGroupItem value={level} id={`strict-${level}`} />
-                    <Label htmlFor={`strict-${level}`} className="text-sm capitalize text-zinc-300">
-                      {level}
+                {(["cursor", "claude-code", "copilot", "generic"] as const).map((tool) => (
+                  <div key={tool} className="flex items-center gap-2">
+                    <RadioGroupItem value={tool} id={`tool-${tool}`} />
+                    <Label htmlFor={`tool-${tool}`} className="text-sm capitalize text-zinc-300">
+                      {tool === "claude-code" ? "Claude Code" : tool === "generic" ? "Generic" : tool.charAt(0).toUpperCase() + tool.slice(1)}
                     </Label>
                   </div>
                 ))}
@@ -198,22 +192,29 @@ export default function GeneratorPage() {
 
             <Separator className="my-8" />
 
-            <Button
-              onClick={handleGenerate}
-              disabled={isGenerating}
-              size="lg"
-              className="w-full"
-            >
+            <div>
+              <h3 className="text-sm font-medium text-zinc-100">Strictness Level</h3>
+              <RadioGroup
+                value={strictness}
+                onValueChange={(v) => setStrictness(v as Strictness)}
+                className="mt-3 flex flex-wrap gap-3"
+              >
+                {(["relaxed", "balanced", "strict"] as const).map((level) => (
+                  <div key={level} className="flex items-center gap-2">
+                    <RadioGroupItem value={level} id={`strict-${level}`} />
+                    <Label htmlFor={`strict-${level}`} className="text-sm capitalize text-zinc-300">{level}</Label>
+                  </div>
+                ))}
+              </RadioGroup>
+            </div>
+
+            <Separator className="my-8" />
+
+            <Button onClick={handleGenerate} disabled={isGenerating} size="lg" className="w-full">
               {isGenerating ? (
-                <>
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Generating...
-                </>
+                <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Generating...</>
               ) : (
-                <>
-                  <Sparkles className="mr-2 h-5 w-5" />
-                  Generate Standards
-                </>
+                <><Sparkles className="mr-2 h-5 w-5" /> Generate Governance Files</>
               )}
             </Button>
           </div>
@@ -224,12 +225,9 @@ export default function GeneratorPage() {
           {/* Zero state */}
           {!result && !isGenerating && !error && (
             <div className="rounded-xl border border-dashed border-[#2a2d35] bg-[#151922] p-10 text-center">
-              <div className="mb-3 text-lg font-medium text-zinc-100">
-                Generate repository governance files
-              </div>
+              <div className="mb-3 text-lg font-medium text-zinc-100">Generate repository governance files</div>
               <p className="mx-auto max-w-xl leading-7 text-zinc-500">
-                Analyze repository structure and generate rules.md, memory.md,
-                architecture constraints and AI workflow standards.
+                Analyze repository structure and generate rules.md, memory.md, architecture constraints and AI workflow standards.
               </p>
             </div>
           )}
@@ -237,12 +235,10 @@ export default function GeneratorPage() {
           {/* Loading state */}
           {isGenerating && (
             <div className="space-y-4">
-              <div className="text-sm font-medium text-zinc-100">
-                Analyzing repository architecture...
-              </div>
+              <div className="text-sm font-medium text-zinc-100">Analyzing repository architecture...</div>
               <div className="font-mono text-xs leading-7 text-zinc-500">
-                ✓ detecting framework boundaries<br />
-                ✓ analyzing validation structure<br />
+                ✓ detecting repository boundaries<br />
+                ✓ analyzing validation layers<br />
                 ✓ checking migration patterns<br />
                 ✓ generating governance files
               </div>
@@ -253,30 +249,22 @@ export default function GeneratorPage() {
           {error && (
             <div className="flex flex-col items-center justify-center py-20 text-center">
               <AlertCircle className="mb-4 h-12 w-12 text-red-500" />
-              <h3 className="text-lg font-medium text-zinc-100">
-                Generation failed
-              </h3>
+              <h3 className="text-lg font-medium text-zinc-100">Generation failed</h3>
               <p className="mt-2 max-w-sm text-sm text-red-400">{error}</p>
-              <Button
-                variant="outline"
-                onClick={handleGenerate}
-                className="mt-6"
-              >
-                Try Again
-              </Button>
+              <Button variant="outline" onClick={handleGenerate} className="mt-6">Try Again</Button>
             </div>
           )}
 
           {/* Results */}
           {result && (
             <div className="space-y-8">
-              {/* Generated header */}
+              {/* Header */}
               <div>
                 <div className="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-900 px-3 py-1 font-mono text-xs text-zinc-300">
                   Repository Governance Generated
                 </div>
-                <div className="mt-4 flex gap-4 font-mono text-xs text-zinc-500">
-                  <span>5 files generated</span>
+                <div className="mt-5 flex gap-5 font-mono text-xs text-zinc-500">
+                  <span>6 files generated</span>
                   <span>Pattern confidence: 92%</span>
                   <span>Migration compatible</span>
                 </div>
@@ -291,93 +279,65 @@ export default function GeneratorPage() {
 
               {/* Detected Stack */}
               <div>
-                <h3 className="mb-3 text-sm font-medium text-zinc-100">
-                  Detected Stack
-                </h3>
+                <h3 className="mb-3 text-sm font-medium text-zinc-100">Detected Stack</h3>
                 <div className="flex flex-wrap gap-2">
                   {result.detectedStack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="rounded-md border border-[#2a2d35] bg-[#16181d] px-2.5 py-1 font-mono text-xs text-zinc-400"
-                    >
-                      {tech}
-                    </span>
+                    <span key={tech} className="rounded-md border border-[#2a2d35] bg-[#16181d] px-2.5 py-1 font-mono text-xs text-zinc-400">{tech}</span>
                   ))}
                 </div>
               </div>
 
-              {/* Repository Signals Detected */}
+              {/* Repository Signals */}
               <div className="rounded-xl border border-[#2a2d35] bg-[#151922] p-5">
-                <div className="mb-4 text-sm font-medium text-zinc-100">
-                  Repository Signals Detected
-                </div>
-                <div className="space-y-3">
-                  <div className="text-sm text-zinc-300">
-                    ✓ Next.js App Router
-                  </div>
-                  <div className="text-sm text-zinc-300">
-                    ✓ Shared validation layer
-                  </div>
-                  <div className="text-sm text-zinc-300">
-                    ✓ Monorepo package structure
-                  </div>
-                  <div className="text-sm text-zinc-300">
-                    ✓ AI workflow conventions
-                  </div>
+                <div className="mb-4 text-sm font-medium text-zinc-100">Repository Signals Detected</div>
+                <div className="space-y-3 text-sm text-zinc-300">
+                  <div>✓ Next.js App Router</div>
+                  <div>✓ Shared validation layer</div>
+                  <div>✓ Monorepo structure</div>
+                  <div>✓ AI workflow conventions</div>
                 </div>
               </div>
 
-              {/* Generated Standards */}
-              <div>
-                <h3 className="mb-3 text-sm font-medium text-zinc-100">
-                  Generated Standards
-                </h3>
-                <CodeBlock maxHeight="600px">{result.standards}</CodeBlock>
+              {/* File Tabs */}
+              <div className="flex gap-2 overflow-x-auto">
+                {FILE_TABS.map((tab) => (
+                  <button
+                    key={tab.key}
+                    onClick={() => setActiveFile(tab.key)}
+                    className={`h-9 whitespace-nowrap rounded-lg border px-4 text-sm transition-colors ${
+                      activeFile === tab.key
+                        ? "border-zinc-500 bg-zinc-800/50 text-zinc-100"
+                        : "border-zinc-700 text-zinc-400 hover:border-zinc-500"
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
               </div>
 
-              {/* Why */}
-              <div className="rounded-xl border border-[#2a2d35] bg-[#16181d] p-5">
-                <h3 className="mb-2 text-sm font-medium text-zinc-100">
-                  Why These Standards?
-                </h3>
-                <p className="text-sm leading-relaxed text-zinc-400">
-                  {result.explanation}
-                </p>
-              </div>
+              {/* File Content */}
+              <CodeBlock maxHeight="500px">{getFileContent()}</CodeBlock>
 
               {/* Export */}
               <div>
-                <div className="mb-4 text-sm font-medium text-zinc-100">
-                  Export Repository Files
-                </div>
-                <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-                  <button
-                    onClick={downloadZip}
-                    className="h-11 rounded-lg bg-zinc-100 text-sm font-medium text-zinc-900 transition-colors hover:bg-zinc-200"
-                  >
+                <div className="mb-4 text-sm font-medium text-zinc-100">Export Repository Files</div>
+                <div className="flex flex-wrap gap-3">
+                  <button onClick={downloadZip} className="h-11 rounded-lg bg-zinc-100 px-5 text-sm font-medium text-zinc-900 transition-colors hover:bg-zinc-200">
                     Download ZIP
                   </button>
-                  <button
-                    onClick={() => result.rules && downloadSingleFile("rules.md", result.rules)}
-                    className="h-11 rounded-lg border border-zinc-700 text-sm text-zinc-300 transition-colors hover:border-zinc-500"
-                    disabled={!result.rules}
-                  >
-                    Export rules.md
-                  </button>
-                  <button
-                    onClick={() => result.memory && downloadSingleFile("memory.md", result.memory)}
-                    className="h-11 rounded-lg border border-zinc-700 text-sm text-zinc-300 transition-colors hover:border-zinc-500"
-                    disabled={!result.memory}
-                  >
-                    Export memory.md
-                  </button>
-                  <button
-                    onClick={() => result.cursorRules && downloadSingleFile(".cursorrules", result.cursorRules)}
-                    className="h-11 rounded-lg border border-zinc-700 text-sm text-zinc-300 transition-colors hover:border-zinc-500"
-                    disabled={!result.cursorRules}
-                  >
-                    Export .cursorrules
-                  </button>
+                  {FILE_TABS.map((tab) => {
+                    const content = result[tab.key as keyof GenerateResult];
+                    if (typeof content !== "string") return null;
+                    return (
+                      <button
+                        key={tab.key}
+                        onClick={() => downloadSingleFile(tab.label, content)}
+                        className="h-11 rounded-lg border border-zinc-700 px-5 text-sm text-zinc-300 transition-colors hover:border-zinc-500"
+                      >
+                        Export {tab.label}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>
