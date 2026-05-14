@@ -184,27 +184,57 @@ export default function Home() {
       <HeroSection />
 
       {/* SECTION 2: How It Works */}
-      <section className="border-t border-border/40 px-6 py-24">
+      <section className="border-t border-zinc-800 px-6 py-24">
         <div className="mx-auto max-w-6xl">
-          <h2 className="text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          <h2 className="text-center text-3xl font-semibold tracking-tight text-white sm:text-4xl">
             How it works
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-center text-muted-foreground">
+          <p className="mx-auto mt-4 max-w-xl text-center text-zinc-500">
             Three steps from paste to production-ready AI coding standards.
           </p>
           <div className="mt-16 grid gap-8 md:grid-cols-3">
             {HOW_IT_WORKS.map((step) => (
-              <div key={step.number} className="rounded-xl border border-border/40 bg-card p-6">
-                <span className="text-sm font-mono text-muted-foreground">{step.number}</span>
-                <h3 className="mt-2 text-lg font-semibold text-foreground">
+              <div key={step.number} className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
+                <span className="font-mono text-sm text-zinc-600">{step.number}</span>
+                <h3 className="mt-2 text-lg font-semibold text-white">
                   {step.title}
                 </h3>
-                <p className="mt-2 text-sm text-muted-foreground">
+                <p className="mt-2 text-sm text-zinc-400">
                   {step.description}
                 </p>
                 {step.detail}
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 2.5: Featured Workflows */}
+      <section className="border-t border-zinc-800 px-6 py-24">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-center text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            Featured Workflows
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-center text-zinc-500">
+            Copy battle-tested AI workflows for your next project.
+          </p>
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <Link
+              href="/workflows/claude-code-saas"
+              className="group rounded-xl border border-zinc-800 bg-zinc-900/50 p-6 transition-colors hover:border-zinc-700"
+            >
+              <h3 className="text-base font-semibold text-white group-hover:text-zinc-200">
+                Claude Code SaaS Workflow
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-zinc-500">
+                Production-ready AI workflow for scalable Next.js SaaS projects.
+              </p>
+              <div className="mt-4">
+                <span className="text-sm font-medium text-zinc-400 group-hover:text-zinc-300">
+                  View Workflow &rarr;
+                </span>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
