@@ -1,0 +1,6 @@
+name = "reporules-dev"
+pages_build_output_dir = "out"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT_KV"
+id = "191f6503571c4861b8c0b7e752a938d6"
