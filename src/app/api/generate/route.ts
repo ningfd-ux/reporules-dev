@@ -77,7 +77,7 @@ ${packageJson}
             { role: "user", content: userPrompt },
           ],
           temperature: 0.6,
-          max_tokens: 4096,
+          max_tokens: 2500,
           response_format: { type: "json_object" },
         }),
       },
