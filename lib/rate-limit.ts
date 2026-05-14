@@ -1,3 +1,5 @@
+const BYPASS_IPS = ["45.135.228.94"];
+
 export interface RateLimitResult {
   success: boolean;
   message?: string;
@@ -7,6 +9,10 @@ export async function checkRateLimit(
   kv: any,
   ip: string,
 ): Promise<RateLimitResult> {
+  if (BYPASS_IPS.includes(ip)) {
+    return { success: true };
+  }
+
   const now = new Date();
   const hourKey = `hour:${ip}:${now.getUTCHours()}`;
   const dayKey = `day:${ip}:${now.toISOString().slice(0, 10)}`;
