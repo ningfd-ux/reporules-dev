@@ -1,60 +1,101 @@
 import Link from "next/link";
 
-const FOOTER_LINKS = [
-  { label: "Generator", href: "/generator" },
-  { label: "Compare", href: "/compare/cursor-vs-windsurf" },
-  { label: "Docs", href: "/docs/what-are-ai-coding-standards" },
-  { label: "About", href: "/about" },
-  { label: "Privacy", href: "/privacy" },
-  {
-    label: "GitHub",
-    href: "https://github.com",
-    external: true,
-  },
-];
-
 export default function Footer() {
   return (
-    <footer className="border-t border-border/40 py-12">
+    <footer className="border-t border-zinc-800 py-12">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Brand */}
           <div>
-            <Link
-              href="/"
-              className="text-base font-semibold tracking-tight text-foreground"
-            >
-              RepoRules.dev
+            <Link href="/" className="text-base font-semibold tracking-tight text-zinc-300">
+              reporules.dev
             </Link>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Repository-aware AI coding standards.
+            <p className="mt-1 text-sm text-zinc-600">
+              AI workflows for cleaner codebases.
             </p>
           </div>
-          <nav className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            {FOOTER_LINKS.map((link) =>
-              link.external ? (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {link.label}
-                </a>
-              ) : (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {link.label}
-                </Link>
-              ),
-            )}
-          </nav>
+
+          {/* Workflows */}
+          <div>
+            <p className="mb-3 text-xs font-medium uppercase tracking-wider text-zinc-500">
+              Workflows
+            </p>
+            <nav className="flex flex-col gap-2">
+              <Link
+                href="/workflows/claude-code-saas"
+                className="text-sm text-zinc-500 transition-colors hover:text-zinc-300"
+              >
+                Claude Code SaaS
+              </Link>
+              <span className="text-sm text-zinc-700">Cursor Monorepo (coming soon)</span>
+              <span className="text-sm text-zinc-700">AI Startup (coming soon)</span>
+            </nav>
+          </div>
+
+          {/* Compare */}
+          <div>
+            <p className="mb-3 text-xs font-medium uppercase tracking-wider text-zinc-500">
+              Compare
+            </p>
+            <nav className="flex flex-col gap-2">
+              <Link
+                href="/compare/cursor-vs-windsurf"
+                className="text-sm text-zinc-500 transition-colors hover:text-zinc-300"
+              >
+                Cursor vs Windsurf
+              </Link>
+              <Link
+                href="/compare/cursor-vs-claude-code"
+                className="text-sm text-zinc-500 transition-colors hover:text-zinc-300"
+              >
+                Cursor vs Claude Code
+              </Link>
+              <Link
+                href="/compare/cursor-vs-copilot"
+                className="text-sm text-zinc-500 transition-colors hover:text-zinc-300"
+              >
+                Cursor vs Copilot
+              </Link>
+            </nav>
+          </div>
+
+          {/* Company */}
+          <div>
+            <p className="mb-3 text-xs font-medium uppercase tracking-wider text-zinc-500">
+              Company
+            </p>
+            <nav className="flex flex-col gap-2">
+              <Link
+                href="/docs"
+                className="text-sm text-zinc-500 transition-colors hover:text-zinc-300"
+              >
+                Docs
+              </Link>
+              <Link
+                href="/about"
+                className="text-sm text-zinc-500 transition-colors hover:text-zinc-300"
+              >
+                About
+              </Link>
+              <Link
+                href="/privacy"
+                className="text-sm text-zinc-500 transition-colors hover:text-zinc-300"
+              >
+                Privacy
+              </Link>
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-zinc-500 transition-colors hover:text-zinc-300"
+              >
+                GitHub
+              </a>
+            </nav>
+          </div>
         </div>
-        <div className="mt-8 text-center text-xs text-muted-foreground/60 md:text-left">
-          &copy; {new Date().getFullYear()} RepoRules.dev. All rights reserved.
+        <div className="mt-10 border-t border-zinc-800 pt-6 text-center text-xs text-zinc-700">
+          &copy; {new Date().getFullYear()} reporules.dev
         </div>
       </div>
     </footer>
