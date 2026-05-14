@@ -23,12 +23,12 @@ export async function checkRateLimit(
   const hourCount = Number(await kv.get(hourKey)) || 0;
   const dayCount = Number(await kv.get(dayKey)) || 0;
 
-  if (hourCount >= 3) {
-    return { success: false, message: "Hourly generation limit reached. Please try again later." };
+  if (hourCount >= 2) {
+    return { success: false, message: "Hourly limit reached (2/hour). Please try again later." };
   }
 
-  if (dayCount >= 10) {
-    return { success: false, message: "Daily generation limit reached. Please try again tomorrow." };
+  if (dayCount >= 5) {
+    return { success: false, message: "Daily limit reached (5/day). Please try again tomorrow." };
   }
 
   await kv.put(hourKey, String(hourCount + 1), { expirationTtl: 3600 });

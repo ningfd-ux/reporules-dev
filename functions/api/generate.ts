@@ -26,10 +26,10 @@ async function checkRateLimit(kv: any, ip: string): Promise<{ success: boolean; 
     const hourCount = Number((await kv.get(hourKey)) || 0);
     const dayCount = Number((await kv.get(dayKey)) || 0);
 
-    if (hourCount >= 3) {
+    if (hourCount >= 2) {
       return { success: false, message: "Hourly generation limit reached. Try again later." };
     }
-    if (dayCount >= 10) {
+    if (dayCount >= 5) {
       return { success: false, message: "Daily generation limit reached. Try again tomorrow." };
     }
 
