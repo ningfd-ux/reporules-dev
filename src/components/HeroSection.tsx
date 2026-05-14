@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight, Copy, ChevronDown } from "lucide-react";
 import StackBadge from "@/components/StackBadge";
 
 export default function HeroSection() {
@@ -10,82 +10,145 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative flex min-h-[calc(100vh-72px)] flex-col items-center justify-center px-6 py-20">
-      {/* Headline */}
-      <h1 className="max-w-4xl text-center text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
-        Make AI-generated code
-        <br />
-        <span className="text-primary/80">maintainable.</span>
-      </h1>
+    <section className="relative min-h-[calc(100vh-72px)]">
+      <div className="mx-auto flex max-w-7xl flex-col gap-12 px-6 py-16 lg:flex-row lg:items-center lg:py-20">
+        {/* LEFT: Copy + CTA */}
+        <div className="flex-1">
+          {/* H1 */}
+          <h1 className="text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-[3.25rem]">
+            Production-ready AI coding
+            <br />
+            workflows for{" "}
+            <span className="text-primary/80">Cursor, Claude Code</span>
+            <br />
+            and Windsurf.
+          </h1>
 
-      {/* Subheadline */}
-      <p className="mt-6 max-w-2xl text-center text-lg text-muted-foreground sm:text-xl">
-        Generate repository-aware AI coding standards for Cursor, Claude Code,
-        Copilot and AI agents.
-      </p>
+          {/* Subtitle */}
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">
+            Copy battle-tested rules, prompts and repo standards used to
+            generate cleaner and more maintainable code.
+          </p>
 
-      {/* CTA Row */}
-      <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
-        <Link
-          href="/generator"
-          className="inline-flex h-12 items-center gap-2 rounded-xl bg-primary px-6 text-base font-medium text-primary-foreground transition-all hover:bg-primary/80"
-        >
-          Generate Standards
-          <ArrowRight className="h-5 w-5" />
-        </Link>
-        <button
-          onClick={scrollToExamples}
-          className="inline-flex h-12 items-center gap-2 rounded-xl border border-border/40 bg-card px-6 text-base font-medium text-foreground transition-all hover:bg-accent"
-        >
-          View Example Output
-          <ChevronDown className="h-5 w-5" />
-        </button>
+          {/* CTA Row */}
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Link
+              href="/generator"
+              className="inline-flex h-11 items-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/80"
+            >
+              Browse Workflows
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <button
+              onClick={scrollToExamples}
+              className="inline-flex h-11 items-center gap-2 rounded-lg border border-border/40 bg-card px-5 text-sm font-medium text-foreground transition-all hover:bg-accent"
+            >
+              <Copy className="h-4 w-4" />
+              Copy Rules
+            </button>
+          </div>
+
+          {/* Trust / Result bar */}
+          <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
+            <div className="flex items-center gap-2">
+              <div className="h-1.5 w-1.5 rounded-full bg-green-500" />
+              <span className="text-xs text-muted-foreground">
+                Used for SaaS apps, monorepos and AI-assisted teams
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT: Real workflow preview */}
+        <div className="flex-1 overflow-hidden rounded-xl border border-border/40 bg-zinc-950">
+          {/* Window chrome */}
+          <div className="flex items-center gap-1.5 border-b border-border/20 px-4 py-2.5">
+            <div className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
+            <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/80" />
+            <div className="h-2.5 w-2.5 rounded-full bg-green-500/80" />
+            <span className="ml-3 text-xs text-zinc-500">
+              reporules — preview
+            </span>
+          </div>
+
+          {/* Three-column demo */}
+          <div className="grid grid-cols-[1fr_1.5fr_1.5fr] text-xs">
+            {/* Col 1: repo tree */}
+            <div className="border-r border-border/20 p-3 font-mono leading-relaxed text-zinc-400">
+              <div className="text-zinc-600">app/</div>
+              <div className="ml-3 text-zinc-500">├── components/</div>
+              <div className="ml-3 text-zinc-500">├── lib/</div>
+              <div className="ml-3">
+                <span className="text-zinc-300">├── prompts/</span>
+              </div>
+              <div className="ml-3 text-zinc-500">├── rules/</div>
+              <div className="ml-3">
+                <span className="text-zinc-300">└── memory.md</span>
+              </div>
+              <div className="mt-2 text-zinc-600">rules/</div>
+              <div className="ml-3">
+                <span className="text-zinc-300">└── cursor.md</span>
+              </div>
+              <div className="ml-7 text-zinc-600">(active)</div>
+            </div>
+
+            {/* Col 2: rules.md */}
+            <div className="border-r border-border/20 p-3 font-mono leading-relaxed text-zinc-400">
+              <div className="mb-2 text-zinc-500"># cursor.md</div>
+              <div>
+                <span className="text-zinc-300">## Server Components First</span>
+              </div>
+              <div className="mt-1 text-zinc-500">
+                Always prefer server components
+              </div>
+              <div className="text-zinc-500">
+                unless interactivity is required.
+              </div>
+              <div className="mt-3">
+                <span className="text-zinc-300">
+                  ## Never fetch in client
+                </span>
+              </div>
+              <div className="mt-1 text-zinc-500">
+                Move all data fetching to
+              </div>
+              <div className="text-zinc-500">Server Components.</div>
+            </div>
+
+            {/* Col 3: AI output */}
+            <div className="p-3 font-mono leading-relaxed text-zinc-400">
+              <div className="mb-2 text-zinc-500">// generated output</div>
+              <div>
+                <span className="text-blue-400">export default async function</span>
+                <span className="text-zinc-300"> Dashboard()</span>
+              </div>
+              <div className="text-zinc-300">{"{"}</div>
+              <div className="ml-3">
+                <span className="text-blue-400">const</span>
+                <span className="text-zinc-300"> data = </span>
+                <span className="text-blue-400">await</span>
+                <span className="text-zinc-300"> getData()</span>
+              </div>
+              <div className="ml-3">
+                <span className="text-blue-400">return</span>
+                <span className="text-zinc-300"> {"<"}div{">"}{"{data.name}"}{"</"}</span>
+              </div>
+              <div className="mt-3 flex gap-1">
+                <StackBadge label="Server Component" variant="primary" />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Hero Visual: Split code card */}
-      <div className="mt-16 grid w-full max-w-4xl grid-cols-1 overflow-hidden rounded-xl border border-border/40 md:grid-cols-2">
-        {/* Input side */}
-        <div className="bg-zinc-950 p-5">
-          <div className="mb-3 flex items-center gap-2">
-            <div className="h-2 w-2 rounded-full bg-red-500" />
-            <div className="h-2 w-2 rounded-full bg-yellow-500" />
-            <div className="h-2 w-2 rounded-full bg-green-500" />
-            <span className="ml-2 text-xs text-zinc-500">package.json</span>
-          </div>
-          <pre className="font-mono text-xs leading-relaxed text-zinc-300">
-{`{
-  "dependencies": {
-    "next": "15",
-    "react": "19",
-    "tailwindcss": "^4",
-    "prisma": "^6",
-    "zod": "^4"
-  }
-}`}
-          </pre>
-        </div>
-
-        {/* Output side */}
-        <div className="bg-zinc-900 p-5">
-          <div className="mb-3 flex items-center gap-2">
-            <StackBadge label="Next.js" variant="primary" />
-            <StackBadge label="Prisma" />
-            <StackBadge label="Zod" />
-          </div>
-          <pre className="font-mono text-xs leading-relaxed text-zinc-300">
-{`# Architecture Standards
-- Prefer Server Components
-- Use Server Actions for mutations
-
-# Database Standards
-- Use Prisma transactions
-- Validate with Zod schemas
-
-# AI Constraints
-- Never fetch in client
-- Keep business logic in services`}
-          </pre>
-        </div>
+      {/* Scroll hint */}
+      <div className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 lg:block">
+        <button
+          onClick={scrollToExamples}
+          className="flex items-center gap-1 text-xs text-muted-foreground/50 transition-colors hover:text-muted-foreground"
+        >
+          <ChevronDown className="h-3 w-3" />
+        </button>
       </div>
     </section>
   );
