@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="mt-24 border-t border-[#2a2d35] pb-16 pt-10">
+    <footer className="border-t border-[#2a2d35] bg-[#0c0e12] pb-16 pt-10">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-6 sm:grid-cols-2 md:grid-cols-3">
         {/* Workflows */}
         <div>
@@ -16,9 +16,7 @@ export default function Footer() {
             >
               Claude Code SaaS
             </Link>
-            <span className="text-sm text-zinc-600">
-              Cursor Monorepo
-            </span>
+            <span className="text-sm text-zinc-600">Cursor Monorepo</span>
             <span className="text-sm text-zinc-600">
               AI Startup Workflow
             </span>
@@ -70,6 +68,13 @@ export default function Footer() {
             </Link>
           </nav>
         </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div className="mx-auto mt-10 max-w-7xl border-t border-[#2a2d35] px-6 pt-6">
+        <p className="text-xs text-zinc-500">
+          Built for Cursor, Claude Code and AI-assisted development.
+        </p>
       </div>
     </footer>
   );

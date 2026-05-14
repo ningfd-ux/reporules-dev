@@ -5,7 +5,7 @@ const COMING_SOON =
   "inline-flex items-center rounded border border-zinc-700 px-2.5 py-1 font-mono text-[11px] text-zinc-500";
 
 const WORKFLOW_CARD =
-  "group rounded-2xl border border-[#2a2d35] bg-[#16181d] p-6 transition-colors hover:border-zinc-600";
+  "group rounded-xl border border-[#2a2d35] bg-[#16181d] p-6 transition-colors hover:border-zinc-600";
 
 export default function Home() {
   return (
@@ -13,7 +13,7 @@ export default function Home() {
       <HeroSection />
 
       {/* Featured Workflows */}
-      <section className="border-t border-[#2a2d35] bg-[#12141a] px-6 py-24">
+      <section className="border-t border-[#2a2d35] bg-[#12151b] px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-center text-3xl font-semibold tracking-tight text-zinc-100 sm:text-4xl">
             Featured Workflows
@@ -22,6 +22,7 @@ export default function Home() {
             Copy battle-tested AI workflows for your next project.
           </p>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {/* Card 1: Claude Code SaaS */}
             <Link
               href="/workflows/claude-code-saas"
               className={WORKFLOW_CARD}
@@ -29,7 +30,7 @@ export default function Home() {
               <span className="rounded border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-amber-300">
                 Production-ready workflow
               </span>
-              <h3 className="mt-3 text-base font-semibold text-zinc-100 group-hover:text-zinc-200">
+              <h3 className="mt-3 text-base font-semibold text-zinc-100">
                 Claude Code SaaS Workflow
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-zinc-400">
@@ -66,7 +67,15 @@ export default function Home() {
                   ))}
                 </div>
               </div>
-              <div className="mt-4">
+              <div className="mt-4 flex items-center justify-between">
+                <div className="font-mono text-xs text-zinc-500">
+                  24 rules &middot; 12 prompts &middot; 6 workflows
+                </div>
+                <span className="font-mono text-xs text-zinc-500">
+                  Updated 3 days ago
+                </span>
+              </div>
+              <div className="mt-3">
                 <span className="font-mono text-sm text-zinc-400 group-hover:text-blue-300">
                   View Full Workflow &rarr;
                 </span>
@@ -86,11 +95,17 @@ export default function Home() {
                 {["Turborepo", "pnpm", "shared packages"].map((tag) => (
                   <span
                     key={tag}
-                    className="rounded border border-[#2a2d35] bg-zinc-950 px-2 py-0.5 font-mono text-[11px] text-zinc-400"
+                    className="rounded border border-[#2a2d35] bg-zinc-950 px-2 py-0.5 font-moto text-[11px] text-zinc-400"
                   >
                     {tag}
                   </span>
                 ))}
+              </div>
+              <div className="mt-4 flex items-center justify-between">
+                <div className="font-mono text-xs text-zinc-500">
+                  18 rules &middot; 8 prompts
+                </div>
+                <span className="font-mono text-xs text-zinc-600">Draft</span>
               </div>
             </div>
 
@@ -113,13 +128,19 @@ export default function Home() {
                   </span>
                 ))}
               </div>
+              <div className="mt-4 flex items-center justify-between">
+                <div className="font-mono text-xs text-zinc-500">
+                  12 rules &middot; 6 prompts
+                </div>
+                <span className="font-mono text-xs text-zinc-600">Draft</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* AI Constraints */}
-      <section className="border-t border-[#2a2d35] px-6 py-24">
+      <section className="border-t border-[#2a2d35] bg-[#0f1115] px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-center text-3xl font-semibold tracking-tight text-zinc-100 sm:text-4xl">
             AI Constraints
@@ -150,7 +171,7 @@ export default function Home() {
       </section>
 
       {/* Workflow Goals */}
-      <section className="border-t border-[#2a2d35] bg-[#12141a] px-6 py-24">
+      <section className="border-t border-[#2a2d35] bg-[#12151b] px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-center text-3xl font-semibold tracking-tight text-zinc-100 sm:text-4xl">
             Workflow Goals
@@ -193,8 +214,31 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Recent Changes */}
+      <section className="border-t border-[#2a2d35] bg-[#0f1115] px-6 py-20">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-center text-3xl font-semibold tracking-tight text-zinc-100 sm:text-4xl">
+            Recent Changes
+          </h2>
+          <div className="mx-auto mt-12 max-w-xl rounded-xl border border-[#2a2d35] bg-[#151922] p-5 font-mono text-sm text-zinc-400">
+            <div className="mb-4 text-xs text-zinc-500">// changelog</div>
+            <div className="space-y-3">
+              <div>
+                <div className="text-xs text-blue-300">v0.4.2</div>
+                <div className="mt-1 space-y-1">
+                  <div>- added billing workflow</div>
+                  <div>- improved repo constraints</div>
+                  <div>- updated testing standards</div>
+                  <div>- fixed duplicated hooks guidance</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Team Standards */}
-      <section className="border-t border-[#2a2d35] px-6 py-24">
+      <section className="border-t border-[#2a2d35] bg-[#12151b] px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-center text-3xl font-semibold tracking-tight text-zinc-100 sm:text-4xl">
             Team Standards
@@ -203,7 +247,7 @@ export default function Home() {
             Shared conventions that keep AI-generated code consistent across the
             team.
           </p>
-          <div className="mx-auto mt-12 max-w-2xl rounded-2xl border border-[#2a2d35] bg-[#16181d] p-6 font-mono text-sm text-zinc-400">
+          <div className="mx-auto mt-12 max-w-2xl rounded-xl border border-[#2a2d35] bg-[#16181d] p-6 font-mono text-sm text-zinc-400">
             <div className="mb-4 text-xs text-zinc-500">
               // team standards
             </div>
@@ -230,7 +274,7 @@ export default function Home() {
       </section>
 
       {/* Legacy Notes */}
-      <section className="border-t border-[#2a2d35] bg-[#12141a] px-6 py-24">
+      <section className="border-t border-[#2a2d35] bg-[#0f1115] px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-center text-3xl font-semibold tracking-tight text-zinc-100 sm:text-4xl">
             Legacy Notes
@@ -238,7 +282,7 @@ export default function Home() {
           <p className="mx-auto mt-4 max-w-xl text-center font-mono text-sm text-zinc-400">
             Real projects have history. These are tracked in memory.md.
           </p>
-          <div className="mx-auto mt-12 max-w-2xl rounded-2xl border border-[#2a2d35] bg-[#16181d] p-6">
+          <div className="mx-auto mt-12 max-w-2xl rounded-xl border border-[#2a2d35] bg-[#16181d] p-6">
             <div className="mb-4 font-mono text-xs text-zinc-500">
               // legacy
             </div>
