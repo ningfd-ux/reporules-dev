@@ -66,39 +66,48 @@ export default function Home() {
             </Link>
 
             {/* Card 2 */}
-            <div className={CARD}>
-              <span className="inline-flex items-center rounded-lg border border-zinc-800 bg-[#12151b] px-4 py-2 font-mono text-xs text-zinc-500 cursor-not-allowed">Workflow In Progress</span>
-              <h3 className="mt-3 text-xl font-semibold tracking-tight text-zinc-100">Cursor Monorepo Workflow</h3>
+            <Link href="/workflows/cursor-monorepo" className={CARD}>
+              <div className="mb-4 font-mono text-xs text-zinc-500">Monorepo System · v0.4.0</div>
+              <h3 className="text-xl font-semibold tracking-tight text-zinc-100">Cursor Monorepo Workflow</h3>
               <p className="mt-3 text-sm leading-7 text-zinc-300">Shared repo workflow for Turborepo and multi-package projects.</p>
               <div className="mt-5 font-mono text-xs leading-6 text-zinc-400">
-                <span className="text-zinc-600">&check;</span> shared packages<br />
-                <span className="text-zinc-600">&check;</span> pnpm workspace<br />
-                <span className="text-zinc-600">&check;</span> repo constraints
+                <span className="text-green-500">&check;</span> shared packages<br />
+                <span className="text-green-500">&check;</span> pnpm workspace<br />
+                <span className="text-green-500">&check;</span> repo constraints
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
                 {["Turborepo", "pnpm", "Monorepo"].map((t) => (
                   <span key={t} className="rounded border border-[#2a2d35] bg-zinc-950 px-2 py-0.5 font-mono text-[11px] text-zinc-400">{t}</span>
                 ))}
               </div>
-              <div className="mt-6 font-mono text-[10px] text-zinc-500">Expected release: Q2 2026</div>
-            </div>
+              <div className="mt-6 inline-flex items-center rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-300 transition-all duration-200 hover:border-zinc-500 hover:bg-zinc-900">
+                Open Workflow
+              </div>
+            </Link>
 
             {/* Card 3 */}
-            <div className={CARD}>
-              <span className="inline-flex items-center rounded-lg border border-zinc-800 bg-[#12151b] px-4 py-2 font-mono text-xs text-zinc-500 cursor-not-allowed">Workflow In Progress</span>
-              <h3 className="mt-3 text-xl font-semibold tracking-tight text-zinc-100">AI Startup Workflow</h3>
+            <Link href="/workflows/ai-startup" className={CARD}>
+              <div className="mb-4 font-mono text-xs text-zinc-500">Lean Startup · v0.3.8</div>
+              <h3 className="text-xl font-semibold tracking-tight text-zinc-100">AI Startup Workflow</h3>
               <p className="mt-3 text-sm leading-7 text-zinc-300">Lean AI coding standards for fast-moving startup teams.</p>
               <div className="mt-5 font-mono text-xs leading-6 text-zinc-400">
-                <span className="text-zinc-600">&check;</span> MVP repo rules<br />
-                <span className="text-zinc-600">&check;</span> AI prompt system
+                <span className="text-green-500">&check;</span> MVP repo rules<br />
+                <span className="text-green-500">&check;</span> AI prompt system
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
                 {["Startup", "MVP", "Stripe"].map((t) => (
                   <span key={t} className="rounded border border-[#2a2d35] bg-zinc-950 px-2 py-0.5 font-mono text-[11px] text-zinc-400">{t}</span>
                 ))}
               </div>
-              <div className="mt-6 font-mono text-[10px] text-zinc-500">Expected release: Q2 2026</div>
-            </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {["Startup", "MVP", "Stripe"].map((t) => (
+                  <span key={t} className="rounded border border-[#2a2d35] bg-zinc-950 px-2 py-0.5 font-mono text-[11px] text-zinc-400">{t}</span>
+                ))}
+              </div>
+              <div className="mt-6 inline-flex items-center rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-300 transition-all duration-200 hover:border-zinc-500 hover:bg-zinc-900">
+                Open Workflow
+              </div>
+            </Link>
           </div>
         </div>
       </section>

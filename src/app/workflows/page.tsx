@@ -33,8 +33,7 @@ const WORKFLOWS = [
     tags: ["Turborepo", "pnpm", "Monorepo"],
     includes: ["shared packages", "pnpm workspace", "repo constraints", "build system"],
     stats: "18 rules · 9 prompts",
-    href: null,
-    progress: "Expected release: Q2 2026",
+    href: "/workflows/cursor-monorepo",
   },
   {
     id: "ai-startup",
@@ -44,8 +43,7 @@ const WORKFLOWS = [
     tags: ["Startup", "MVP", "Stripe"],
     includes: ["MVP repo rules", "AI prompt system", "fast iteration workflow"],
     stats: "15 rules · 7 prompts",
-    href: null,
-    progress: "Expected release: Q2 2026",
+    href: "/workflows/ai-startup",
   },
 ];
 
@@ -115,8 +113,7 @@ export default function WorkflowsPage() {
 
       {/* Cards */}
       <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {filtered.map((w) =>
-          w.href ? (
+        {filtered.map((w) => (
             <Link key={w.id} href={w.href} className={CARD}>
               <p className="mb-4 font-mono text-xs text-zinc-500">{w.type}</p>
               <h2 className="text-xl font-semibold tracking-tight text-zinc-100">{w.title}</h2>
@@ -141,29 +138,6 @@ export default function WorkflowsPage() {
                 Open Workflow
               </div>
             </Link>
-          ) : (
-            <div key={w.id} className={`${CARD} opacity-60`}>
-              <p className="mb-4 font-mono text-xs text-zinc-500">{w.type}</p>
-              <h2 className="text-xl font-semibold tracking-tight text-zinc-100">{w.title}</h2>
-              <p className="mt-3 leading-7 text-zinc-300">{w.desc}</p>
-              <div className="mt-5 font-mono text-xs leading-6 text-zinc-400">
-                {w.includes.map((i) => (
-                  <div key={i} className="flex items-center gap-2"><span className="text-zinc-600">&check;</span> {i}</div>
-                ))}
-              </div>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {w.tags.map((t) => (
-                  <span key={t} className="rounded-md border border-zinc-700 px-2 py-1 font-mono text-xs text-zinc-400">{t}</span>
-                ))}
-              </div>
-              <div className="mt-6 font-mono text-xs text-zinc-500">{w.stats}</div>
-              <div className="mt-4 font-mono text-[10px] text-zinc-500">
-                <div>{w.progress}</div>
-              </div>
-              <div className="mt-6 inline-flex cursor-not-allowed items-center rounded-lg border border-zinc-800 bg-[#12151b] px-4 py-2 font-mono text-xs text-zinc-500 pointer-events-none">
-                Workflow In Progress
-              </div>
-            </div>
           ),
         )}
       </div>

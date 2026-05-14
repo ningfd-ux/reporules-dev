@@ -13,7 +13,7 @@ export default function Footer() {
             <Link href="/repository/rules" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">rules.md</Link>
             <Link href="/repository/memory" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">memory.md</Link>
             <Link href="/repository/migration-notes" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">migration-notes.md</Link>
-            <span className="text-sm text-zinc-600">architecture.md</span>
+            <Link href="/repository/architecture" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">architecture.md</Link>
           </nav>
         </div>
 
@@ -29,8 +29,8 @@ export default function Footer() {
             >
               Claude Code SaaS
             </Link>
-            <span className="text-sm text-zinc-600">Cursor Monorepo</span>
-            <span className="text-sm text-zinc-600">AI Startup</span>
+            <Link href="/workflows/cursor-monorepo" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">Cursor Monorepo</Link>
+            <Link href="/workflows/ai-startup" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">AI Startup</Link>
           </nav>
         </div>
 
