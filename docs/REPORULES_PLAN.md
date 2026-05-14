@@ -154,3 +154,54 @@ Cloudflare → 自动部署（5 分钟）
 | Cloudflare KV | ✅ REPORULES_RATE_LIMIT (ID: 191f6503571c4861b8c0b7e752a938d6) |
 | Analytics | ✅ GA4 (G-9QVY2VBRN4) + Cloudflare RUM |
 | 开源时间 | ⚠️ Generator timeout 未解决（Cloudflare 30s 限制） |
+
+---
+
+## Phase 2 完整规格（Repository Analyze — 已确认，暂未开工）
+
+### 预计启动时间
+Phase 1 积累 10-15 个 examples 之后（约 2026-06 中旬）
+
+### 核心原则
+- 不做：GitHub OAuth / 数据库 / 团队系统 / 聊天
+- 只做：Repository Analyze
+- 输出必须像 engineering audit，不是 ChatGPT 分析
+
+### Analyze 流程
+1. 用户输入：package.json / repo tree / folder structure / dependency list
+2. 系统自动分析 5 类问题：
+   - Architecture Drift（如 shared utilities oversized）
+   - Duplicated Validation（如 duplicated zod validators）
+   - Migration Risks（如 billing migration bypass validation）
+   - AI Unsafe Areas（如 AI rewrite risk in shared layer）
+   - Governance Suggestions（如 preserve package boundaries）
+3. 输出 JSON 结构：signals, risks, technicalDebt, migrationIssues, governanceRules, architectureAnalysis
+
+### UI 设计
+- Generator Header 新增双 tab：["Generate", "Analyze"]
+- Repository Signals Detected（卡片列表）
+- Repository Risks（警告列表）
+- Technical Debt（技术债列表）
+- Governance Suggestions（核心）
+- Architecture Analysis（文本区块）
+- Repository Confidence（百分比分数）
+- Download Analysis（导出 3 个文件）
+
+### Prompt 核心要求
+- 避免 generic AI wording（best practice / clean code）
+- 强化：migration / drift / risks / constraints / incidents
+- Return JSON only
+- 输出必须像 engineering audit，不是 ChatGPT 分析
+
+### 11 步开发清单（来自 Claude 反馈）
+STEP 1: 新增 Analyze Mode — Generator Header 双 tab
+STEP 2: 新增 Analyze Input — 新的 textarea，placeholder 提示
+STEP 3: DeepSeek Prompt 升级 — analyze prompt 上 JSON 模式
+STEP 4: Repository Signals UI — 信号检测卡片
+STEP 5: Risks Section — 风险警告列表
+STEP 6: Technical Debt Section — 技术债列表
+STEP 7: Governance Suggestions — 治理建议（核心）
+STEP 8: Architecture Analysis — 文本区块分析
+STEP 9: Confidence Score — 百分比评分
+STEP 10: Analyze Export — 导出分析报告
+STEP 11: 确保输出像 engineering audit，不是 ChatGPT
