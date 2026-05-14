@@ -2,100 +2,73 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-zinc-800 py-12">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Brand */}
-          <div>
-            <Link href="/" className="text-base font-semibold tracking-tight text-zinc-300">
-              reporules.dev
+    <footer className="mt-24 border-t border-[#2a2d35] pb-16 pt-10">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-6 sm:grid-cols-2 md:grid-cols-3">
+        {/* Workflows */}
+        <div>
+          <p className="mb-4 text-xs font-medium uppercase tracking-wider text-zinc-500">
+            Workflows
+          </p>
+          <nav className="flex flex-col gap-2.5">
+            <Link
+              href="/workflows/claude-code-saas"
+              className="text-sm text-zinc-400 transition-colors hover:text-blue-300"
+            >
+              Claude Code SaaS
             </Link>
-            <p className="mt-1 text-sm text-zinc-600">
-              AI workflows for cleaner codebases.
-            </p>
-          </div>
-
-          {/* Workflows */}
-          <div>
-            <p className="mb-3 text-xs font-medium uppercase tracking-wider text-zinc-500">
-              Workflows
-            </p>
-            <nav className="flex flex-col gap-2">
-              <Link
-                href="/workflows/claude-code-saas"
-                className="text-sm text-zinc-500 transition-colors hover:text-zinc-300"
-              >
-                Claude Code SaaS
-              </Link>
-              <span className="text-sm text-zinc-700">Cursor Monorepo (coming soon)</span>
-              <span className="text-sm text-zinc-700">AI Startup (coming soon)</span>
-            </nav>
-          </div>
-
-          {/* Compare */}
-          <div>
-            <p className="mb-3 text-xs font-medium uppercase tracking-wider text-zinc-500">
-              Compare
-            </p>
-            <nav className="flex flex-col gap-2">
-              <Link
-                href="/compare/cursor-vs-windsurf"
-                className="text-sm text-zinc-500 transition-colors hover:text-zinc-300"
-              >
-                Cursor vs Windsurf
-              </Link>
-              <Link
-                href="/compare/cursor-vs-claude-code"
-                className="text-sm text-zinc-500 transition-colors hover:text-zinc-300"
-              >
-                Cursor vs Claude Code
-              </Link>
-              <Link
-                href="/compare/cursor-vs-copilot"
-                className="text-sm text-zinc-500 transition-colors hover:text-zinc-300"
-              >
-                Cursor vs Copilot
-              </Link>
-            </nav>
-          </div>
-
-          {/* Company */}
-          <div>
-            <p className="mb-3 text-xs font-medium uppercase tracking-wider text-zinc-500">
-              Company
-            </p>
-            <nav className="flex flex-col gap-2">
-              <Link
-                href="/docs"
-                className="text-sm text-zinc-500 transition-colors hover:text-zinc-300"
-              >
-                Docs
-              </Link>
-              <Link
-                href="/about"
-                className="text-sm text-zinc-500 transition-colors hover:text-zinc-300"
-              >
-                About
-              </Link>
-              <Link
-                href="/privacy"
-                className="text-sm text-zinc-500 transition-colors hover:text-zinc-300"
-              >
-                Privacy
-              </Link>
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-zinc-500 transition-colors hover:text-zinc-300"
-              >
-                GitHub
-              </a>
-            </nav>
-          </div>
+            <span className="text-sm text-zinc-600">
+              Cursor Monorepo
+            </span>
+            <span className="text-sm text-zinc-600">
+              AI Startup Workflow
+            </span>
+          </nav>
         </div>
-        <div className="mt-10 border-t border-zinc-800 pt-6 text-center text-xs text-zinc-700">
-          &copy; {new Date().getFullYear()} reporules.dev
+
+        {/* Resources */}
+        <div>
+          <p className="mb-4 text-xs font-medium uppercase tracking-wider text-zinc-500">
+            Resources
+          </p>
+          <nav className="flex flex-col gap-2.5">
+            <span className="text-sm text-zinc-400">rules.md</span>
+            <span className="text-sm text-zinc-400">memory.md</span>
+            <span className="text-sm text-zinc-400">prompts</span>
+            <span className="text-sm text-zinc-400">repo standards</span>
+          </nav>
+        </div>
+
+        {/* Docs */}
+        <div>
+          <p className="mb-4 text-xs font-medium uppercase tracking-wider text-zinc-500">
+            Docs
+          </p>
+          <nav className="flex flex-col gap-2.5">
+            <Link
+              href="/docs/repository-aware-generation"
+              className="text-sm text-zinc-400 transition-colors hover:text-blue-300"
+            >
+              Architecture
+            </Link>
+            <Link
+              href="/docs/what-are-ai-coding-standards"
+              className="text-sm text-zinc-400 transition-colors hover:text-blue-300"
+            >
+              Constraints
+            </Link>
+            <Link
+              href="/docs/what-are-ai-coding-standards"
+              className="text-sm text-zinc-400 transition-colors hover:text-blue-300"
+            >
+              Testing Workflow
+            </Link>
+            <Link
+              href="/docs/what-are-ai-coding-standards"
+              className="text-sm text-zinc-400 transition-colors hover:text-blue-300"
+            >
+              PR Workflow
+            </Link>
+          </nav>
         </div>
       </div>
     </footer>
