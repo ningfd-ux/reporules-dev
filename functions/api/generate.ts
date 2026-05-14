@@ -9,12 +9,8 @@ function corsHeaders() {
 export async function onRequest(context) {
   const request = context.request;
 
-  // Handle CORS preflight
   if (request.method === "OPTIONS") {
-    return new Response(null, {
-      status: 204,
-      headers: corsHeaders(),
-    });
+    return new Response(null, { status: 204, headers: corsHeaders() });
   }
 
   if (request.method !== "POST") {
@@ -44,24 +40,20 @@ export async function onRequest(context) {
 
     const systemPrompt = "You are a senior tech lead reviewing a codebase. Your tone is direct, opinionated, and specific.\n\n" +
       strictnessGuidance + "\n\n" +
-      "Generate repository-aware AI coding standards for the detected tech stack.\n\n" +
+      "Generate repository governance files for the detected tech stack.\n\n" +
       "CRITICAL RULES:\n" +
       "- NEVER output generic advice like \"write clean code\", \"use reusable components\", \"follow best practices\"\n" +
-      "- Each standard must be specific and actionable\n" +
-      "- Reference the detected technologies directly\n" +
-      "- Output 15-30 standards maximum\n" +
-      "- Structure: Architecture Standards, Framework Standards, API Standards, Database Standards, AI Coding Constraints\n\n" +
-      "Each standard must follow this format:\n" +
-      "Category header then dash-prefixed standard with title and explanation.\n\n" +
-      "For example: Framework Standards:\n" +
-      "- Prefer Server Components by default: Detected Next.js App Router. Server Components reduce client bundle size and improve data fetching consistency. Only use Client Components when you need interactivity or browser APIs.\n" +
-      "- Never fetch data inside client components: Detected React. Move all data fetching to Server Components and pass data as props.\n\n" +
-      "Output format: Return JSON with this shape:\n" +
-      '{ "detectedStack": ["Next.js App Router", "Prisma ORM", "Zod"], "standards": "the full standards output as a markdown string", "explanation": "2-3 sentence explanation" }';
+      "- Each file must contain realistic engineering constraints and migration notes\n" +
+      "- Avoid placeholder content\n" +
+      "- Avoid generic AI assistant language\n" +
+      "- Prefer realistic engineering constraints and migration notes\n" +
+      "- Output 15-30 standards maximum across all files\n\n" +
+      "Each section should represent a real repository file.\n\n" +
+      "Return JSON only. Output format:\n" +
+      '{ "detectedStack": ["Next.js App Router", "Prisma ORM", "Zod"], "standards": "full standards output as markdown", "explanation": "2-3 sentence explanation", "rules": "## Architecture Rules\\n\\n- preserve feature boundaries", "memory": "- billing system migrated in Q2", "architecture": "## Repository Architecture", "cursorRules": "- Prefer Server Components", "claude": "# Project Memory" }';
 
     const userPrompt = "Generate AI coding standards for this package.json. Target AI tool: " + toolTarget + ". Strictness: " + strictness + ".\n\n" +
-      "package.json:\n" +
-      packageJson;
+      "package.json:\n" + packageJson;
 
     const apiKey = context.env.DEEPSEEK_API_KEY;
     if (!apiKey) {
@@ -71,25 +63,22 @@ export async function onRequest(context) {
       );
     }
 
-    const response = await fetch(
-      "https://api.deepseek.com/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: "deepseek-chat",
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: userPrompt },
-          ],
-          temperature: 0.3,
-          max_tokens: 4096,
-        }),
+    const response = await fetch("https://api.deepseek.com/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
       },
-    );
+      body: JSON.stringify({
+        model: "deepseek-chat",
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userPrompt },
+        ],
+        temperature: 0.3,
+        max_tokens: 4096,
+      }),
+    });
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -108,9 +97,7 @@ export async function onRequest(context) {
     );
   } catch (err) {
     return new Response(
-      JSON.stringify({
-        error: err instanceof Error ? err.message : "Unknown error",
-      }),
+      JSON.stringify({ error: err instanceof Error ? err.message : "Unknown error" }),
       { status: 500, headers: { ...corsHeaders(), "Content-Type": "application/json" } },
     );
   }

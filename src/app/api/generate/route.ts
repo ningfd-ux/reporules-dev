@@ -23,29 +23,28 @@ export async function POST(req: NextRequest) {
 
 ${strictnessGuidance}
 
-Generate repository-aware AI coding standards for the detected tech stack.
+Generate repository governance files for the detected tech stack.
 
 CRITICAL RULES:
 - NEVER output generic advice like "write clean code", "use reusable components", "follow best practices"
-- Each standard must be specific and actionable
-- Reference the detected technologies directly
-- Output 15-30 standards maximum
-- Structure: Architecture Standards → Framework Standards → API Standards → Database Standards → AI Coding Constraints
+- Each file must contain realistic engineering constraints and migration notes
+- Avoid placeholder content
+- Avoid generic AI assistant language
+- Prefer realistic engineering constraints and migration notes
+- Output 15-30 standards maximum across all files
 
-Each standard must follow this format:
-## [Category]
-- **[Title]:** [Why it matters and what to do]
+Each section should represent a real repository file.
 
-For example:
-## Framework Standards
-- **Prefer Server Components by default:** Detected Next.js App Router. Server Components reduce client bundle size and improve data fetching consistency. Only use Client Components ('use client') when you need interactivity or browser APIs.
-- **Never fetch data inside client components:** Detected React. Move all data fetching to Server Components and pass data as props. Client Components should only handle UI interactions.
-
-Output format: Return JSON with this shape:
+Return JSON only. Output format:
 {
   "detectedStack": ["Next.js App Router", "Prisma ORM", "Zod"],
-  "standards": "[the full standards output as a markdown string]",
-  "explanation": "2-3 sentence explanation of why these standards apply to the detected stack"
+  "standards": "the full standards output as markdown",
+  "explanation": "2-3 sentence explanation of why these standards apply",
+  "rules": "## Architecture Rules\\n\\n- preserve feature boundaries\\n- avoid duplicated business logic\\n- keep validation isolated\\n\\n## Repository Constraints\\n\\n- avoid large rewrites\\n- preserve migration consistency\\n- reduce architectural drift\\n- reuse validation schemas",
+  "memory": "- billing system migrated in Q2\\n- old dashboard hooks still pending cleanup\\n- analytics modules still use legacy fetching\\n- shared validators standardized across repositories\\n- server actions introduced in v0.4.0",
+  "architecture": "## Repository Architecture\\n\\n- Server-first architecture by default\\n- Feature-based folder structure\\n- Shared UI primitives in /components/ui\\n- Isolated business logic per feature\\n- Centralized validation layer",
+  "cursorRules": "- Prefer Server Components by default\\n- Never fetch inside client components\\n- Avoid duplicated hooks\\n- Reuse shared UI primitives\\n- Keep PRs under 300 LOC\\n- Use feature-based naming",
+  "claude": "# Project Memory\\n\\n## Stack\\n- Next.js App Router\\n- TypeScript\\n- Tailwind CSS\\n- Supabase\\n- Stripe\\n\\n## Architecture\\n- Feature-first structure\\n- Server Components by default\\n- Shared UI primitives\\n\\n## Constraints\\n- Never fetch inside client components\\n- Avoid duplicated hooks\\n- Keep PRs under 300 LOC"
 }`;
 
     const userPrompt = `Generate AI coding standards for this package.json. Target AI tool: ${toolTarget}. Strictness: ${strictness}.
