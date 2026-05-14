@@ -76,7 +76,7 @@ export async function onRequest(context) {
           { role: "user", content: userPrompt },
         ],
         temperature: 0.6,
-        max_tokens: 2500,
+        max_tokens: 1500,
       }),
     });
 
