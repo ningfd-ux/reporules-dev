@@ -1,35 +1,85 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "Workflows — RepoRules.dev",
-  description: "Browse reusable AI workflow systems for scalable engineering teams.",
-};
-
-const FILTER_ACTIVE = "rounded-md bg-zinc-100 px-3 py-1.5 font-mono text-xs text-zinc-900";
-const FILTER_INACTIVE = "rounded-md border border-zinc-700 px-3 py-1.5 font-mono text-xs text-zinc-400 hover:text-zinc-100";
+const FILTERS = [
+  "All",
+  "Next.js",
+  "Monorepo",
+  "AI Startup",
+  "Cursor",
+  "Claude Code",
+];
 
 const CARD = "rounded-xl border border-[#2a2d35] bg-[#16181d] p-6 transition-colors hover:border-[#3b4150]";
 
+const WORKFLOWS = [
+  {
+    id: "claude-code-saas",
+    title: "Claude Code SaaS Workflow",
+    type: "Production Workflow",
+    desc: "Scalable Next.js workflow for long-term AI-assisted development.",
+    tags: ["Next.js", "Cursor", "Claude Code", "Supabase"],
+    includes: ["rules.md", "memory.md", "prompts", "testing workflow", "PR workflow", "architecture notes"],
+    stats: "24 rules · 12 prompts · Updated 3 days ago",
+    href: "/workflows/claude-code-saas",
+  },
+  {
+    id: "cursor-monorepo",
+    title: "Cursor Monorepo Workflow",
+    type: "Monorepo System",
+    desc: "Shared repo workflow for Turborepo and multi-package projects.",
+    tags: ["Turborepo", "pnpm", "Monorepo"],
+    includes: ["shared packages", "pnpm workspace", "repo constraints", "build system"],
+    stats: "18 rules · 9 prompts",
+    href: null,
+    progress: "Expected release: Q2 2026",
+  },
+  {
+    id: "ai-startup",
+    title: "AI Startup Workflow",
+    type: "Lean Startup Workflow",
+    desc: "Lean AI coding standards for fast-moving startup teams.",
+    tags: ["Startup", "MVP", "Stripe"],
+    includes: ["MVP repo rules", "AI prompt system", "fast iteration workflow"],
+    stats: "15 rules · 7 prompts",
+    href: null,
+    progress: "Expected release: Q2 2026",
+  },
+];
+
 export default function WorkflowsPage() {
+  const [search, setSearch] = useState("");
+  const [activeFilter, setActiveFilter] = useState("All");
+
+  const filtered = WORKFLOWS.filter((w) => {
+    const q = search.toLowerCase();
+    const matchSearch =
+      !search ||
+      w.title.toLowerCase().includes(q) ||
+      w.desc.toLowerCase().includes(q) ||
+      w.tags.some((t) => t.toLowerCase().includes(q)) ||
+      w.includes.some((i) => i.toLowerCase().includes(q));
+    const matchFilter =
+      activeFilter === "All" || w.tags.includes(activeFilter);
+    return matchSearch && matchFilter;
+  });
+
   return (
     <div className="mx-auto max-w-7xl px-6 py-20">
-      {/* Tag */}
-      <span className="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-900 px-3 py-1 text-xs text-zinc-300">
+      <span className="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-900 px-3 py-1 font-mono text-xs text-zinc-300">
         Workflow Library
       </span>
 
-      {/* H1 */}
       <h1 className="mt-6 text-5xl font-semibold leading-tight tracking-tight text-zinc-100">
         AI workflows for scalable repositories
       </h1>
 
-      {/* Subtitle */}
       <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-300">
         Reusable workflow systems designed for long-term AI-assisted engineering.
       </p>
 
-      {/* Repo stats */}
       <div className="mt-8 flex gap-5 font-mono text-xs text-zinc-500">
         <span>3 workflows</span>
         <span>57 rules</span>
@@ -41,112 +91,113 @@ export default function WorkflowsPage() {
       <input
         type="text"
         placeholder="Search workflows..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
         className="mt-10 w-full max-w-xl rounded-xl border border-[#2a2d35] bg-[#16181d] px-4 py-3 text-sm text-zinc-300 outline-none"
       />
 
       {/* Filters */}
       <div className="mt-6 flex flex-wrap gap-3">
-        <span className={FILTER_ACTIVE}>All</span>
-        <span className={FILTER_INACTIVE}>Next.js</span>
-        <span className={FILTER_INACTIVE}>Monorepo</span>
-        <span className={FILTER_INACTIVE}>AI Startup</span>
-        <span className={FILTER_INACTIVE}>Cursor</span>
-        <span className={FILTER_INACTIVE}>Claude Code</span>
+        {FILTERS.map((f) => (
+          <button
+            key={f}
+            onClick={() => setActiveFilter(f)}
+            className={
+              activeFilter === f
+                ? "rounded-md bg-zinc-100 px-3 py-1.5 font-mono text-xs text-zinc-900"
+                : "rounded-md border border-zinc-700 px-3 py-1.5 font-mono text-xs text-zinc-400 transition-colors hover:text-zinc-100"
+            }
+          >
+            {f}
+          </button>
+        ))}
       </div>
 
       {/* Cards */}
       <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {/* Card 1 */}
-        <Link href="/workflows/claude-code-saas" className={CARD}>
-          <p className="mb-4 font-mono text-xs text-zinc-500">Production Workflow</p>
-          <h2 className="text-xl font-semibold tracking-tight text-zinc-100">Claude Code SaaS Workflow</h2>
-          <p className="mt-3 leading-7 text-zinc-300">Scalable Next.js workflow for long-term AI-assisted development.</p>
-          <div className="mt-5 font-mono text-xs leading-6 text-zinc-400">
-            <div className="flex items-center gap-2"><span className="text-green-500">&check;</span> rules.md</div>
-            <div className="flex items-center gap-2"><span className="text-green-500">&check;</span> memory.md</div>
-            <div className="flex items-center gap-2"><span className="text-green-500">&check;</span> prompts</div>
-            <div className="flex items-center gap-2"><span className="text-green-500">&check;</span> testing workflow</div>
-            <div className="flex items-center gap-2"><span className="text-green-500">&check;</span> PR workflow</div>
-            <div className="flex items-center gap-2"><span className="text-green-500">&check;</span> architecture notes</div>
-          </div>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {["Next.js", "Cursor", "Claude Code", "Supabase"].map((t) => (
-              <span key={t} className="rounded-md border border-zinc-700 px-2 py-1 font-mono text-xs text-zinc-400">{t}</span>
-            ))}
-          </div>
-          <div className="mt-6 font-mono text-xs text-zinc-500">
-            <span>24 rules &middot; 12 prompts &middot; Updated 3 days ago</span>
-          </div>
-          <div className="mt-4 font-mono text-xs text-zinc-500">
-            <div>Maintained by RepoRules</div>
-            <div>Last constraint update: 2 days ago</div>
-          </div>
-          <div className="mt-6 inline-flex items-center rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-300 transition-colors hover:bg-zinc-900">
-            Open Workflow &rarr;
-          </div>
-        </Link>
-
-        {/* Card 2 */}
-        <div className={CARD}>
-          <p className="mb-4 font-mono text-xs text-zinc-500">Monorepo System</p>
-          <h2 className="text-xl font-semibold tracking-tight text-zinc-100">Cursor Monorepo Workflow</h2>
-          <p className="mt-3 leading-7 text-zinc-300">Shared repo workflow for Turborepo and multi-package projects.</p>
-          <div className="mt-5 font-mono text-xs leading-6 text-zinc-400">
-            <div className="flex items-center gap-2"><span className="text-zinc-600">&check;</span> shared packages</div>
-            <div className="flex items-center gap-2"><span className="text-zinc-600">&check;</span> pnpm workspace</div>
-            <div className="flex items-center gap-2"><span className="text-zinc-600">&check;</span> repo constraints</div>
-            <div className="flex items-center gap-2"><span className="text-zinc-600">&check;</span> build system</div>
-          </div>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {["Turborepo", "pnpm", "Monorepo"].map((t) => (
-              <span key={t} className="rounded-md border border-zinc-700 px-2 py-1 font-mono text-xs text-zinc-400">{t}</span>
-            ))}
-          </div>
-          <div className="mt-6 font-mono text-xs text-zinc-500">
-            <span>18 rules &middot; 9 prompts</span>
-            <span className="ml-4 inline-flex items-center rounded-lg border border-zinc-800 bg-[#12151b] px-3 py-1.5 font-mono text-xs text-zinc-500 cursor-not-allowed">Workflow In Progress</span>
-          </div>
-        </div>
-
-        {/* Card 3 */}
-        <div className={CARD}>
-          <p className="mb-4 font-mono text-xs text-zinc-500">Lean Startup Workflow</p>
-          <h2 className="text-xl font-semibold tracking-tight text-zinc-100">AI Startup Workflow</h2>
-          <p className="mt-3 leading-7 text-zinc-300">Lean AI coding standards for fast-moving startup teams.</p>
-          <div className="mt-5 font-mono text-xs leading-6 text-zinc-400">
-            <div className="flex items-center gap-2"><span className="text-zinc-600">&check;</span> MVP repo rules</div>
-            <div className="flex items-center gap-2"><span className="text-zinc-600">&check;</span> AI prompt system</div>
-            <div className="flex items-center gap-2"><span className="text-zinc-600">&check;</span> fast iteration workflow</div>
-          </div>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {["Startup", "MVP", "Stripe"].map((t) => (
-              <span key={t} className="rounded-md border border-zinc-700 px-2 py-1 font-mono text-xs text-zinc-400">{t}</span>
-            ))}
-          </div>
-          <div className="mt-6 font-mono text-xs text-zinc-500">
-            <span>15 rules &middot; 7 prompts</span>
-            <span className="ml-4 inline-flex items-center rounded-lg border border-zinc-800 bg-[#12151b] px-3 py-1.5 font-mono text-xs text-zinc-500 cursor-not-allowed">Workflow In Progress</span>
-          </div>
-        </div>
+        {filtered.map((w) =>
+          w.href ? (
+            <Link key={w.id} href={w.href} className={CARD}>
+              <p className="mb-4 font-mono text-xs text-zinc-500">{w.type}</p>
+              <h2 className="text-xl font-semibold tracking-tight text-zinc-100">{w.title}</h2>
+              <p className="mt-3 leading-7 text-zinc-300">{w.desc}</p>
+              <div className="mt-5 font-mono text-xs leading-6 text-zinc-400">
+                {w.includes.map((i) => (
+                  <div key={i} className="flex items-center gap-2"><span className="text-green-500">&check;</span> {i}</div>
+                ))}
+              </div>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {w.tags.map((t) => (
+                  <span key={t} className="rounded-md border border-zinc-700 px-2 py-1 font-mono text-xs text-zinc-400">{t}</span>
+                ))}
+              </div>
+              <div className="mt-6 font-mono text-xs text-zinc-500">{w.stats}</div>
+              <div className="mt-4 font-mono text-[10px] text-zinc-500">
+                <div>Maintained by RepoRules</div>
+                <div>Last constraint update: 2 days ago</div>
+                <div>Technical debt: legacy auth hooks, billing migration</div>
+              </div>
+              <div className="mt-6 inline-flex items-center rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-300 transition-all duration-200 hover:border-zinc-500 hover:bg-zinc-900">
+                Open Workflow
+              </div>
+            </Link>
+          ) : (
+            <div key={w.id} className={`${CARD} opacity-60`}>
+              <p className="mb-4 font-mono text-xs text-zinc-500">{w.type}</p>
+              <h2 className="text-xl font-semibold tracking-tight text-zinc-100">{w.title}</h2>
+              <p className="mt-3 leading-7 text-zinc-300">{w.desc}</p>
+              <div className="mt-5 font-mono text-xs leading-6 text-zinc-400">
+                {w.includes.map((i) => (
+                  <div key={i} className="flex items-center gap-2"><span className="text-zinc-600">&check;</span> {i}</div>
+                ))}
+              </div>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {w.tags.map((t) => (
+                  <span key={t} className="rounded-md border border-zinc-700 px-2 py-1 font-mono text-xs text-zinc-400">{t}</span>
+                ))}
+              </div>
+              <div className="mt-6 font-mono text-xs text-zinc-500">{w.stats}</div>
+              <div className="mt-4 font-mono text-[10px] text-zinc-500">
+                <div>{w.progress}</div>
+              </div>
+              <div className="mt-6 inline-flex cursor-not-allowed items-center rounded-lg border border-zinc-800 bg-[#12151b] px-4 py-2 font-mono text-xs text-zinc-500 pointer-events-none">
+                Workflow In Progress
+              </div>
+            </div>
+          ),
+        )}
       </div>
 
       {/* Workflow Philosophy */}
       <section className="mt-16 max-w-3xl">
         <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">Workflow Philosophy</h2>
         <p className="mt-4 leading-8 text-zinc-300">
-          AI-generated code becomes unmaintainable
-          <br />
-          without shared repo conventions,
-          <br />
-          prompt constraints and architecture rules.
+          AI-generated code becomes unmaintainable without shared repo conventions, prompt constraints and architecture rules.
         </p>
         <p className="mt-4 leading-8 text-zinc-300">
-          These workflows are designed to keep
-          <br />
-          large AI-assisted repositories consistent
-          <br />
-          over time.
+          These workflows are designed to keep large AI-assisted repositories consistent over time. All generated code must pass review before merge.
         </p>
+      </section>
+
+      {/* Known Repository Issues */}
+      <section className="mt-16">
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">Known Repository Issues</h2>
+        <div className="mt-6 rounded-xl border border-zinc-800 bg-[#16181d] p-6 font-mono text-sm leading-7 text-zinc-400">
+          <div>- duplicated auth hooks across features</div>
+          <div>- legacy dashboard queries pending migration</div>
+          <div>- billing validation refactor in progress</div>
+          <div>- oversized utility files from early AI output</div>
+        </div>
+      </section>
+
+      {/* Migration Notes */}
+      <section className="mt-16">
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">Migration Notes</h2>
+        <div className="mt-6 rounded-xl border border-zinc-800 bg-[#16181d] p-6 font-mono text-sm leading-7 text-zinc-400">
+          <div className="flex items-start gap-2"><span className="mt-1 text-amber-400">*</span><span>dashboard hooks still pending migration</span></div>
+          <div className="flex items-start gap-2"><span className="mt-1 text-amber-400">*</span><span>billing validation refactor in progress</span></div>
+          <div className="flex items-start gap-2"><span className="mt-1 text-amber-400">*</span><span>legacy auth module awaiting deprecation</span></div>
+        </div>
       </section>
 
       {/* Common Failures */}
@@ -177,15 +228,11 @@ export default function WorkflowsPage() {
             </div>
             <div>
               <div className="text-xs text-blue-300">v0.4.1</div>
-              <div className="mt-1 space-y-1">
-                <div>- added repo migration notes</div>
-              </div>
+              <div className="mt-1 space-y-1"><div>- added repo migration notes</div></div>
             </div>
             <div>
               <div className="text-xs text-blue-300">v0.4.0</div>
-              <div className="mt-1 space-y-1">
-                <div>- introduced AI repo standards</div>
-              </div>
+              <div className="mt-1 space-y-1"><div>- introduced AI repo standards</div></div>
             </div>
           </div>
         </div>

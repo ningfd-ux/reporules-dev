@@ -46,7 +46,7 @@ export default function Home() {
                 <p className="font-mono text-[10px] text-zinc-500">Last constraint update: 2 days ago</p>
                 <p className="font-mono text-[10px] text-zinc-500">Recommended for: SaaS, AI products, internal tools</p>
               </div>
-              <div className="mt-6 inline-flex items-center rounded-lg border border-zinc-700 px-4 py-2 font-mono text-sm text-zinc-300 transition-colors hover:bg-zinc-900">
+              <div className="mt-6 inline-flex items-center rounded-lg border border-zinc-700 px-4 py-2 font-mono text-sm text-zinc-300 transition-all duration-200 hover:border-zinc-500 hover:bg-zinc-900">
                 Open Workflow
               </div>
             </Link>
@@ -65,6 +65,7 @@ export default function Home() {
                 <span className="font-mono text-xs text-zinc-500">18 rules &middot; 9 prompts</span>
                 <span className="inline-flex items-center rounded-lg border border-zinc-800 bg-[#12151b] px-4 py-2 font-mono text-xs text-zinc-500 cursor-not-allowed">Workflow In Progress</span>
               </div>
+              <div className="mt-3 font-mono text-[10px] text-zinc-500">Expected release: Q2 2026</div>
             </div>
 
             {/* Card 3 */}
@@ -81,6 +82,7 @@ export default function Home() {
                 <span className="font-mono text-xs text-zinc-500">15 rules &middot; 7 prompts</span>
                 <span className="inline-flex items-center rounded-lg border border-zinc-800 bg-[#12151b] px-4 py-2 font-mono text-xs text-zinc-500 cursor-not-allowed">Workflow In Progress</span>
               </div>
+              <div className="mt-3 font-mono text-[10px] text-zinc-500">Expected release: Q2 2026</div>
             </div>
           </div>
         </div>
