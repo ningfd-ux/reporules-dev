@@ -30,7 +30,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-D5T6BY3RKV"
+          src="https://www.googletagmanager.com/gtag/js?id=G-1JTVX87E6Y"
           strategy="afterInteractive"
         />
         <Script id="ga-init" strategy="afterInteractive">
@@ -38,7 +38,7 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag("js", new Date());
-            gtag("config", "G-D5T6BY3RKV");
+            gtag("config", "G-1JTVX87E6Y");
           `}
         </Script>
       </body>
