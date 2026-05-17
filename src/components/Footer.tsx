@@ -4,107 +4,47 @@ export default function Footer() {
   return (
     <footer className="border-t border-[#2a2d35] bg-[#0c0e12] pb-16 pt-10">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Repository */}
+
+        {/* Product */}
         <div>
-          <p className="mb-4 text-xs font-medium uppercase tracking-wider text-zinc-500">
-            Repository
-          </p>
+          <p className="mb-4 text-xs font-medium uppercase tracking-wider text-zinc-500">Product</p>
           <nav className="flex flex-col gap-2.5">
-            <Link href="/repository/rules" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">rules.md</Link>
-            <Link href="/repository/memory" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">memory.md</Link>
-            <Link href="/repository/migration-notes" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">migration-notes.md</Link>
-            <Link href="/repository/architecture" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">architecture.md</Link>
+            <Link href="/generator" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">Generator</Link>
+            <Link href="/examples" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">Examples</Link>
+            <Link href="/workflows" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">Workflows</Link>
+            <Link href="/docs" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">Docs</Link>
           </nav>
         </div>
 
-        {/* Workflows */}
+        {/* Resources */}
         <div>
-          <p className="mb-4 text-xs font-medium uppercase tracking-wider text-zinc-500">
-            Workflows
-          </p>
+          <p className="mb-4 text-xs font-medium uppercase tracking-wider text-zinc-500">Resources</p>
           <nav className="flex flex-col gap-2.5">
-            <Link
-              href="/workflows/claude-code-saas"
-              className="text-sm text-zinc-400 transition-colors hover:text-blue-300"
-            >
-              Claude Code SaaS
-            </Link>
-            <Link href="/workflows/cursor-monorepo" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">Cursor Monorepo</Link>
-            <Link href="/workflows/ai-startup" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">AI Startup</Link>
+            <Link href="/rules" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">Rules</Link>
+            <Link href="/patterns" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">Patterns</Link>
+            <Link href="/compare" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">Compare</Link>
           </nav>
         </div>
 
         {/* Standards */}
         <div>
-          <p className="mb-4 text-xs font-medium uppercase tracking-wider text-zinc-500">
-            Standards
-          </p>
+          <p className="mb-4 text-xs font-medium uppercase tracking-wider text-zinc-500">Standards</p>
           <nav className="flex flex-col gap-2.5">
-            <Link
-              href="/docs#pr-workflow"
-              className="text-sm text-zinc-400 transition-colors hover:text-blue-300"
-            >
-              PR Workflow
-            </Link>
-            <Link
-              href="/docs#testing-workflow"
-              className="text-sm text-zinc-400 transition-colors hover:text-blue-300"
-            >
-              Testing
-            </Link>
-            <Link
-              href="/docs#ai-constraints"
-              className="text-sm text-zinc-400 transition-colors hover:text-blue-300"
-            >
-              Validation
-            </Link>
-            <Link
-              href="/docs#security"
-              className="text-sm text-zinc-400 transition-colors hover:text-blue-300"
-            >
-              Security
-            </Link>
+            <a href="https://aicodingstandards.com" target="_blank" rel="noopener noreferrer" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">AI Coding Standards</a>
+            <a href="https://aicodingstandards.com/standards/react" target="_blank" rel="noopener noreferrer" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">React Standards</a>
+            <a href="https://aicodingstandards.com/standards/typescript" target="_blank" rel="noopener noreferrer" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">TypeScript Standards</a>
           </nav>
         </div>
 
-        {/* Docs */}
+        {/* Company */}
         <div>
-          <p className="mb-4 text-xs font-medium uppercase tracking-wider text-zinc-500">
-            Docs
-          </p>
+          <p className="mb-4 text-xs font-medium uppercase tracking-wider text-zinc-500">Company</p>
           <nav className="flex flex-col gap-2.5">
-            <Link
-              href="/docs#architecture"
-              className="text-sm text-zinc-400 transition-colors hover:text-blue-300"
-            >
-              Architecture
-            </Link>
-            <Link
-              href="/docs#ai-constraints"
-              className="text-sm text-zinc-400 transition-colors hover:text-blue-300"
-            >
-              Constraints
-            </Link>
-            <Link
-              href="/docs#testing-workflow"
-              className="text-sm text-zinc-400 transition-colors hover:text-blue-300"
-            >
-              Testing Workflow
-            </Link>
-            <Link
-              href="/docs#pr-workflow"
-              className="text-sm text-zinc-400 transition-colors hover:text-blue-300"
-            >
-              PR Workflow
-            </Link>
-            <Link
-              href="/docs#migration-notes"
-              className="text-sm text-zinc-400 transition-colors hover:text-blue-300"
-            >
-              Migration Notes
-            </Link>
+            <Link href="/about" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">About</Link>
+            <Link href="/privacy" className="text-sm text-zinc-400 transition-colors hover:text-blue-300">Privacy</Link>
           </nav>
         </div>
+
       </div>
 
       <div className="mx-auto mt-10 max-w-7xl border-t border-[#2a2d35] px-6 pt-6">

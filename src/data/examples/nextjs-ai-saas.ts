@@ -12,6 +12,7 @@ export interface ExampleData {
     cursorRules: string;
     claude: string;
     testingWorkflow: string;
+    migrationNotes: string;
   };
 }
 
@@ -109,5 +110,18 @@ Document legacy patterns before refactoring.
 - duplicated mocks across test files
 - oversized test utilities
 - unstable async tests due to legacy fetching patterns`,
+    migrationNotes: `# Migration Notes
+
+## Active Migration
+
+- dashboard validation migration
+- shared billing utilities refactor
+- analytics query standardization
+
+## Legacy Constraints
+
+- old auth hooks still active
+- duplicated dashboard services
+- inconsistent validator naming`,
   },
 };

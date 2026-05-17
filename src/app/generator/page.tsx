@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
@@ -56,6 +56,15 @@ export default function GeneratorPage() {
   const [result, setResult] = useState<GenerateResult | null>(null);
   const [activeFile, setActiveFile] = useState("rules");
   const [copied, setCopied] = useState(false);
+
+  // Restore input from homepage mini-generator
+  useEffect(() => {
+    const saved = sessionStorage.getItem("generator_input");
+    if (saved) {
+      setPackageJson(saved);
+      sessionStorage.removeItem("generator_input");
+    }
+  }, []);
 
   const parsedDeps = useCallback(() => {
     try {
@@ -135,7 +144,7 @@ export default function GeneratorPage() {
   return (
     <div className="min-h-screen bg-[#0d0f14]">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-0 lg:grid-cols-2">
-        {/* LEFT COLUMN — Input */}
+        {/* LEFT COLUMN 鈥?Input */}
         <div className="border-r border-[#2a2d35] p-6 lg:p-10">
           <div className="lg:sticky lg:top-[88px]">
             <div>
@@ -216,7 +225,7 @@ export default function GeneratorPage() {
           </div>
         </div>
 
-        {/* RIGHT COLUMN — Results */}
+        {/* RIGHT COLUMN 鈥?Results */}
         <div className="p-6 lg:p-10">
           {/* Zero state */}
           {!result && !isGenerating && !error && (
@@ -233,10 +242,10 @@ export default function GeneratorPage() {
             <div className="space-y-4">
               <div className="text-sm font-medium text-zinc-100">Analyzing repository architecture...</div>
               <div className="font-mono text-xs leading-7 text-zinc-500">
-                ✓ detecting repository boundaries<br />
-                ✓ analyzing validation layers<br />
-                ✓ checking migration patterns<br />
-                ✓ generating governance files
+                鉁?detecting repository boundaries<br />
+                鉁?analyzing validation layers<br />
+                鉁?checking migration patterns<br />
+                鉁?generating governance files
               </div>
             </div>
           )}
@@ -295,10 +304,10 @@ export default function GeneratorPage() {
               <div className="rounded-xl border border-[#2a2d35] bg-[#151922] p-5">
                 <div className="mb-4 text-sm font-medium text-zinc-100">Repository Signals Detected</div>
                 <div className="space-y-3 text-sm text-zinc-300">
-                  <div>✓ Next.js App Router</div>
-                  <div>✓ Shared validation layer</div>
-                  <div>✓ Monorepo structure</div>
-                  <div>✓ AI workflow conventions</div>
+                  <div>鉁?Next.js App Router</div>
+                  <div>鉁?Shared validation layer</div>
+                  <div>鉁?Monorepo structure</div>
+                  <div>鉁?AI workflow conventions</div>
                 </div>
               </div>
 

@@ -122,19 +122,19 @@ export default function DocsPage() {
               <div className="rounded-xl border border-[#2a2d35] bg-[#151922] p-6">
                 <div className="space-y-4">
                   <Link
-                    href="/repository/rules"
+                    href="/examples/nextjs-ai-saas"
                     className="block font-mono text-sm text-zinc-300 transition-colors hover:text-zinc-100"
                   >
                     rules.md
                   </Link>
                   <Link
-                    href="/repository/memory"
+                    href="/examples/nextjs-ai-saasmemory"
                     className="block font-mono text-sm text-zinc-300 transition-colors hover:text-zinc-100"
                   >
                     memory.md
                   </Link>
                   <Link
-                    href="/repository/migration-notes"
+                    href="/examples/nextjs-ai-saasmigration-notes"
                     className="block font-mono text-sm text-zinc-300 transition-colors hover:text-zinc-100"
                   >
                     migration-notes.md
@@ -281,6 +281,26 @@ export default function DocsPage() {
               </div>
             </section>
           </div>
+
+          {/* Cross-link to AICodingStandards */}
+          <section className="mt-24 border-t border-[#2a2d35] pt-12">
+            <div className="rounded-xl border border-[#2a2d35] bg-[#111318] p-8">
+              <p className="text-sm font-medium text-zinc-400">
+                Related Engineering Standards
+              </p>
+              <p className="mt-2 max-w-xl text-sm leading-7 text-zinc-500">
+                Explore AI-safe coding standards, repository constraints and engineering conventions.
+              </p>
+              <a
+                href="https://aicodingstandards.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-flex h-11 items-center rounded-lg border border-zinc-700 px-5 text-sm text-zinc-300 transition-colors hover:border-zinc-500"
+              >
+                View AI Coding Standards &rarr;
+              </a>
+            </div>
+          </section>
 
           {/* Right Sidebar */}
           <aside className="hidden space-y-6 lg:block">

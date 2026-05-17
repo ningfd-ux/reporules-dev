@@ -95,5 +95,18 @@ Document legacy patterns before migration.
 - cross-package test pollution
 - oversized integration test suites
 - flaky e2e tests due to shared state`,
+    migrationNotes: `# Migration Notes
+
+## Active Migration
+
+- dashboard package refactor
+- shared validator standardization
+- build pipeline optimization
+
+## Legacy Constraints
+
+- analytics package still uses old patterns
+- billing migration partially completed
+- shared validators need standardization`,
   },
 };

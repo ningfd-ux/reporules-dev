@@ -1,184 +1,133 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+const DEFAULT_JSON = `{
+  "dependencies": {
+    "next": "15",
+    "react": "19",
+    "tailwindcss": "^4",
+    "prisma": "^6",
+    "zod": "^4"
+  }
+}`;
 
 export default function HeroSection() {
+  const router = useRouter();
+  const [heroInput, setHeroInput] = useState(DEFAULT_JSON);
+
+  const handleHeroGenerate = () => {
+    sessionStorage.setItem("generator_input", heroInput);
+    router.push("/generator");
+  };
+
   return (
-    <>
-      <section className="min-h-[82vh] bg-[#0d0f14]">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-6 pt-16 lg:grid-cols-2 lg:pt-20">
-          {/* LEFT */}
-          <div>
-            <span className="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-900 px-3 py-1 text-xs text-zinc-300">
-              Repository Governance
-            </span>
+    <section className="min-h-[82vh] bg-[#0d0f14]">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-6 pt-16 lg:grid-cols-2 lg:pt-20">
+        {/* LEFT */}
+        <div>
+          <span className="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-900 px-3 py-1 text-xs text-zinc-300">
+            Repository Governance System
+          </span>
 
-            <h1 className="mt-4 max-w-2xl text-5xl font-semibold leading-tight tracking-tight text-zinc-100">
-              Repository governance systems
-              <br />
-              for AI-assisted engineering teams
-            </h1>
+          <h1 className="mt-4 max-w-2xl text-5xl font-semibold leading-tight tracking-tight text-zinc-100">
+            Generate repository governance files for AI coding systems
+          </h1>
 
-            <p className="mt-6 max-w-xl text-lg leading-8 text-zinc-300">
-              Structured repository rules, workflows,
-              <br />
-              architecture constraints and migration standards
-              <br />
-              designed for scalable AI-generated codebases.
-            </p>
+          <p className="mt-6 max-w-xl text-lg leading-8 text-zinc-300">
+            Analyze repository structure, generate rules.md, memory.md, architecture constraints and AI workflows.
+          </p>
 
-            <div className="mt-8 flex items-center gap-4">
-              <Link
-                href="/workflows"
-                className="inline-flex h-11 items-center rounded-lg bg-zinc-100 px-6 text-sm font-medium text-zinc-900 transition-all duration-200 hover:bg-zinc-200"
-              >
-                Browse Repository Systems
-              </Link>
-              <Link
-                href="/docs"
-                className="inline-flex h-11 items-center rounded-lg border border-zinc-700 px-6 text-sm font-medium text-zinc-300 transition-colors hover:border-zinc-500"
-              >
-                View Governance Docs
-              </Link>
-            </div>
-
-            <div className="mt-6 font-mono text-xs text-zinc-500">
-              Maintained by RepoRules · Updated continuously
-            </div>
+          <div className="mt-8 flex items-center gap-4">
+            <Link
+              href="/generator"
+              className="inline-flex h-11 items-center rounded-lg bg-zinc-100 px-6 text-sm font-medium text-zinc-900 transition-all duration-200 hover:bg-zinc-200"
+            >
+              Open Generator
+            </Link>
+            <Link
+              href="/examples"
+              className="inline-flex h-11 items-center rounded-lg border border-zinc-700 px-6 text-sm font-medium text-zinc-300 transition-colors hover:border-zinc-500"
+            >
+              Browse Examples
+            </Link>
           </div>
 
-          {/* RIGHT: Workflow Preview */}
-          <div className="overflow-hidden rounded-xl border border-[#2a2d35] bg-[#181b21]">
-            <div className="flex h-10 items-center justify-between border-b border-[#2a2d35] bg-[#1f232b] px-4 font-mono text-xs text-zinc-500">
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
-                <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
-                <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
-                <span className="ml-2">claude-code-saas/</span>
-              </div>
-              <div className="rounded border border-zinc-700 bg-zinc-900 px-2 py-0.5">
-                main
-              </div>
-            </div>
-
-            <div className="grid grid-cols-[1.2fr_1.8fr_2.2fr]">
-              {/* Col 1: Repo Tree */}
-              <div className="border-r border-[#2a2d35] bg-[#14161b] p-3 font-mono text-xs leading-6 text-zinc-400">
-                <div>app/</div>
-                <div className="ml-3">(dashboard)/</div>
-                <div className="ml-3">(marketing)/</div>
-                <div className="ml-3 text-zinc-500">api/</div>
-                <div className="mt-1">components/</div>
-                <div className="ml-3 text-zinc-500">ui/</div>
-                <div className="ml-3 text-zinc-500">shared/</div>
-                <div className="mt-1">features/</div>
-                <div className="ml-3 text-zinc-500">auth/</div>
-                <div className="ml-3 text-zinc-500">billing/</div>
-                <div className="ml-3">dashboard/</div>
-                <div className="ml-3 text-zinc-500">settings/</div>
-                <div className="ml-3 text-zinc-500">analytics/</div>
-                <div className="ml-3 text-zinc-500">notifications/</div>
-                <div className="mt-1">lib/</div>
-                <div className="ml-3 text-zinc-500">db/</div>
-                <div className="ml-3 text-zinc-500">stripe/</div>
-                <div className="ml-3 text-zinc-500">auth/</div>
-                <div className="ml-3 text-zinc-500">validators/</div>
-                <div className="ml-3 text-zinc-500">utils/</div>
-                <div className="mt-1 text-zinc-500">prompts/</div>
-                <div className="text-zinc-500">rules/</div>
-                <div className="text-zinc-500">tests/</div>
-                <div className="mt-1">legacy/</div>
-                <div className="ml-3 text-zinc-500">deprecated/</div>
-                <div className="mt-1 text-zinc-500">pnpm-workspace.yaml</div>
-                <div className="text-zinc-500">turbo.json</div>
-                <div className="text-zinc-500">README.md</div>
-                <div className="text-zinc-500">TODO.md</div>
-                <div className="text-zinc-500">.env.example</div>
-                <div className="mt-1">architecture.md</div>
-                <div className="text-zinc-500">migration-notes.md</div>
-                <div className="text-zinc-500">testing-guidelines.md</div>
-                <div className="text-zinc-500">memory.md</div>
-                <div className="text-zinc-500">rules.md</div>
-              </div>
-
-              {/* Col 2: rules.md */}
-              <div className="border-r border-[#2a2d35] p-3 font-mono text-sm leading-7">
-                <div className="mb-2 text-zinc-500"># rules.md</div>
-                <div className="text-blue-300"># Server Components First</div>
-                <div className="mt-1 text-zinc-400">Always prefer server components</div>
-                <div className="text-zinc-400">unless interactivity is required.</div>
-                <div className="mt-1 text-zinc-400">Never fetch directly inside</div>
-                <div className="text-zinc-400">client components.</div>
-                <div className="mt-1 text-zinc-400">Avoid duplicated hooks.</div>
-                <div className="mt-1 text-zinc-400">Prefer feature-based folders.</div>
-                <div className="mt-1 text-zinc-400">Reuse shared UI primitives.</div>
-                <div className="mt-1 text-zinc-400">Keep PRs under 300 LOC.</div>
-                <div className="mt-3 text-blue-300">## Naming</div>
-                <div className="mt-1 text-zinc-400">- use feature-based names</div>
-                <div className="text-zinc-400">- avoid generic utils</div>
-                <div className="text-zinc-400">- keep folders predictable</div>
-                <div className="mt-3 text-blue-300">## PR Constraints</div>
-                <div className="mt-1 text-zinc-400">- avoid mixed concerns</div>
-                <div className="text-zinc-400">- avoid oversized components</div>
-                <div className="text-zinc-400">- avoid introducing new patterns</div>
-                <div className="mt-3 text-blue-300">## Testing</div>
-                <div className="mt-1 text-zinc-400">- test critical flows</div>
-                <div className="text-zinc-400">- avoid snapshot overuse</div>
-                <div className="text-zinc-400">- prefer integration tests</div>
-                <div className="mt-3 text-blue-300">## Performance</div>
-                <div className="mt-1 text-zinc-400">- lazy load heavy charts</div>
-                <div className="text-zinc-400">- avoid client-side waterfalls</div>
-                <div className="text-zinc-400">- prefer streaming</div>
-              </div>
-
-              {/* Col 3: Generated code */}
-              <div className="bg-[#14161b] p-3 font-mono text-sm leading-relaxed">
-                <div className="mb-2 text-zinc-500">// pages/billing.tsx</div>
-                <div><span className="text-blue-300">export default async function</span></div>
-                <div><span className="text-zinc-300">  BillingPage()</span></div>
-                <div className="text-zinc-300">{"{"}</div>
-                <div className="ml-3"><span className="text-purple-300">const</span><span className="text-zinc-300"> session = </span><span className="text-purple-300">await</span><span className="text-zinc-300"> getSession()</span></div>
-                <div className="ml-3 text-zinc-300" />
-                <div className="ml-3"><span className="text-purple-300">if</span><span className="text-zinc-300"> (</span><span className="text-red-400">!</span><span className="text-zinc-300">session)</span></div>
-                <div className="ml-3"><span className="text-purple-300">{"{"}</span></div>
-                <div className="ml-6"><span className="text-zinc-300">redirect(</span><span className="text-amber-300">"/login"</span><span className="text-zinc-300">)</span></div>
-                <div className="ml-3"><span className="text-purple-300">{"}"}</span></div>
-                <div className="ml-3 text-zinc-300" />
-                <div className="ml-3"><span className="text-purple-300">const</span><span className="text-zinc-300"> subscription =</span></div>
-                <div className="ml-3"><span className="text-purple-300">  await</span><span className="text-zinc-300"> getActiveSubscription(</span></div>
-                <div className="ml-6"><span className="text-zinc-300">session.user.id</span></div>
-                <div className="ml-3"><span className="text-zinc-300">)</span></div>
-                <div className="ml-3 text-zinc-300" />
-                <div className="ml-3"><span className="text-purple-300">return</span></div>
-                <div className="ml-6 text-zinc-300">{"<"}BillingDashboard</div>
-                <div className="ml-9 text-zinc-300">subscription={"{subscription}"}</div>
-                <div className="ml-6 text-zinc-300">{"/"}{">"}</div>
-                <div className="text-zinc-300">{"}"}</div>
-              </div>
-            </div>
+          <div className="mt-6 font-mono text-xs text-zinc-500">
+            Maintained by RepoRules · Updated continuously
           </div>
         </div>
 
-        {/* Common AI Repo Problems */}
-        <div className="mx-auto mt-10 max-w-7xl px-6">
-          <div className="rounded-xl border border-zinc-800 bg-[#16181d] p-6 font-mono text-sm">
-            <h3 className="mb-4 text-sm font-semibold text-zinc-200">Common AI Repo Problems</h3>
-            <div className="space-y-1 text-zinc-400">
-              {["duplicated hooks across features", "inconsistent naming conventions", "mixed client/server logic", "oversized utility files", "scattered validation schemas", "validation logic copied across features", "server actions mixed with UI logic", "prompt outputs inconsistent across modules"].map((i) => (
-                <div key={i}>- {i}</div>
-              ))}
+        {/* RIGHT: Mini Generator Widget */}
+        <div className="overflow-hidden rounded-xl border border-[#2a2d35] bg-[#181b21]">
+          <div className="flex h-10 items-center justify-between border-b border-[#2a2d35] bg-[#1f232b] px-4 font-mono text-xs text-zinc-500">
+            <div className="flex items-center gap-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
+              <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
+              <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
+              <span className="ml-2">reporules — generator</span>
             </div>
           </div>
-        </div>
-      </section>
 
-      <div className="border-t border-[#2a2d35] bg-[#0d0f14]">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-6 py-8 sm:grid-cols-3">
-          <div className="font-mono text-sm text-zinc-400">Reduce inconsistent AI output</div>
-          <div className="font-mono text-sm text-zinc-400">Keep repo structures predictable</div>
-          <div className="font-mono text-sm text-zinc-400">Scale AI coding across teams</div>
+          <div className="p-4">
+            <div className="mb-2 text-sm font-medium text-zinc-100">
+              Paste package.json or repository structure
+            </div>
+
+            <textarea
+              value={heroInput}
+              onChange={(e) => setHeroInput(e.target.value)}
+              className="w-full rounded-lg border border-[#2a2d35] bg-[#14161b] p-3 font-mono text-xs leading-relaxed text-zinc-300 placeholder:text-zinc-600 outline-none min-h-[140px]"
+              placeholder={DEFAULT_JSON}
+            />
+
+            <div className="mt-4">
+              <div className="mb-2 text-xs font-medium text-zinc-500">
+                Detected Stack
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {["Next.js App Router", "React", "Tailwind CSS", "Prisma ORM", "Zod"].map((tech) => (
+                  <span
+                    key={tech}
+                    className="rounded border border-zinc-700 bg-zinc-900 px-2 py-0.5 font-mono text-[11px] text-zinc-400"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <div className="mb-2 text-xs font-medium text-zinc-500">
+                AI Tool Target
+              </div>
+              <div className="flex flex-wrap gap-3 text-sm text-zinc-400">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="hero-tool" defaultChecked className="accent-zinc-500" />
+                  Cursor
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="hero-tool" className="accent-zinc-500" />
+                  Claude Code
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="hero-tool" className="accent-zinc-500" />
+                  Copilot
+                </label>
+              </div>
+            </div>
+
+            <button
+              onClick={handleHeroGenerate}
+              className="mt-5 w-full rounded-lg bg-zinc-100 py-2.5 text-sm font-medium text-zinc-900 transition-colors hover:bg-zinc-200"
+            >
+              Generate Repository Files
+            </button>
+          </div>
         </div>
       </div>
-    </>
+    </section>
   );
 }

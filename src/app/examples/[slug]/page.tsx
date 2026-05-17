@@ -13,6 +13,7 @@ const FILE_TABS = [
   { key: "cursorRules", label: ".cursorrules" },
   { key: "claude", label: "claude.md" },
   { key: "testingWorkflow", label: "testing-workflow.md" },
+  { key: "migrationNotes", label: "migration-notes.md" },
 ];
 
 export default async function ExamplePage({

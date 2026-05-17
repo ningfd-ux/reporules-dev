@@ -104,5 +104,18 @@ Document agent contracts before modifying them.
 - cross-agent test pollution from shared MCP connection pools
 - flaky orchestration tests due to timed agent responses
 - outdated tool schema fixtures in security-scanner package`,
+    migrationNotes: `# Migration Notes
+
+## Active Migration
+
+- orchestrator v2 migration (dual shim active)
+- tool-registry typed schema upgrade
+- agent health check deduplication
+
+## Legacy Constraints
+
+- security-scanner still on legacy MCP client
+- cross-agent logging consolidated in v0.3
+- shared agent-definition packages need versioning`,
   },
 };

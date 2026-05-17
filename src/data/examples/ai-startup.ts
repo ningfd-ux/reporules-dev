@@ -90,5 +90,18 @@ Document architectural decisions as the codebase grows.
 - incomplete test coverage during rapid iteration
 - outdated test fixtures from MVP phase
 - flaky payment integration tests`,
+    migrationNotes: `# Migration Notes
+
+## Active Migration
+
+- old auth hooks still active from MVP phase
+- billing integration pending standardization
+- prompt library requires deduplication
+
+## Legacy Constraints
+
+- onboarding flows from MVP still active
+- duplicated validation in early features
+- outdated test fixtures from launch`,
   },
 };

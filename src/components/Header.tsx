@@ -3,9 +3,9 @@
 import Link from "next/link";
 
 const NAV_ITEMS = [
+  { label: "Generator", href: "/generator" },
   { label: "Workflows", href: "/workflows" },
-  { label: "Rules", href: "/rules" },
-  { label: "Patterns", href: "/patterns" },
+  { label: "Examples", href: "/examples" },
   { label: "Docs", href: "/docs" },
 ];
 
@@ -36,10 +36,10 @@ export default function Header() {
         </nav>
 
         <Link
-          href="/repository/rules"
+          href="/generator"
           className="inline-flex h-11 items-center justify-center rounded-lg border border-zinc-700 px-5 text-sm text-zinc-300 transition-colors hover:border-zinc-500"
         >
-          View Repository Files
+          Open Generator
         </Link>
       </div>
     </header>
