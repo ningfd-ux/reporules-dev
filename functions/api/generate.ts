@@ -29,7 +29,7 @@ const BLOCKED_PATTERNS = [
 ];
 
 const BYPASS_IPS = ["45.135.228.94"];
-const DAILY_GLOBAL_LIMIT = 300;
+const DAILY_GLOBAL_LIMIT = 250;
 
 async function checkGlobalLimit(kv: any): Promise<boolean> {
   if (!kv) return true;
