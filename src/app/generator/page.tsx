@@ -10,8 +10,8 @@ import { Sparkles, Loader2, AlertCircle } from "lucide-react";
 import StackBadge from "@/components/StackBadge";
 import CodeBlock from "@/components/CodeBlock";
 import { detectStack, formatStackSummary } from "@/lib/detect-stack";
-import JSZip from "jszip";
 import { saveAs } from "file-saver";
+import { generateStandards } from "@/lib/deepseek";
 
 type ToolTarget = "cursor" | "claude-code" | "copilot" | "generic";
 type Strictness = "relaxed" | "balanced" | "strict";
@@ -55,6 +55,7 @@ export default function GeneratorPage() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<GenerateResult | null>(null);
   const [activeFile, setActiveFile] = useState("rules");
+  const [copied, setCopied] = useState(false);
 
   const parsedDeps = useCallback(() => {
     try {
@@ -86,29 +87,26 @@ export default function GeneratorPage() {
     return map[activeFile] || result.standards;
   };
 
+  const trackGA = (name: string, params?: Record<string, string | number>) => {
+    if (typeof window !== "undefined" && (window as any).gtag) {
+      (window as any).gtag("event", name, params);
+    }
+  };
+
   const handleGenerate = async () => {
     setIsGenerating(true);
     setError(null);
     setResult(null);
+    trackGA("generate_started", { tool_target: toolTarget, strictness });
 
     try {
-      const res = await fetch("/api/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          packageJson: packageJson || DEFAULT_JSON,
-          toolTarget,
-          strictness,
-        }),
+      const data = await generateStandards({
+        packageJson: packageJson || DEFAULT_JSON,
+        toolTarget,
+        strictness,
       });
-
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || "Generation failed");
-      }
-
-      const data = await res.json();
       setResult(data);
+      trackGA("generate_success", {});
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Something went wrong. Try again.",
@@ -121,19 +119,17 @@ export default function GeneratorPage() {
   const downloadSingleFile = (filename: string, content: string) => {
     const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
     saveAs(blob, filename);
+    trackGA("file_downloaded", { filename, file_type: activeFile });
   };
 
-  const downloadZip = async () => {
-    if (!result) return;
-    const zip = new JSZip();
-    if (result.rules) zip.file("rules.md", result.rules);
-    if (result.memory) zip.file("memory.md", result.memory);
-    if (result.architecture) zip.file("architecture.md", result.architecture);
-    if (result.cursorRules) zip.file(".cursorrules", result.cursorRules);
-    if (result.claude) zip.file("claude.md", result.claude);
-    if (result.testingWorkflow) zip.file("testing-workflow.md", result.testingWorkflow);
-    const blob = await zip.generateAsync({ type: "blob" });
-    saveAs(blob, "repo-rules-export.zip");
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // fallback
+    }
   };
 
   return (
@@ -281,9 +277,8 @@ export default function GeneratorPage() {
 
               {/* Generated from */}
               <div className="flex gap-5 font-mono text-xs text-zinc-500">
-                <span>Generated from 42 SaaS repositories</span>
-                <span>18 AI coding workflows</span>
-                <span>11 monorepo systems</span>
+                <span>Generated via deepseek-v4-flash</span>
+                <span>3500 max tokens</span>
               </div>
 
               {/* Detected Stack */}
@@ -331,22 +326,27 @@ export default function GeneratorPage() {
               <div>
                 <div className="mb-4 text-sm font-medium text-zinc-100">Export Repository Files</div>
                 <div className="flex flex-wrap gap-3">
-                  <button onClick={downloadZip} className="h-11 rounded-lg bg-zinc-100 px-5 text-sm font-medium text-zinc-900 transition-colors hover:bg-zinc-200">
-                    Download ZIP
-                  </button>
                   {FILE_TABS.map((tab) => {
                     const content = result[tab.key as keyof GenerateResult];
                     if (typeof content !== "string") return null;
                     return (
-                      <button
-                        key={tab.key}
-                        onClick={() => downloadSingleFile(tab.label, content)}
-                        className="h-11 rounded-lg border border-zinc-700 px-5 text-sm text-zinc-300 transition-colors hover:border-zinc-500"
-                      >
-                        Export {tab.label}
-                      </button>
+                      <div key={tab.key} className="flex items-center gap-2">
+                        <button
+                          onClick={() => downloadSingleFile(tab.label, content)}
+                          className="h-11 rounded-lg border border-zinc-700 px-5 text-sm text-zinc-300 transition-colors hover:border-zinc-500"
+                        >
+                          Download {tab.label}
+                        </button>
+                        <button
+                          onClick={() => copyToClipboard(content)}
+                          className="h-11 rounded-lg border border-zinc-800 px-3 text-sm text-zinc-500 transition-colors hover:border-zinc-600"
+                        >
+                          Copy
+                        </button>
+                      </div>
                     );
                   })}
+                  {copied && <span className="text-xs text-emerald-400">Copied!</span>}
                 </div>
               </div>
             </div>
