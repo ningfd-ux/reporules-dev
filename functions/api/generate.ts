@@ -1,6 +1,19 @@
-function corsHeaders() {
+// Cloudflare Pages Function: POST /api/generate
+// Rate-limited: 2/hour per IP, 5/day per IP, 300 calls/day global
+
+const ALLOWED_ORIGINS = [
+  "https://reporules.dev",
+  "https://www.reporules.dev",
+  "https://cursorrules.fun",
+  "https://www.cursorrules.fun",
+  "https://aicodingstandards.com",
+  "https://www.aicodingstandards.com",
+];
+
+function corsHeaders(origin: string | null) {
+  const allowed = ALLOWED_ORIGINS.includes(origin || "") ? origin : "https://reporules.dev";
   return {
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": allowed,
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
   };
@@ -16,14 +29,32 @@ const BLOCKED_PATTERNS = [
 ];
 
 const BYPASS_IPS = ["45.135.228.94"];
+const DAILY_GLOBAL_LIMIT = 300;
+
+async function checkGlobalLimit(kv: any): Promise<boolean> {
+  if (!kv) return true;
+  const today = new Date().toISOString().slice(0, 10);
+  const globalKey = "global:" + today;
+  try {
+    const count = Number((await kv.get(globalKey)) || 0);
+    if (count >= DAILY_GLOBAL_LIMIT) {
+      return false;
+    }
+    await kv.put(globalKey, String(count + 1), { expirationTtl: 86400 });
+    return true;
+  } catch (e) {
+    console.error("Global KV error:", e);
+    return true;
+  }
+}
 
 async function checkRateLimit(kv: any, ip: string): Promise<{ success: boolean; message?: string }> {
   if (BYPASS_IPS.includes(ip)) return { success: true };
   if (!kv) return { success: true };
 
   const now = new Date();
-  const hourKey = `hour:${ip}:${now.getUTCHours()}`;
-  const dayKey = `day:${ip}:${now.toISOString().slice(0, 10)}`;
+  const hourKey = "hour:" + ip + ":" + now.getUTCHours();
+  const dayKey = "day:" + ip + ":" + now.toISOString().slice(0, 10);
 
   try {
     const hourCount = Number((await kv.get(hourKey)) || 0);
@@ -32,14 +63,13 @@ async function checkRateLimit(kv: any, ip: string): Promise<{ success: boolean; 
     if (hourCount >= 2) {
       return { success: false, message: "Hourly generation limit reached. Try again later." };
     }
-    if (dayCount >= 5) {
+    if (dayCount >= 10) {
       return { success: false, message: "Daily generation limit reached. Try again tomorrow." };
     }
 
     await kv.put(hourKey, String(hourCount + 1), { expirationTtl: 3600 });
     await kv.put(dayKey, String(dayCount + 1), { expirationTtl: 86400 });
   } catch (e) {
-    // KV error — don't block, just log
     console.error("KV error:", e);
   }
 
@@ -48,15 +78,24 @@ async function checkRateLimit(kv: any, ip: string): Promise<{ success: boolean; 
 
 export async function onRequest(context) {
   const request = context.request;
+  const origin = request.headers.get("Origin") || request.headers.get("origin") || null;
 
   if (request.method === "OPTIONS") {
-    return new Response(null, { status: 204, headers: corsHeaders() });
+    return new Response(null, { status: 204, headers: corsHeaders(origin) });
   }
 
   if (request.method !== "POST") {
     return new Response(
       JSON.stringify({ error: "Method not allowed" }),
-      { status: 405, headers: { ...corsHeaders(), "Content-Type": "application/json" } },
+      { status: 405, headers: { ...corsHeaders(origin), "Content-Type": "application/json" } },
+    );
+  }
+
+  // Verify origin is allowed (also blocks no-Origin requests from scripts)
+  if (origin && !ALLOWED_ORIGINS.includes(origin)) {
+    return new Response(
+      JSON.stringify({ error: "Origin not allowed" }),
+      { status: 403, headers: { ...corsHeaders(origin), "Content-Type": "application/json" } },
     );
   }
 
@@ -70,7 +109,7 @@ export async function onRequest(context) {
     if (inputStr.length > 5000) {
       return new Response(
         JSON.stringify({ error: "Input too large. Maximum 5000 characters." }),
-        { status: 400, headers: { ...corsHeaders(), "Content-Type": "application/json" } },
+        { status: 400, headers: { ...corsHeaders(origin), "Content-Type": "application/json" } },
       );
     }
 
@@ -80,33 +119,36 @@ export async function onRequest(context) {
     if (blocked) {
       return new Response(
         JSON.stringify({ error: "Invalid repository input." }),
-        { status: 400, headers: { ...corsHeaders(), "Content-Type": "application/json" } },
+        { status: 400, headers: { ...corsHeaders(origin), "Content-Type": "application/json" } },
       );
     }
 
-    // Rate limit
     const kv = context.env?.RATE_LIMIT_KV;
+
+    // Global daily cap (financial safety net)
+    if (!BYPASS_IPS.includes(ip)) {
+      const globalOk = await checkGlobalLimit(kv);
+      if (!globalOk) {
+        return new Response(
+          JSON.stringify({ error: "Service temporarily unavailable. Try again tomorrow." }),
+          { status: 429, headers: { ...corsHeaders(origin), "Content-Type": "application/json" } },
+        );
+      }
+    }
+
+    // Per-IP rate limit
     const rateLimit = await checkRateLimit(kv, ip);
     if (!rateLimit.success) {
       return new Response(
         JSON.stringify({ error: rateLimit.message }),
-        { status: 429, headers: { ...corsHeaders(), "Content-Type": "application/json" } },
+        { status: 429, headers: { ...corsHeaders(origin), "Content-Type": "application/json" } },
       );
     }
-
-    // Logging
-    console.log({
-      ip,
-      timestamp: Date.now(),
-      inputLen: inputStr.length,
-      toolTarget,
-      strictness,
-    });
 
     if (!packageJson) {
       return new Response(
         JSON.stringify({ error: "package.json content is required" }),
-        { status: 400, headers: { ...corsHeaders(), "Content-Type": "application/json" } },
+        { status: 400, headers: { ...corsHeaders(origin), "Content-Type": "application/json" } },
       );
     }
 
@@ -138,7 +180,7 @@ export async function onRequest(context) {
     if (!apiKey) {
       return new Response(
         JSON.stringify({ error: "API key not configured" }),
-        { status: 500, headers: { ...corsHeaders(), "Content-Type": "application/json" } },
+        { status: 500, headers: { ...corsHeaders(origin), "Content-Type": "application/json" } },
       );
     }
 
@@ -150,7 +192,7 @@ export async function onRequest(context) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
+          Authorization: "Bearer " + apiKey,
         },
         body: JSON.stringify({
           model: "deepseek-v4-flash",
@@ -169,8 +211,8 @@ export async function onRequest(context) {
       if (!response.ok) {
         const errorText = await response.text();
         return new Response(
-          JSON.stringify({ error: `DeepSeek API error: ${errorText}` }),
-          { status: response.status, headers: { ...corsHeaders(), "Content-Type": "application/json" } },
+          JSON.stringify({ error: "DeepSeek API error: " + errorText }),
+          { status: response.status, headers: { ...corsHeaders(origin), "Content-Type": "application/json" } },
         );
       }
 
@@ -179,24 +221,23 @@ export async function onRequest(context) {
       try {
         content = JSON.parse(data.choices[0].message.content);
       } catch (parseErr) {
-        // DeepSeek returned truncated/invalid JSON - likely timeout
         const rawContent = data.choices[0]?.message?.content || "";
         return new Response(
           JSON.stringify({ error: "Generation timed out. Try again.", raw: rawContent.substring(0, 200) }),
-          { status: 408, headers: { ...corsHeaders(), "Content-Type": "application/json" } },
+          { status: 408, headers: { ...corsHeaders(origin), "Content-Type": "application/json" } },
         );
       }
 
       return new Response(
         JSON.stringify(content),
-        { headers: { ...corsHeaders(), "Content-Type": "application/json" } },
+        { headers: { ...corsHeaders(origin), "Content-Type": "application/json" } },
       );
     } catch (fetchErr) {
       clearTimeout(timeout);
       if (fetchErr instanceof DOMException && fetchErr.name === "AbortError") {
         return new Response(
           JSON.stringify({ error: "Request timed out. Try again with a smaller input." }),
-          { status: 408, headers: { ...corsHeaders(), "Content-Type": "application/json" } },
+          { status: 408, headers: { ...corsHeaders(origin), "Content-Type": "application/json" } },
         );
       }
       throw fetchErr;
@@ -204,7 +245,7 @@ export async function onRequest(context) {
   } catch (err) {
     return new Response(
       JSON.stringify({ error: err instanceof Error ? err.message : "Unknown error" }),
-      { status: 500, headers: { ...corsHeaders(), "Content-Type": "application/json" } },
+      { status: 500, headers: { ...corsHeaders(origin), "Content-Type": "application/json" } },
     );
   }
 }
