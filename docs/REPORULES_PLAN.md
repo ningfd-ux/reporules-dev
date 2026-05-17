@@ -30,22 +30,21 @@
 
 ## 任务分层（重要）
 
-| 类型 | 工具 | 用途 |
-|------|------|------|
-| 内容生成 | **DeepSeek v4 flash** | examples / workflows / docs / governance text / prompt iteration |
-| UI/TSX 改动 | **Claude Code** | components/ / app/ / layout / routing / export logic / ZIP / refactor |
-| Infra/Security | **人工** | CORS / 限流 / 部署 / KV 配置 |
-| 内容审核 | **AutoClaw (ChatGPT)** | 产品方向 / 内容真实性 / workflow 设计 / prompt realism / 验收 |
-| 最终决策 | **你** | review / 上线决定 / roadmap / examples 可信度把关 |
+| 类型 | 负责人 | 用途 |
+|------|--------|------|
+| 内容创作 | **ChatGPT（AutoClaw）** | 写 examples / workflows / docs / governance text 初稿 |
+| 内容审核+修改 | **AutoClaw** | 检查 generic wording，提高真实感，确认可发布 |
+| UI/TSX 代码 | **Claude Code** | components/ / app/ / layout / routing / export logic / ZIP / refactor |
+| Infra/Security | **人工（你）** | CORS / 限流 / 部署 / KV 配置 |
+| 最终上线决定 | **你** | review 通过后点头，然后上线 |
 
 ---
 
-## 四步发布流程（禁止跳过）
+## 三步发布流程（禁止跳过）
 
-Step 1 → DeepSeek 生成内容
-Step 2 → 你 review 初稿
-Step 3 → AutoClaw review 真实性（检查 generic wording）
-Step 4 → Claude Code 上线（如有代码变更）
+Step 1 → **ChatGPT（AutoClaw）写内容** — examples / workflows / docs / prompt 调整
+Step 2 → **AutoClaw 检查+修改** — 去 generic wording，提真实感
+Step 3 → **你最终确认** → Claude Code（代码变更）或直接上线
 
 不允许：生成 → 直接发布
 
