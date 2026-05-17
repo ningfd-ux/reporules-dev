@@ -1,207 +1,201 @@
-# RepoRules.dev — 长期更新计划
+# RepoRules.dev — Month 1 执行计划（最终版）
 
-> 最后更新：2026-05-14
-> 这不是内容站更新计划，是 **Repository System 更新计划**。
+> 最后更新：2026-05-17
+> 这不是内容站更新计划，是 **Repository System 更新计划**
 
 ---
 
 ## 核心原则
 
-1. **不更新**：新闻 / AI 热点 / 博客文章 / SEO 水文 / 「2026 最好的 AI 工具」
-2. **不继续改 UI**：Homepage、颜色、卡片、按钮、文案、Section 全部冻结
+1. **不更新**：新闻/AI 热点/博客文章/SEO 水文/2026 最好的 AI 工具
+2. **NO MORE UI CHANGES**（允许：spacing 微调、subtle blur、wording 最终修正。禁止：新 section、redesign、layout 改变、新 block、hero 重做）
 3. **只更新 3 类内容**：Repository Examples / Workflows / Generator Prompt
 4. **更新节奏像工程系统，不是博客**
+5. **Examples 质量 > 数量**（Month 1 结束：6 个高质量 examples，不是 10 个半成品）
+6. **绝不生成 → 直接发布**。所有内容走四步：DeepSeek 生成 → 你 review → ChatGPT（AutoClaw）review → Claude Code 上线
 
 ---
 
-## 三阶段路线图
+## Month 1 总目标
 
-| 阶段 | 时间 | 目标 | 做什么 |
-|------|------|------|--------|
-| **Phase 1**：稳定期 | 现在 → 4 周后 | 积累 10-15 个真实 repo examples，建立可信度 | 每周 1 example + 每月 1 workflow + prompt 微调 |
-| **Phase 2**：Repository Intelligence | 第 2 个月 | Generator 升级为分析引擎 | Analyze、Drift Detection、Governance Audit |
-| **Phase 3**：AI Governance Platform | 第 3-6 个月 | 成为 AI coding infra | GitHub Analyze、Repo Diff、AI Constraints Engine |
+不是：
+- 爆流量 / 做账号 / 做订阅 / 做 dashboard
 
----
+而是：
+- **建立 Repository Governance Credibility**
 
-## 更新频率（最终版）
-
-| 类型 | 频率 | 具体内容 |
-|------|------|---------|
-| **Repository Example** | 每周 1 个 | 真实工程案例：package.json + 6 files + incidents + tech debt |
-| **Workflow** | 每月 1 个 | 新增 /workflows 页面 |
-| **Generator Prompt 优化** | 每月 1 次 | 增强 repository realism，降低 generic AI wording |
-| **真功能更新** | 每季度 1 次 | Share URL → GitHub Analyze → Repo Diff → AI Constraints |
+30 天后用户进 reporules.dev，会觉得：**这个东西真的懂 repository engineering。**
 
 ---
 
-## 每周更新流程
+## 任务分层（重要）
 
-```
-你 → 说「给我本周的 example」
-                    ↓
-我 → 5 分钟出完整 data/examples/xxx.ts（含 files + incidents + tech debt）
-                    ↓
-你 → 复制给 Claude Code
-                    ↓
-Claude Code → 写入项目 + git commit + git push
-                    ↓
-你 → 验证页面 / tabs / ZIP / mobile（30 分钟）
-                    ↓
-Cloudflare → 自动部署（5 分钟）
-```
-
-**总耗时：1-2 小时，半天内完成。**
+| 类型 | 工具 | 用途 |
+|------|------|------|
+| 内容生成 | **DeepSeek v4 flash** | examples / workflows / docs / governance text / prompt iteration |
+| UI/TSX 改动 | **Claude Code** | components/ / app/ / layout / routing / export logic / ZIP / refactor |
+| Infra/Security | **人工** | CORS / 限流 / 部署 / KV 配置 |
+| 内容审核 | **AutoClaw (ChatGPT)** | 产品方向 / 内容真实性 / workflow 设计 / prompt realism / 验收 |
+| 最终决策 | **你** | review / 上线决定 / roadmap / examples 可信度把关 |
 
 ---
 
-## 12 周内容排期
+## 四步发布流程（禁止跳过）
 
-### Weeks 1-4（当前阶段 — Examples 积累期）
+Step 1 → DeepSeek 生成内容
+Step 2 → 你 review 初稿
+Step 3 → AutoClaw review 真实性（检查 generic wording）
+Step 4 → Claude Code 上线（如有代码变更）
 
-| 周 | 内容 | 类型 | 工程主题 |
-|----|------|------|---------|
-| **Week 1** | Next.js AI SaaS | Example | Stripe billing + auth migration 问题 |
-| **Week 2** | AI Agent Monorepo | Example | Agent routing 边界泄漏 |
-| **Week 3** | Supabase SaaS | Example | RLS migration 破坏了 admin dashboard |
-| **Week 4** | **Supabase SaaS Workflow** | **Workflow** | 月更 workflow，含 repository structure + constraints + incidents |
-
-### Weeks 5-8
-
-| 周 | 内容 | 类型 | 工程主题 |
-|----|------|------|---------|
-| **Week 5** | Stripe Billing System | Example | webhook retry queue 重复 invoice events |
-| **Week 6** | RAG Infrastructure | Example | embedding migration 无效化 vector index |
-| **Week 7** | Vercel AI SDK App | Example | edge streaming bypassed validation middleware |
-| **Week 8** | **AI Agent Workflow** | **Workflow** | 月更 workflow |
-
-### Weeks 9-12
-
-| 周 | 内容 | 类型 | 工程主题 |
-|----|------|------|---------|
-| **Week 9** | OpenAI SDK Backend | Example | model routing + fallback + retry systems |
-| **Week 10** | Enterprise Monorepo | Example | turborepo + shared contracts + package governance |
-| **Week 11** | Claude Code Workspace | Example | AI pair programming + governance prompts |
-| **Week 12** | **Enterprise Monorepo Workflow** | **Workflow** | 月更 workflow |
+不允许：生成 → 直接发布
 
 ---
 
-## 每月必须做的事
+## Month 1 计划（可执行版）
 
-### Generator Prompt 优化
+### ✅ 已完成（Week 1）
 
-- Claude 修改 `prompts/generator.ts`
-- **增强**：repository realism / incidents / migration conflicts / technical debt / architecture drift
-- **降低**：generic AI wording（clean code / best practice）
+| 项目 | 状态 | Commit |
+|------|------|--------|
+| CursorRules.fun banner + generator 301 | ✅ Completed | 8bec857 |
+| Footer / Navigation 重构 | ✅ Completed | 1f0b19c |
+| GA4 三站分离 | ✅ Completed | e364e02 / a7f9abd / e7c6cf2 |
+| **Security Hardening** | ✅ Completed | 883f99b / e126a04 |
 
----
-
-## 季度功能计划
-
-| Quarter | 功能 | 说明 |
-|---------|------|------|
-| **Q1** | Share URLs | `/g/82ksjs` 分享生成的 governance 包 |
-| **Q2** | GitHub Analyze | 输入 GitHub URL，自动分析 architecture drift / duplicated validation / migration risks / unsafe AI patterns |
-| **Q3** | Repo Diff | 比较应用 governance 前后的变化 |
-| **Q4** | AI Constraints Engine | 自动生成 AI-safe repository rules |
-
----
-
-## Example 内容模板（每个必须包含）
-
-一个合格的 Repository Example 必须包含：
-
-```
-📁 example/
-├── package.json          # 真实感的依赖
-├── rules.md              # AI 约束层
-├── memory.md             # AI 上下文层
-├── architecture.md       # AI 架构边界层
-├── claude.md             # Claude 专用配置
-├── .cursorrules          # Cursor 专用配置
-├── testing-workflow.md   # 测试工作流
-├── migration-notes.md    # 迁移问题
-├── incidents.json        # 工程事故日志
-│
-│  每个 incidents 必须包含：
-│  ├── Migration Problems    例：analytics pipeline bypassed migration check
-│  ├── Technical Debt        例：duplicated auth hooks across 3 packages
-│  └── Incidents             例：billing validation layer disabled during refactor
-│
-└── data.ts               # 页面数据结构
-```
-
-### 内容质量铁律
-
-| ✅ 必须 | ❌ 禁止 |
-|---------|--------|
-| 「billing service bypassed validation layer during migration」 | 「Always write clean code」 |
-| 「shared analytics hooks duplicated during dashboard rewrite」 | 「Use best practices」 |
-| 「duplicated zod validators in 3 services」 | 「Avoid duplication」 |
-| 真实的 migration 失败案例 | 泛泛的工程建议 |
+**Security Hardening 详情：**
+- CORS allowlist（仅三站域名可调 API）
+- 全局日调用上限 300 次
+- IP rate limiting (2/h, 10/day)
+- Prompt injection filtering
+- Request timeout protection (50s abort)
 
 ---
 
-## 当前状态（2026-05-14）
+### Week 1 — 产品稳定周
 
-| 维度 | 状态 |
+**目标：** homepage freeze + examples 基础可信度
+
+**Homepage stabilization（允许范围）：**
+- spacing 微调
+- subtle blur
+- wording 最终修正（CTA 只改最后一次）
+- loading/error wording
+
+**禁止：** 新 section / redesign / layout 改变 / 新 block / hero 重做 / Logo 重做
+
+**Examples（不新增，先精修已有的 5 个）：**
+- /examples/nextjs-ai-saas
+- /examples/ai-agent-monorepo
+- /examples/stripe-billing-system
+- Turborepo SaaS
+- AI coding agent repo / Supabase backend / Multi-tenant SaaS（选 1-2 个精修）
+
+**完成标准：** 每个 example 必须包含：
+1. Repository Signals（Detected stack，具体到库名 + 架构模式）
+2. Governance Files（rules.md / memory.md / architecture.md / testing-workflow.md / migration-notes.md）
+3. Engineering Decisions（为什么选这个方案，不做假的 lorem ipsum）
+
+**负责人：** DeepSeek（内容）+ AutoClaw（审核）+ 你（最终发布决定）
+
+---
+
+### Week 2 — Generator Realism
+
+**目标：** 消除 generic AI 味，生成结果像真实工程团队
+
+**完成标准（退出条件）：** 连续 5 次生成结果中**不出现**以下任何一种：
+- "Follow best practices"
+- "Ensure maintainability"
+- "Write clean code"
+- "Keep files organized"
+- "Use modular structure"
+- 任何不引用具体库的 vague constraints
+
+**正确结果示例：**
+- ✅ "All Stripe webhook validation must remain centralized under /lib/billing/webhooks"
+- ✅ "Prisma transaction boundaries cannot be split across server actions"
+
+**Detected stack 提升：**
+- 从 "React detected" → "Detected: Next.js App Router / Prisma relational schema / Zod validation layer / Stripe billing integration"
+
+**已完成（从计划删除）：**
+- 新增 detected stack section（已存在）
+- ZIP metadata（推迟到 Month 2）
+
+**负责人：** DeepSeek 迭代 prompt + AutoClaw 审核 wording
+
+---
+
+### Week 3 — Workflow 深化
+
+**目标：** 建立 engineering depth
+
+**新增 workflow pages（1-2 个）：**
+- /workflows/nextjs-saas-team
+- /workflows/ai-agent-monorepo
+- /workflows/database-migration-safety
+
+**每个 workflow 必须包含：**
+- Repository Structure（apps/ / packages/ / shared/）
+- AI Constraints（如：Agents cannot modify billing layer）
+- Migration Rules（All schema changes require migration review）
+
+**负责人：** DeepSeek（结构生成）+ AutoClaw（真实性 review）+ 你（发布）
+
+---
+
+### Week 4 — 可信度 + 数据
+
+**目标：** 从「工具」开始变「系统」
+
+**KV lightweight metrics（不记录用户敏感数据）：**
+| 指标 | 示例 |
 |------|------|
-| 产品定位 | ✅ Repository Operating System |
-| Generator 功能闭环 | ✅ File tabs + ZIP export |
-| Rate limit 保护 | ✅ 2/h, 5/d per IP, KV binding |
-| 真实 examples | ✅ 3 个真输出案例 |
-| 全站工程感 | ✅ 已达可信水平 |
-| Cloudflare KV | ✅ REPORULES_RATE_LIMIT (ID: 191f6503571c4861b8c0b7e752a938d6) |
-| Analytics | ✅ GA4 (G-9QVY2VBRN4) + Cloudflare RUM |
-| 开源时间 | ⚠️ Generator timeout 未解决（Cloudflare 30s 限制） |
+| total_generations | 2026-05-17 → 43 |
+| success_rate | success: 39, fail: 4 |
+| detected_stacks | Next.js: 24, React: 8, Python: 5 |
+
+**不记录：** 用户 repo / package.json / prompt / full outputs
+
+**Empty states / Error wording（统一语气为 engineering console feel）：**
+
+| 场景 | 旧 wording | 新 wording |
+|------|-----------|-----------|
+| Loading | "Generating..." | "Analyzing repository structure..." |
+| Rate limit | "Too many requests" | "Generation limit reached for today. Repository analysis quota resets in 24 hours." |
+| Error | "Something went wrong" | "Repository governance generation failed. The detected dependency graph may be unsupported." |
+
+**负责人：** Claude Code（TSX wording 改动）+ 你（review）
+
+**新增 examples（最多 2 个）：** 补到 Month 1 目标 6 个
+
+**完成标准：** 当月生成总量日志可查，所有 wording 统一为 engineering tone
 
 ---
 
-## Phase 2 完整规格（Repository Analyze — 已确认，暂未开工）
+## Month 1 最终成果
 
-### 预计启动时间
-Phase 1 积累 10-15 个 examples 之后（约 2026-06 中旬）
+| 项目 | 目标 |
+|------|------|
+| Generator 稳定 | 连续 5 次无 generic AI filler |
+| Examples | 6 个高质量真实 repo |
+| Workflows | 1-2 个含 AI Constraints / Migration Rules |
+| UI 稳定 | Freeze 完成，仅允许微调 |
+| 安全 | CORS + 限流 + 全局 cap 全部上线 |
+| 日志 | KV 轻量 metrics 可查 |
 
-### 核心原则
-- 不做：GitHub OAuth / 数据库 / 团队系统 / 聊天
-- 只做：Repository Analyze
-- 输出必须像 engineering audit，不是 ChatGPT 分析
+---
 
-### Analyze 流程
-1. 用户输入：package.json / repo tree / folder structure / dependency list
-2. 系统自动分析 5 类问题：
-   - Architecture Drift（如 shared utilities oversized）
-   - Duplicated Validation（如 duplicated zod validators）
-   - Migration Risks（如 billing migration bypass validation）
-   - AI Unsafe Areas（如 AI rewrite risk in shared layer）
-   - Governance Suggestions（如 preserve package boundaries）
-3. 输出 JSON 结构：signals, risks, technicalDebt, migrationIssues, governanceRules, architectureAnalysis
+## Month 2 之前不做
 
-### UI 设计
-- Generator Header 新增双 tab：["Generate", "Analyze"]
-- Repository Signals Detected（卡片列表）
-- Repository Risks（警告列表）
-- Technical Debt（技术债列表）
-- Governance Suggestions（核心）
-- Architecture Analysis（文本区块）
-- Repository Confidence（百分比分数）
-- Download Analysis（导出 3 个文件）
+- Share URLs / Repo Diff / AI Constraints Engine
+- Accounts / Auth / Billing
+- 完整日志分析系统
+- ZIP metadata.json / README.md
+- 任何「做功能」性质的开发
 
-### Prompt 核心要求
-- 避免 generic AI wording（best practice / clean code）
-- 强化：migration / drift / risks / constraints / incidents
-- Return JSON only
-- 输出必须像 engineering audit，不是 ChatGPT 分析
+---
 
-### 11 步开发清单（来自 Claude 反馈）
-STEP 1: 新增 Analyze Mode — Generator Header 双 tab
-STEP 2: 新增 Analyze Input — 新的 textarea，placeholder 提示
-STEP 3: DeepSeek Prompt 升级 — analyze prompt 上 JSON 模式
-STEP 4: Repository Signals UI — 信号检测卡片
-STEP 5: Risks Section — 风险警告列表
-STEP 6: Technical Debt Section — 技术债列表
-STEP 7: Governance Suggestions — 治理建议（核心）
-STEP 8: Architecture Analysis — 文本区块分析
-STEP 9: Confidence Score — 百分比评分
-STEP 10: Analyze Export — 导出分析报告
-STEP 11: 确保输出像 engineering audit，不是 ChatGPT
+## 核心一句话（非常重要）
+
+你现在不是「做功能」。而是：**建立工程可信度。**
