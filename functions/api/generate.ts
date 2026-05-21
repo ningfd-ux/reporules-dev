@@ -76,6 +76,34 @@ async function checkRateLimit(kv: any, ip: string): Promise<{ success: boolean; 
   return { success: true };
 }
 
+
+function extractJSON(raw: string): object | null {
+  // Direct parse first
+  try { return JSON.parse(raw); } catch (_) {}
+
+  // Extract from markdown code fence
+  const fence = raw.match(/```(?:json)?\n([\s\S]*?)\n?```/);
+  if (fence) {
+    try { return JSON.parse(fence[1].trim()); } catch (_) {}
+  }
+
+  // Find first { to matching }
+  const start = raw.indexOf("{");
+  if (start >= 0) {
+    let depth = 0;
+    for (let i = start; i < raw.length; i++) {
+      if (raw[i] === "{") depth++;
+      if (raw[i] === "}") depth--;
+      if (depth === 0 && i > start) {
+        try { return JSON.parse(raw.slice(start, i + 1)); } catch (_) {}
+        break;
+      }
+    }
+  }
+
+  return null;
+}
+
 export async function onRequest(context) {
   const request = context.request;
   const origin = request.headers.get("Origin") || request.headers.get("origin") || null;
@@ -201,7 +229,7 @@ export async function onRequest(context) {
             { role: "user", content: userPrompt },
           ],
           temperature: 0.6,
-          max_tokens: 1000,
+          max_tokens: 2000,
         }),
         signal: controller.signal,
       });
@@ -218,12 +246,10 @@ export async function onRequest(context) {
 
       const data = await response.json();
       let content;
-      try {
-        content = JSON.parse(data.choices[0].message.content);
-      } catch (parseErr) {
-        const rawContent = data.choices[0]?.message?.content || "";
+      content = extractJSON(data.choices[0].message.content);
+      if (!content) {
         return new Response(
-          JSON.stringify({ error: "Generation timed out. Try again.", raw: rawContent.substring(0, 200) }),
+          JSON.stringify({ error: "Generation returned invalid JSON. Try again." }),
           { status: 408, headers: { ...corsHeaders(origin), "Content-Type": "application/json" } },
         );
       }
