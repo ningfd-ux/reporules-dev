@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Claude Code SaaS Repository System — RepoRules.dev",
   description:
-    "A structured repository workflow designed for scalable AI-assisted SaaS engineering.",
+    "Claude Code SaaS workflow: production-ready repository governance system for Next.js SaaS applications with server-first architecture.",
 };
 
 const CODE =

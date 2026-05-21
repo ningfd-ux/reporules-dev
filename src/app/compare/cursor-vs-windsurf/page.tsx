@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Zap, Brain, Workflow, GitBranch } from "lucide-react";
 import CompareTable from "@/components/CompareTable";
 import FeatureCard from "@/components/FeatureCard";
+
+export const metadata: Metadata = {
+  title: "Cursor vs Windsurf — RepoRules.dev",
+  description:
+    "Cursor vs Windsurf: compare repository awareness, agent workflows, code completion, and terminal integration for AI-assisted engineering.",
+};
 
 const FEATURES = [
   {

@@ -3,7 +3,8 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "What Are AI Coding Standards? — RepoRules.dev",
-  description: "Learn how AI coding standards help AI agents generate consistent, maintainable, and repository-aware code.",
+  description:
+    "AI coding standards explained: structured guidelines that tell AI tools how to generate repository-aware, maintainable code.",
 };
 
 const SIDEBAR_LINK = "block text-sm text-zinc-400 transition-colors hover:text-blue-300";

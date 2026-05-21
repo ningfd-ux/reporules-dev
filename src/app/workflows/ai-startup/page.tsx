@@ -3,7 +3,8 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "AI Startup Workflow — RepoRules.dev",
-  description: "Lean AI coding standards for fast-moving startup teams.",
+  description:
+    "AI Startup workflow: lean repository governance and AI coding standards for fast-moving startup engineering teams.",
 };
 
 const CARD = "rounded-xl border border-[#2a2d35] bg-[#16181d] p-6";

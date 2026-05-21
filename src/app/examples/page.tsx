@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { allExamples } from "@/data/examples";
+
+export const metadata: Metadata = {
+  title: "Repository Governance Examples — RepoRules.dev",
+  description:
+    "Real generated repository governance examples: rules.md, memory.md, architecture constraints, and migration notes from AI-assisted repositories.",
+};
 
 const CARD = "rounded-xl border border-[#2a2d35] bg-[#16181d] p-6 transition-colors hover:border-zinc-600";
 

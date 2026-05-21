@@ -3,7 +3,8 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Repository-Aware Generation — RepoRules.dev",
-  description: "Standards that analyze your dependencies and generate context-specific guidelines.",
+  description:
+    "How repository-aware AI generation works: analyze dependencies, detect tech stacks, and generate context-specific governance rules.",
 };
 
 const SIDEBAR_LINK = "block text-sm text-zinc-400 transition-colors hover:text-blue-300";

@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { allExamples, getExampleBySlug } from "@/data/examples";
+
+export const metadata: Metadata = {
+  title: "Repository Governance Example — RepoRules.dev",
+  description:
+    "Real generated repository governance files from AI-assisted engineering systems. View rules, memory, architecture, and migration notes.",
+};
 
 export function generateStaticParams() {
   return allExamples.map((e) => ({ slug: e.slug }));

@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "About — RepoRules.dev",
   description:
-    "RepoRules.dev generates repository-aware AI coding standards for Cursor, Claude Code, Copilot and AI agents.",
+    "RepoRules generates repository governance files for AI coding systems — rules, memory, architecture, and workflow standards.",
 };
 
 export default function AboutPage() {

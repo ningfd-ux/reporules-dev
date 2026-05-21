@@ -3,7 +3,8 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Why AI-Generated Code Breaks — RepoRules.dev",
-  description: "Common failure modes in AI-generated code and how coding standards prevent them.",
+  description:
+    "Why AI-generated code breaks: wrong framework patterns, missing error handling, inconsistent architecture, and how repository governance prevents failures.",
 };
 
 const SIDEBAR_LINK = "block text-sm text-zinc-400 transition-colors hover:text-blue-300";

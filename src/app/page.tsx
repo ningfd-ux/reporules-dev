@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import HeroSection from "@/components/HeroSection";
+
+export const metadata: Metadata = {
+  title: "RepoRules.dev — AI Repository Governance",
+  description:
+    "AI repository governance system that generates rules.md, memory.md, architecture constraints, and AI workflow standards for scalable codebases.",
+};
 
 const CARD =
   "rounded-xl border border-[#2a2d35] bg-[#16181d] p-6 transition-colors hover:border-zinc-600";

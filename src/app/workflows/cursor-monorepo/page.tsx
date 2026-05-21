@@ -3,7 +3,8 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Cursor Monorepo Workflow — RepoRules.dev",
-  description: "Shared AI workflow for Turborepo and multi-package projects.",
+  description:
+    "Cursor Monorepo workflow: shared repository governance and AI coding standards for Turborepo multi-package projects.",
 };
 
 const CARD = "rounded-xl border border-[#2a2d35] bg-[#16181d] p-6";

@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — RepoRules.dev",
-  description: "Privacy policy for RepoRules.dev.",
+  description:
+    "RepoRules.dev privacy policy. We process package.json content in real-time for generating AI coding standards and do not store submitted data.",
 };
 
 export default function PrivacyPage() {

@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Zap, Brain, Workflow, GitBranch } from "lucide-react";
 import CompareTable from "@/components/CompareTable";
 import FeatureCard from "@/components/FeatureCard";
+
+export const metadata: Metadata = {
+  title: "Cursor vs Copilot — RepoRules.dev",
+  description:
+    "Cursor vs Copilot: compare code completion accuracy, repository context awareness, multi-file editing, and IDE integration for AI coding workflows.",
+};
 
 const FEATURES = [
   {

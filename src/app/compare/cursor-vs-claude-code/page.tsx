@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Zap, Brain, Workflow, GitBranch } from "lucide-react";
 import CompareTable from "@/components/CompareTable";
 import FeatureCard from "@/components/FeatureCard";
+
+export const metadata: Metadata = {
+  title: "Cursor vs Claude Code — RepoRules.dev",
+  description:
+    "Cursor vs Claude Code: compare repository awareness, multi-file refactoring, context handling, and agent workflows for AI-assisted development.",
+};
 
 const FEATURES = [
   {
