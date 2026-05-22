@@ -1,78 +1,27 @@
-# TASKS.md — 2026-05-21 SEO: Meta Descriptions for All Pages
+# TASKS.md — 2026-05-22 Prompt Micro-Tune
 
-## Problem
-Google Search Console shows reporules.dev has 27 discovered pages but only 1 indexed. Pages lack meta descriptions which affects Google's indexing decisions.
+## Task
+Push commit `functions/api/generate.ts` — prompt micro-tune based on 5 test passes.
 
-## Goal
-Add unique, descriptive `<meta name="description">` tags to every page on reporules.dev.
+## Changes
+Only one file changed:
+- `functions/api/generate.ts`
 
-## Pages to update
-All pages from the sitemap get unique meta descriptions:
+Changes in prompt:
+1. Strictness guidance rewritten (relaxed/strict/balanced) — more specific, less generic
+2. Added 2 new CRITICAL RULES:
+   - "Incident entries must include a date (e.g., YEAR-MONTH: ...) and a concrete fix"
+   - "Rules must reference library-specific APIs and methods (e.g., Prisma client, Stripe webhooks, Zod schemas)"
 
-| URL | Focus |
-|-----|-------|
-| / (homepage) | "AI Repository Governance" positioning |
-| /about | What RepoRules is |
-| /compare/cursor-vs-claude-code | Comparison |
-| /compare/cursor-vs-copilot | Comparison |
-| /compare/cursor-vs-windsurf | Comparison |
-| /docs | Intro to repository governance |
-| /docs/repository-aware-generation | How it works |
-| /docs/what-are-ai-coding-standards | Standards explanation |
-| /docs/why-ai-generated-code-breaks | Problem analysis |
-| /examples | Examples overview |
-| /examples/ai-agent-monorepo | Specific example |
-| /examples/ai-startup | Specific example |
-| /examples/cursor-monorepo | Specific example |
-| /examples/nextjs-ai-saas | Specific example |
-| /examples/stripe-billing | Specific example |
-| /generator | Generator tool |
-| /patterns | Patterns library |
-| /privacy | Privacy policy |
-| /rules | Rules library |
-| /workflows | Workflows overview |
-| /workflows/ai-startup | Specific workflow |
-| /workflows/claude-code-saas | Specific workflow |
-| /workflows/cursor-monorepo | Specific workflow |
+## Steps
+1. `git add functions/api/generate.ts`
+2. `git commit -m "tune: prompt micro-tune - stricter non-generic enforcement + incident date format"`
+3. `git config http.proxy http://127.0.0.1:17891` (if needed)
+4. `git config https.proxy http://127.0.0.1:17891` (if needed)
+5. `git push`
+6. `git config --unset http.proxy`
+7. `git config --unset https.proxy`
 
-## Implementation
-
-### For Next.js App Router
-1. Add meta descriptions to each page's `metadata.export` (or `generateMetadata`)
-2. Each description should be unique (50-160 chars), descriptive, and include the page's primary keyword
-3. Do NOT use generic descriptions like "Learn more about..."
-
-### Pattern example
-For `/examples/nextjs-ai-saas/page.tsx`:
-```tsx
-export const metadata = {
-  title: "...",
-  description: "Next.js AI SaaS example: repository rules, memory, and architecture files for a subscription-based AI product with Stripe billing and Prisma ORM.",
-};
-```
-
-### Rules
-- NO UI changes — only add/modify the `description` field in metadata exports
-- Each description UNIQUE — do not copy-paste
-- Keep under 160 characters
-- Include the page's core topic/keyword naturally
-
-## File locations
-All page files are in `src/app/` following Next.js App Router structure:
-- `src/app/page.tsx` (homepage)
-- `src/app/about/page.tsx`
-- `src/app/compare/[slug]/page.tsx`
-- `src/app/docs/[...slug]/page.tsx`
-- `src/app/examples/page.tsx`
-- `src/app/examples/[slug]/page.tsx`
-- `src/app/generator/page.tsx`
-- `src/app/patterns/page.tsx`
-- `src/app/privacy/page.tsx`
-- `src/app/rules/page.tsx`
-- `src/app/workflows/page.tsx`
-- `src/app/workflows/[slug]/page.tsx`
-
-## Verification
-After adding, verify:
-1. `npm run build` succeeds
-2. Homepage has a meta description tag when viewed in browser
+## Notes
+- This is a safe, single-file change
+- No UI, no build dependencies, no new features
