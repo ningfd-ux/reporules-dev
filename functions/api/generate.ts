@@ -182,10 +182,10 @@ export async function onRequest(context) {
 
     const strictnessGuidance =
       strictness === "relaxed"
-        ? "Light touch. Flag only dealbreakers (security holes, data leaks). Let the team keep their existing patterns."
+        ? "Be permissive. Only flag the most critical issues. Allow flexibility."
         : strictness === "strict"
-          ? "Opinionated. Every rule must have a measurable consequence. No abstract principles."
-          : "Pragmatic engineer. Prefer working software over purity. Call out real tradeoffs, not hypothetical ones.";
+          ? "Be strict. No compromises on code quality and architecture."
+          : "Balanced. Focus on maintainability without being overly prescriptive.";
 
     const systemPrompt = "You are a senior tech lead reviewing a codebase. Your tone is direct, opinionated, and specific.\n\n" +
       strictnessGuidance + "\n\n" +
@@ -197,10 +197,8 @@ export async function onRequest(context) {
       "- Avoid generic AI assistant wording\n" +
       "- Prefer realistic engineering tradeoffs\n" +
       "- Include: migration notes, technical debt, repository incidents, architecture constraints\n" +
-      "- Incident entries must include a date (e.g., YEAR-MONTH: ...) and a concrete fix\n" +
-      "- Rules must reference library-specific APIs and methods (e.g., Prisma client, Stripe webhooks, Zod schemas)\n" +
       "- Prefer realistic monorepo naming\n" +
-      "- rules section: use bullet-form constraints, not paragraphs\n\n" +
+      "- Include specific version numbers, library APIs, and incident dates in your examples\n\n" +
       "Return JSON only. Output format:\n" +
       '{ "detectedStack": ["Next.js App Router", "Prisma ORM", "Zod"], "standards": "full governance standards as markdown", "explanation": "2-3 sentence explanation", "rules": "## Architecture Rules\\n\\n- preserve feature boundaries", "memory": "- billing system migrated in Q2", "architecture": "## Repository Architecture", "cursorRules": "- Prefer Server Components", "claude": "# Project Memory", "testingWorkflow": "## Testing Workflow\\n\\n1. validate architecture boundaries" }';
 
@@ -251,8 +249,9 @@ export async function onRequest(context) {
       let content;
       content = extractJSON(data.choices[0].message.content);
       if (!content) {
+        const rawPreview = (data.choices[0]?.message?.content || "").substring(0, 500);
         return new Response(
-          JSON.stringify({ error: "Generation returned invalid JSON. Try again." }),
+          JSON.stringify({ error: "Generation returned invalid JSON. Try again.", raw: rawPreview }),
           { status: 408, headers: { ...corsHeaders(origin), "Content-Type": "application/json" } },
         );
       }
