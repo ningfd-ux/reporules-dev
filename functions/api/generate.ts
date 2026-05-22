@@ -230,7 +230,7 @@ export async function onRequest(context) {
             { role: "user", content: userPrompt },
           ],
           temperature: 0.6,
-          max_tokens: 2000,
+          max_tokens: 4000,
         }),
         signal: controller.signal,
       });
@@ -249,7 +249,7 @@ export async function onRequest(context) {
       let content;
       content = extractJSON(data.choices[0].message.content);
       if (!content) {
-        const rawPreview = (data.choices[0]?.message?.content || "").substring(0, 500);
+        const rawPreview = (data.choices[0]?.message?.content || "").substring(0, 1000);
         return new Response(
           JSON.stringify({ error: "Generation returned invalid JSON. Try again.", raw: rawPreview }),
           { status: 408, headers: { ...corsHeaders(origin), "Content-Type": "application/json" } },
