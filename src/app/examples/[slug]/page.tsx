@@ -32,8 +32,25 @@ export default async function ExamplePage({
   const example = getExampleBySlug(slug);
   if (!example) notFound();
 
+  const techArticleSchema = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    headline: `${example.title} — RepoRules.dev`,
+    description: example.description,
+    proficiencyLevel: "Advanced",
+    about: {
+      "@type": "Thing",
+      name: "AI Repository Governance",
+    },
+  };
+
   return (
-    <main className="min-h-screen bg-[#0d0f14] text-zinc-100">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }}
+      />
+      <main className="min-h-screen bg-[#0d0f14] text-zinc-100">
       <div className="mx-auto max-w-5xl px-6 py-16">
         {/* Header */}
         <div className="mb-12">
@@ -118,5 +135,6 @@ export default async function ExamplePage({
         </div>
       </div>
     </main>
+    </>
   );
 }

@@ -9,9 +9,27 @@ export const metadata: Metadata = {
 
 const CARD = "rounded-xl border border-[#2a2d35] bg-[#16181d] p-6";
 
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "AI Startup Workflow",
+  description:
+    "Lean AI coding standards for fast-moving startup teams.",
+  step: [
+    { "@type": "HowToStep", name: "Planning", text: "Define repository structure and feature boundaries" },
+    { "@type": "HowToStep", name: "Implementation", text: "Generate governance files and set up conventions" },
+    { "@type": "HowToStep", name: "Validation", text: "Verify architecture rules and PR workflow" },
+  ],
+};
+
 export default function AIStartupPage() {
   return (
-    <main className="min-h-screen bg-[#0d0f14] text-zinc-100">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+      <main className="min-h-screen bg-[#0d0f14] text-zinc-100">
       <div className="mx-auto max-w-5xl px-6 py-16">
         <div className="mb-12">
           <div className="mb-6 inline-flex items-center rounded-full border border-zinc-700 bg-zinc-900 px-3 py-1 font-mono text-xs text-zinc-300">
@@ -72,5 +90,6 @@ export default function AIStartupPage() {
         </div>
       </div>
     </main>
+    </>
   );
 }

@@ -13,9 +13,27 @@ const CARD =
   "rounded-xl border border-zinc-800 bg-[#16181d] p-6 font-mono text-sm leading-7 text-zinc-400";
 const SECTION_TITLE = "text-2xl font-semibold tracking-tight text-zinc-100 mb-6";
 
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "Claude Code SaaS Repository System",
+  description:
+    "A structured repository workflow designed for scalable AI-assisted SaaS engineering.",
+  step: [
+    { "@type": "HowToStep", name: "Planning", text: "Define repository structure and feature boundaries" },
+    { "@type": "HowToStep", name: "Implementation", text: "Generate governance files and set up conventions" },
+    { "@type": "HowToStep", name: "Validation", text: "Verify architecture rules and PR workflow" },
+  ],
+};
+
 export default function ClaudeCodeSaaS() {
   return (
-    <div className="mx-auto max-w-7xl px-6 py-20">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+      <div className="mx-auto max-w-7xl px-6 py-20">
       {/* Tag */}
       <span className="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-900 px-3 py-1 font-mono text-xs text-zinc-300">
         Production AI Workflow
@@ -338,5 +356,6 @@ Refactor this feature following existing repo conventions.
         </div>
       </section>
     </div>
+    </>
   );
 }

@@ -141,8 +141,23 @@ export default function GeneratorPage() {
     }
   };
 
+  const softwareAppSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "RepoRules Governance Generator",
+    description:
+      "Generate repository governance files — rules.md, memory.md, architecture constraints, and AI coding standards using AI.",
+    applicationCategory: "DeveloperApplication",
+    operatingSystem: "Web",
+  };
+
   return (
-    <div className="min-h-screen bg-[#0d0f14]">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
+      />
+      <div className="min-h-screen bg-[#0d0f14]">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-0 lg:grid-cols-2">
         {/* LEFT COLUMN 鈥?Input */}
         <div className="border-r border-[#2a2d35] p-6 lg:p-10">
@@ -363,5 +378,6 @@ export default function GeneratorPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
