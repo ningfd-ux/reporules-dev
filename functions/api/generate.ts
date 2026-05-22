@@ -78,30 +78,19 @@ async function checkRateLimit(kv: any, ip: string): Promise<{ success: boolean; 
 
 
 function extractJSON(raw: string): object | null {
-  // Direct parse first
-  try { return JSON.parse(raw); } catch (_) {}
-
-  // Extract from markdown code fence
-  const fence = raw.match(/```(?:json)?\n([\s\S]*?)\n?```/);
-  if (fence) {
-    try { return JSON.parse(fence[1].trim()); } catch (_) {}
-  }
-
-  // Find first { to matching }
-  const start = raw.indexOf("{");
-  if (start >= 0) {
-    let depth = 0;
-    for (let i = start; i < raw.length; i++) {
-      if (raw[i] === "{") depth++;
-      if (raw[i] === "}") depth--;
-      if (depth === 0 && i > start) {
-        try { return JSON.parse(raw.slice(start, i + 1)); } catch (_) {}
-        break;
-      }
+  try {
+    return JSON.parse(raw);
+  } catch (e) {
+    // Try extracting between first { and last }
+    var start = raw.indexOf("{");
+    var end = raw.lastIndexOf("}");
+    if (start >= 0 && end > start) {
+      try {
+        return JSON.parse(raw.substring(start, end + 1));
+      } catch (e2) {}
     }
+    return null;
   }
-
-  return null;
 }
 
 export async function onRequest(context) {
