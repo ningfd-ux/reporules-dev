@@ -211,6 +211,20 @@ export default function WorkflowsPage() {
           </div>
         </div>
       </section>
+
+      {/* See Generated Examples */}
+      <section className="mt-16">
+        <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">See Generated Examples</h2>
+        <p className="mt-4 leading-8 text-zinc-300">
+          View real repository governance files generated from these workflows.
+        </p>
+        <Link
+          href="/examples"
+          className="mt-6 inline-flex items-center rounded-lg border border-zinc-700 px-5 py-3 text-sm text-zinc-300 transition-colors hover:border-zinc-500 hover:bg-zinc-900"
+        >
+          Browse Generated Examples &rarr;
+        </Link>
+      </section>
     </div>
   );
 }

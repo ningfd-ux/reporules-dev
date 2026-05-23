@@ -133,6 +133,29 @@ export default async function ExamplePage({
             &larr; Back to Examples
           </Link>
         </div>
+
+        {/* Related Examples */}
+        {(() => {
+          const all = allExamples.filter(e => e.slug !== slug);
+          const related = all.slice(0, 3);
+          return (
+            <div className="mt-16 border-t border-zinc-800 pt-12">
+              <h2 className="mb-6 text-2xl font-semibold tracking-tight">Related Examples</h2>
+              <div className="grid gap-4 sm:grid-cols-3">
+                {related.map((ex) => (
+                  <Link
+                    key={ex.slug}
+                    href={`/examples/${ex.slug}`}
+                    className="rounded-xl border border-zinc-800 bg-[#151922] p-5 transition-colors hover:border-zinc-600"
+                  >
+                    <div className="text-sm font-medium">{ex.title}</div>
+                    <div className="mt-2 text-xs text-zinc-500 line-clamp-2">{ex.description}</div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          );
+        })()}
       </div>
     </main>
     </>

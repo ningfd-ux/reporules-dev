@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { allWorkflows } from "@/data/workflows";
 
 export const metadata: Metadata = {
   title: "Claude Code SaaS Repository System — RepoRules.dev",
@@ -355,6 +356,28 @@ Refactor this feature following existing repo conventions.
           </div>
         </div>
       </section>
+
+      {/* Related Workflows */}
+      {(() => {
+        const related = allWorkflows.filter(w => w.id !== "claude-code-saas");
+        return (
+          <div className="mt-16 border-t border-zinc-800 pt-12">
+            <h2 className="mb-6 text-2xl font-semibold tracking-tight">Related Workflows</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {related.map((w) => (
+                <Link
+                  key={w.id}
+                  href={`/workflows/${w.id}`}
+                  className="rounded-xl border border-zinc-800 bg-[#151922] p-5 transition-colors hover:border-zinc-600"
+                >
+                  <div className="text-sm font-medium">{w.title}</div>
+                  <div className="mt-2 text-xs text-zinc-500 line-clamp-2">{w.description}</div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
     </div>
     </>
   );
