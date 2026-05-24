@@ -5,6 +5,7 @@ import { aiAgentMonorepoExample } from "./ai-agent-monorepo";
 import { stripeBillingExample } from "./stripe-billing";
 import type { ExampleData } from "./nextjs-ai-saas";
 import { supabaseSaaSExample } from "./supabase-saas";
+import { supabaseSaaSWorkflowExample } from "./supabase-saas-workflow";
 
 export const allExamples: ExampleData[] = [
   nextjsAiSaasExample,
@@ -13,6 +14,7 @@ export const allExamples: ExampleData[] = [
   aiAgentMonorepoExample,
   stripeBillingExample,
   supabaseSaaSExample,
+  supabaseSaaSWorkflowExample,
 ];
 
 export function getExampleBySlug(slug: string): ExampleData | undefined {
