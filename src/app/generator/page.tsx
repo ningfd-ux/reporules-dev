@@ -11,7 +11,10 @@ import StackBadge from "@/components/StackBadge";
 import CodeBlock from "@/components/CodeBlock";
 import { detectStack, formatStackSummary } from "@/lib/detect-stack";
 import { saveAs } from "file-saver";
+import JSZip from "jszip";
+import Link from "next/link";
 import { generateStandards } from "@/lib/deepseek";
+import { getRelatedRepositories, getRelatedWorkflows, normalizeStackTags, type RepositoryMetadata } from "@/data/repositories";
 
 type ToolTarget = "cursor" | "claude-code" | "copilot" | "generic";
 type Strictness = "relaxed" | "balanced" | "strict";
@@ -139,6 +142,53 @@ export default function GeneratorPage() {
     } catch {
       // fallback
     }
+  };
+
+  const downloadAllAsZip = async () => {
+    if (!result) return;
+    const zip = new JSZip();
+    FILE_TABS.forEach((tab) => {
+      const content = result[tab.key as keyof GenerateResult];
+      if (typeof content === "string") {
+        zip.file(tab.label, content);
+      }
+    });
+    const blob = await zip.generateAsync({ type: "blob" });
+    saveAs(blob, "reporules-governance.zip");
+    trackGA("export_zip", { file_count: FILE_TABS.filter(t => typeof result[t.key as keyof GenerateResult] === "string").length });
+  };
+
+  const tabCTA: Record<string, { text: string; href: string; label: string }> = {
+    rules: {
+      text: "See how repository-wide AI rules scale in a production Next.js SaaS",
+      href: "/examples/nextjs-ai-saas",
+      label: "View Repository Example",
+    },
+    memory: {
+      text: "Explore long-term repository memory patterns for AI coding agents",
+      href: "/workflows/ai-agent-monorepo",
+      label: "View Workflow",
+    },
+    architecture: {
+      text: "See architecture isolation rules in a real multi-package repository",
+      href: "/examples/claude-code-saas",
+      label: "View Architecture Example",
+    },
+    cursorRules: {
+      text: "Configure AI tool boundaries for consistent multi-agent development",
+      href: "/docs/repository-aware-generation",
+      label: "Read Documentation",
+    },
+    claude: {
+      text: "View repository workflows for AI-assisted development teams",
+      href: "/workflows/ai-startup",
+      label: "View Workflow",
+    },
+    testingWorkflow: {
+      text: "See how governance reviews prevent repository drift",
+      href: "/docs/why-ai-generated-code-breaks",
+      label: "Read Documentation",
+    },
   };
 
   const softwareAppSchema = {
@@ -331,7 +381,10 @@ export default function GeneratorPage() {
                 {FILE_TABS.map((tab) => (
                   <button
                     key={tab.key}
-                    onClick={() => setActiveFile(tab.key)}
+                    onClick={() => {
+                      setActiveFile(tab.key);
+                      trackGA("tab_switch", { file: tab.key });
+                    }}
                     className={`h-9 whitespace-nowrap rounded-lg border px-4 text-sm transition-colors ${
                       activeFile === tab.key
                         ? "border-zinc-500 bg-zinc-800/50 text-zinc-100"
@@ -346,17 +399,49 @@ export default function GeneratorPage() {
               {/* File Content */}
               <CodeBlock maxHeight="500px">{getFileContent()}</CodeBlock>
 
+              {/* Tab Contextual Next Steps */}
+              <div className="rounded-xl border border-[#2a2d35] bg-[#151922] p-5">
+                <div className="mb-3 text-sm font-medium text-zinc-100">
+                  Next Step: {FILE_TABS.find(t => t.key === activeFile)?.label}
+                </div>
+                {(() => {
+                  const cta = tabCTA[activeFile];
+                  if (!cta) return null;
+                  return (
+                    <div>
+                      <p className="text-sm text-zinc-400">{cta.text}</p>
+                      <Link
+                        href={cta.href}
+                        onClick={() => trackGA("related_link_click", { source: "tab_cta", file: activeFile, target: cta.href })}
+                        className="mt-3 inline-flex items-center rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-300 transition-colors hover:border-zinc-500 hover:bg-zinc-900"
+                      >
+                        {cta.label} &rarr;
+                      </Link>
+                    </div>
+                  );
+                })()}
+              </div>
+
               {/* Export */}
               <div>
                 <div className="mb-4 text-sm font-medium text-zinc-100">Export Repository Files</div>
                 <div className="flex flex-wrap gap-3">
+                  <button
+                    onClick={downloadAllAsZip}
+                    className="h-11 rounded-lg border border-emerald-700 bg-emerald-900/20 px-5 text-sm text-emerald-300 transition-colors hover:border-emerald-500"
+                  >
+                    Download All as ZIP
+                  </button>
                   {FILE_TABS.map((tab) => {
                     const content = result[tab.key as keyof GenerateResult];
                     if (typeof content !== "string") return null;
                     return (
                       <div key={tab.key} className="flex items-center gap-2">
                         <button
-                          onClick={() => downloadSingleFile(tab.label, content)}
+                          onClick={() => {
+                            downloadSingleFile(tab.label, content);
+                            trackGA("file_downloaded", { filename: tab.label, file_type: tab.key });
+                          }}
                           className="h-11 rounded-lg border border-zinc-700 px-5 text-sm text-zinc-300 transition-colors hover:border-zinc-500"
                         >
                           Download {tab.label}
@@ -373,6 +458,62 @@ export default function GeneratorPage() {
                   {copied && <span className="text-xs text-emerald-400">Copied!</span>}
                 </div>
               </div>
+
+              {/* Related Repository Systems */}
+              {result && (() => {
+                const stack = normalizeStackTags(result.detectedStack);
+                const related = getRelatedRepositories(stack);
+                const workflows = getRelatedWorkflows(stack);
+                return (
+                  <>
+                    {related.length > 0 && (
+                      <div>
+                        <div className="mb-4 text-sm font-medium text-zinc-100">Related Repository Systems</div>
+                        <div className="grid gap-4 sm:grid-cols-3">
+                          {related.map((repo: RepositoryMetadata) => (
+                            <Link
+                              key={repo.slug}
+                              href={"/examples/" + repo.slug}
+                              onClick={() => trackGA("related_link_click", { source: "related_cards", target: repo.slug })}
+                              className="rounded-xl border border-[#2a2d35] bg-[#151922] p-5 transition-colors hover:border-zinc-600"
+                            >
+                              <div className="text-sm font-medium text-zinc-100">{repo.title}</div>
+                              <div className="mt-2 flex flex-wrap gap-1.5">
+                                {repo.stack.slice(0, 4).map((s) => (
+                                  <span key={s} className="rounded border border-zinc-700 px-1.5 py-0.5 font-mono text-[10px] text-zinc-500">
+                                    {s}
+                                  </span>
+                                ))}
+                              </div>
+                              <div className="mt-2 text-xs leading-5 text-zinc-400 line-clamp-2">{repo.governanceFocus.slice(0, 2).join(" · ")}</div>
+                              <div className="mt-3 font-mono text-[10px] text-zinc-500">View Repository System &rarr;</div>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {workflows.length > 0 && (
+                      <div>
+                        <div className="mb-4 text-sm font-medium text-zinc-100">Related Workflows</div>
+                        <div className="grid gap-4 sm:grid-cols-2">
+                          {workflows.map((wf) => (
+                            <Link
+                              key={wf.id}
+                              href={"/workflows/" + wf.id}
+                              onClick={() => trackGA("related_link_click", { source: "related_workflows", target: wf.id })}
+                              className="rounded-xl border border-[#2a2d35] bg-[#151922] p-5 transition-colors hover:border-zinc-600"
+                            >
+                              <div className="text-sm font-medium text-zinc-100">{wf.title}</div>
+                              <div className="mt-1 text-xs text-zinc-400 line-clamp-2">{wf.description}</div>
+                              <div className="mt-3 font-mono text-[10px] text-zinc-500">View Workflow &rarr;</div>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
             </div>
           )}
         </div>

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { allExamples, getExampleBySlug } from "@/data/examples";
+import PageViewTracker from "@/components/PageViewTracker";
+import { getRelatedWorkflows, normalizeStackTags, repositoryMetadata, type WorkflowMetadata } from "@/data/repositories";
 
 export const metadata: Metadata = {
   title: "Repository Governance Example — RepoRules.dev",
@@ -50,6 +52,7 @@ export default async function ExamplePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(techArticleSchema) }}
       />
+      <PageViewTracker eventName="example_view" params={{ slug }} />
       <main className="min-h-screen bg-[#0d0f14] text-zinc-100">
       <div className="mx-auto max-w-5xl px-6 py-16">
         {/* Header */}
@@ -150,6 +153,32 @@ export default async function ExamplePage({
                   >
                     <div className="text-sm font-medium">{ex.title}</div>
                     <div className="mt-2 text-xs text-zinc-500 line-clamp-2">{ex.description}</div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* Related Workflows */}
+        {(() => {
+          const meta = repositoryMetadata.find(m => m.slug === slug);
+          if (!meta) return null;
+          const workflows = getRelatedWorkflows(meta.stack, 2);
+          if (workflows.length === 0) return null;
+          return (
+            <div className="mt-8">
+              <h2 className="mb-6 text-2xl font-semibold tracking-tight">Related Workflows</h2>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {workflows.map((wf: WorkflowMetadata) => (
+                  <Link
+                    key={wf.id}
+                    href={`/workflows/${wf.id}`}
+                    className="rounded-xl border border-zinc-800 bg-[#151922] p-5 transition-colors hover:border-zinc-600"
+                  >
+                    <div className="text-sm font-medium">{wf.title}</div>
+                    <div className="mt-2 text-xs text-zinc-500 line-clamp-2">{wf.description}</div>
+                    <div className="mt-3 font-mono text-[10px] text-zinc-500">View Workflow &rarr;</div>
                   </Link>
                 ))}
               </div>

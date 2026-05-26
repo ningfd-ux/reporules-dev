@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import PageViewTracker from "@/components/PageViewTracker";
 import { allWorkflows } from "@/data/workflows";
 
 export const metadata: Metadata = {
@@ -34,6 +35,7 @@ export default function ClaudeCodeSaaS() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
       />
+      <PageViewTracker eventName="workflow_view" params={{ slug: "claude-code-saas" }} />
       <div className="mx-auto max-w-7xl px-6 py-20">
       {/* Tag */}
       <span className="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-900 px-3 py-1 font-mono text-xs text-zinc-300">

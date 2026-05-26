@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import PageViewTracker from "@/components/PageViewTracker";
 import { allWorkflows } from "@/data/workflows";
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default function AIStartupPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
       />
+      <PageViewTracker eventName="workflow_view" params={{ slug: "ai-startup" }} />
       <main className="min-h-screen bg-[#0d0f14] text-zinc-100">
       <div className="mx-auto max-w-5xl px-6 py-16">
         <div className="mb-12">
