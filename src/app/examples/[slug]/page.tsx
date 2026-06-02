@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { allExamples, getExampleBySlug } from "@/data/examples";
 import PageViewTracker from "@/components/PageViewTracker";
+import GithubSourceLink from "@/components/GithubSourceLink";
 import { getRelatedWorkflows, normalizeStackTags, repositoryMetadata, type WorkflowMetadata } from "@/data/repositories";
 
 export const metadata: Metadata = {
@@ -14,6 +15,11 @@ export const metadata: Metadata = {
 export function generateStaticParams() {
   return allExamples.map((e) => ({ slug: e.slug }));
 }
+
+const githubRepos: Record<string, string> = {
+  "nextjs-ai-saas": "https://github.com/ningfd-ux/nextjs-ai-saas-governance",
+};
+
 
 const FILE_TABS = [
   { key: "rules", label: "rules.md" },
@@ -94,12 +100,22 @@ export default async function ExamplePage({
           </div>
           <div className="rounded-xl border border-[#2a2d35] bg-[#16181d] p-5">
             <div className="mb-4 text-sm font-medium">View Source</div>
-            <Link
-              href={`/workflows/${example.repository}`}
-              className="font-mono text-sm text-zinc-400 transition-colors hover:text-zinc-200"
-            >
-              View workflow &rarr;
-            </Link>
+            {githubRepos[slug] ? (
+              <GithubSourceLink
+                href={githubRepos[slug]}
+                slug={slug}
+                className="font-mono text-sm text-zinc-400 transition-colors hover:text-zinc-200"
+              >
+                View workflow &rarr;
+              </GithubSourceLink>
+            ) : (
+              <Link
+                href={`/workflows/${example.repository}`}
+                className="font-mono text-sm text-zinc-400 transition-colors hover:text-zinc-200"
+              >
+                View workflow &rarr;
+              </Link>
+            )}
           </div>
         </div>
 
