@@ -7,6 +7,15 @@ export const aiStartupExample: ExampleData = {
   repository: "ai-startup",
   generatedFrom: ["27 startup repositories", "15 AI product systems", "9 Claude Code workflows"],
   signals: ["AI coding workflows", "Shared validation layer", "Startup governance", "Claude integration"],
+  engineeringDecisions: [
+    "Single package.json for all dependencies to minimize cognitive overhead in early stage. Reason: splitting into workspaces too early created configuration overhead (TypeScript project references, Turborepo pipeline setup) that slowed experimentation. The monorepo split is planned for post-product-market-fit, not before.",
+    "No staging environment — production-only with feature flags for rapid iteration. Reason: maintaining staging and production databases during MVP stage doubles schema migration complexity. Feature flags in the application layer allow testing in production with 0% user exposure. Staging environment budget allocated for post-seed round.",
+    "Direct database access from server components instead of API layer to reduce boilerplate. Reason: introducing an API layer between server components and the database during MVP stage adds ~40% more files per feature (route handler, validation, types, tests) with zero user-facing benefit. API layer will be introduced when third-party integrations require it.",
+  ],
+  aiFailureCases: [
+    "AI model suggested converting all server components to client components, breaking the server-first architecture. The model detected that some server components needed interactivity and 'simplified' by converting everything to client components. This increased initial bundle size by 120KB and broke server-side data fetching. Fix: add 'use client' only to leaf interactive components; keep data fetching in server components.",
+    "Claude Code generated a full test suite for prototype code that was rewritten the next week. The AI wrote 47 tests for a payment flow that was replaced during a Stripe integration change. The test suite became stale immediately and created false CI failures. Fix: don't write tests for code under active exploration. Write tests only after the feature API stabilizes.",
+  ],
   files: {
     rules: `# Repository Rules
 

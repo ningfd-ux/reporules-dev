@@ -7,6 +7,15 @@ export const cursorMonorepoExample: ExampleData = {
   repository: "cursor-monorepo",
   generatedFrom: ["37 monorepo systems", "22 AI coding workflows", "14 package architectures"],
   signals: ["Turborepo structure", "Shared validation layer", "Cursor AI workflows", "Migration governance"],
+  engineeringDecisions: [
+    "Using Turborepo pipeline scoping instead of manual package build ordering. Reason: manual ordering required updating a build script every time a new package was added. Turborepo's dependency graph automatically infers build order from package.json workspace references. This eliminated the 'package X not built before package Y' class of CI failures.",
+    "Shared ESLint config as a package instead of per-package duplicate configs. Reason: when ESLint rules were copied across 5 packages, one team updated their rules for the new React 19 JSX transform while others didn't. The shared @repo/eslint-config package ensures consistent rule enforcement across all packages.",
+    "Build artifacts ignored at git level to prevent CI cache poisoning. Reason: a developer committed dist/ output from their local machine (different Node version). CI picked up the stale artifacts instead of rebuilding, causing a production deploy with incorrect module resolution. .gitignore with dist/ in the root prevented recurrence.",
+  ],
+  aiFailureCases: [
+    "AI attempted to flatten all Turborepo pipeline tasks into a single script, losing parallel build benefits. The AI model saw the turbo.json pipeline definition and 'simplified' it into a sequential npm run script. This increased CI build time from 2 minutes to 11 minutes. Fix: never let AI restructure turbo.json. Pipeline parallelization is intentional.",
+    "Cursor agent duplicated .eslintrc across 5 packages instead of importing from @repo/eslint-config. The agent was asked to 'add React hooks lint rules' and independently modified each package's ESLint config. When the shared config was later updated, the 5 copies were out of sync. Fix: set root ESLint config with overrides and ignore per-package configs.",
+  ],
   files: {
     rules: `# Repository Rules
 

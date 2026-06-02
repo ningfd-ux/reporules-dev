@@ -12,6 +12,15 @@ export const supabaseSaaSExample: ExampleData = {
     "Stripe webhook idempotency",
     "Feature-scoped server actions",
   ],
+  engineeringDecisions: [
+    "Row-Level Security policies defined in migration files, not in Supabase dashboard. Reason: dashboard-defined RLS policies are not version-controlled and cannot be reviewed in PRs. Moving RLS policy definitions into migration files ensures every policy change goes through code review and has a rollback plan. Dashboard is used for ad-hoc queries only.",
+    "SSR auth session checked per-request instead of cached, to handle token revocation. Reason: caching the auth session in a server-side store meant revoked tokens remained valid until cache expiry. A compromised session could be used for up to 15 minutes after revocation. Per-request cookie verification adds ~5ms overhead but eliminates the revocation gap.",
+    "Stripe webhooks processed via Supabase Edge Functions for database proximity. Reason: processing webhooks in Edge Functions co-located with the Supabase database reduces latency from ~50ms (external API call) to ~5ms (internal network). This also keeps Stripe secret keys within the Supabase network boundary instead of the main application.",
+  ],
+  aiFailureCases: [
+    "AI model generated an RLS policy that bypassed user_id checks on the billing table. The policy checked tenant_id without also verifying the user belongs to that tenant. A user on one team could query another team's billing data by passing a different tenant_id. Fix: RLS policies must always include both the tenant scope AND the user's membership in that tenant.",
+    "Claude Code created a database trigger without considering recursive trigger behavior, causing a stack overflow. The trigger updated Table A on insert, which fired another trigger that updated Table A again. PostgreSQL's default max stack depth was exceeded after 100 iterations. Fix: add WHEN conditions to triggers to detect and prevent recursion.",
+  ],
   files: {
     rules: `# Repository Rules
 

@@ -130,6 +130,42 @@ export default async function ExamplePage({
           })}
         </div>
 
+        {/* Engineering Decisions */}
+        {example.engineeringDecisions && example.engineeringDecisions.length > 0 && (
+          <div className="mt-16 border-t border-[#2a2d35] pt-12">
+            <h2 className="mb-2 text-2xl font-semibold tracking-tight">Engineering Decisions</h2>
+            <p className="mb-8 text-sm text-zinc-500">
+              Key architectural decisions made during development, explaining <em>why</em> the system is built this way.
+            </p>
+            <div className="space-y-6">
+              {example.engineeringDecisions.map((decision, i) => (
+                <div key={i} className="rounded-xl border border-[#2a2d35] bg-[#16181d] p-5">
+                  <div className="mb-2 font-mono text-xs text-zinc-600">Decision {i + 1}</div>
+                  <p className="text-sm leading-7 text-zinc-300">{decision}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* AI Failure Cases */}
+        {example.aiFailureCases && example.aiFailureCases.length > 0 && (
+          <div className="mt-16 border-t border-[#2a2d35] pt-12">
+            <h2 className="mb-2 text-2xl font-semibold tracking-tight">AI Failure Cases</h2>
+            <p className="mb-8 text-sm text-zinc-500">
+              Real incidents where AI-generated code caused issues — and what we changed to prevent them.
+            </p>
+            <div className="space-y-6">
+              {example.aiFailureCases.map((failure, i) => (
+                <div key={i} className="rounded-xl border border-red-900/30 bg-[#1c1316] p-5">
+                  <div className="mb-2 font-mono text-xs text-red-400/80">Case {i + 1}</div>
+                  <p className="text-sm leading-7 text-zinc-300">{failure}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Bottom nav */}
         <div className="mt-16">
           <Link href="/examples" className="font-mono text-sm text-zinc-500 transition-colors hover:text-zinc-200">

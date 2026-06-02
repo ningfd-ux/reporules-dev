@@ -7,6 +7,15 @@ export const stripeBillingExample: ExampleData = {
   repository: "stripe-billing",
   generatedFrom: ["31 billing systems", "19 Stripe integrations", "8 metered billing architectures"],
   signals: ["Stripe", "Prisma", "Next.js", "Zod"],
+  engineeringDecisions: [
+    "Webhook handler deployed as separate Cloudflare Worker for independent scaling. Reason: Stripe webhook traffic spikes during payment promotions (up to 200 req/s) saturated the main app's request pool. Isolating webhook processing in a Worker prevents payment processing from affecting user-facing API latency.",
+    "Idempotency keys stored in Redis with 24h TTL instead of in PostgreSQL. Reason: checking idempotency via PostgreSQL added ~20ms latency per webhook event and created lock contention during high-throughput events. Redis with 24h TTL covers Stripe's standard 12-hour webhook retry window with zero database load.",
+    "Subscription state machine implemented as Zod discriminated union, not an enum. Reason: an enum-based approach required updating the type definition and redeploying every time Stripe added a new subscription status. The Zod discriminated union allows adding new states without code changes — Stripe's 'past_due' and 'incomplete' statuses were handled without a deployment.",
+  ],
+  aiFailureCases: [
+    "AI generated a webhook handler that parsed Stripe events inside a database transaction, causing lock contention. The model wrapped the entire webhook handler in a Prisma $transaction block 'for consistency'. During high-traffic promotions, overlapping webhooks created deadlocks on the subscription table. Fix: database transactions should scope only the data mutations, not the event parsing and validation.",
+    "Cursor agent suggested merging billing and subscription tables, breaking the separation that allows independent scaling. The model argued that 'billing and subscription are the same domain' and proposed a single table. This would make it impossible to query subscription metrics without loading billing rows. Fix: keep billing and subscription tables separate — they serve different query patterns.",
+  ],
   files: {
     rules: `# Repository Rules
 

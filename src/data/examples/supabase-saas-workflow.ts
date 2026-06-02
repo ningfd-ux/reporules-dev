@@ -12,6 +12,15 @@ export const supabaseSaaSWorkflowExample: ExampleData = {
     "Deploy preview workflows",
     "Staged rollout automation",
   ],
+  engineeringDecisions: [
+    "CI/CD pipeline deploys migrations before Supabase Edge Functions to prevent function-calls-to-nonexistent-tables. Reason: Edge Functions v1.2 introduced schema introspection at cold start. If a migration adding a table deployed after the Edge Function code referencing it, cold starts would throw 'relation does not exist' errors for up to 30 minutes until all instances warmed.",
+    "Database schema changes auto-generated from Prisma, not hand-written SQL. Reason: hand-written migrations caused 3 incidents where column types diverged between the Prisma schema and the database. Auto-generating migrations from prisma schema ensures the ORM and database stay in sync. Manual SQL is reserved for data migrations and performance indexes.",
+    "Staging environment clones production data with anonymized PII for realistic testing. Reason: testing with synthetic data missed edge cases like multi-tenant row contention and subscription lifecycle transitions that only appear with real-world data shapes. The anonymization step (SHA-256 emails, randomize names) runs as a CI step before seeding staging.",
+  ],
+  aiFailureCases: [
+    "AI suggested running all migrations in parallel during deploy, creating a deadlock on concurrent table alterations. The model proposed 'optimizing' the deploy script by removing the sequential migration guard. Two migrations trying to ALTER the same table in parallel caused PostgreSQL deadlock. Fix: migrations must run sequentially — parallel schema changes are unsafe.",
+    "Cursor agent generated a rollback script that didn't check table dependencies, dropping a table still referenced by foreign keys. The down migration contained DROP TABLE teams, but the users table had a foreign key referencing teams.id. Rollback failed with constraint violation, and the manual fix took 2 hours. Fix: down migrations must check and handle dependent objects before DROP operations.",
+  ],
   files: {
     rules: `# Repository Rules
 

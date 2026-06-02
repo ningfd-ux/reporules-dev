@@ -7,6 +7,18 @@ export const aiAgentMonorepoExample: ExampleData = {
   repository: "ai-agent-monorepo",
   generatedFrom: ["31 agent platforms", "19 multi-agent systems", "14 MCP server setups"],
   signals: ["Turborepo structure", "Agent orchestration layer", "MCP server registry", "Shared tool definitions"],
+  engineeringDecisions: [
+    "MCP server registry uses a JSON configuration file (servers.json) instead of dynamic discovery. Reason: deterministic startup order is critical when Server A depends on Tool B exposed by another MCP server. Dynamic discovery caused race conditions where an agent would call a tool before its parent MCP server finished registering.",
+    "Agent tool definitions are co-located with their implementation, not in a central registry. Reason: when tools were defined in a single packages/agents/tools.ts file, PR reviews could not tell which tools belonged to which agent. Co-location maps agent ownership directly to tool definitions.",
+    "Shared MCP client (packages/mcp-client/) exposes a strict type-safe interface instead of generic invoke(). Reason: generic invoke() allowed agents to call any tool on any server, bypassing governance. Type-safe interfaces enforce that an agent can only call tools explicitly listed in its capability manifest.",
+    "Package boundaries are enforced at build time (Turborepo pipeline) not runtime. Reason: runtime boundary enforcement added ~150ms overhead per agent call in a previous iteration. Build-time enforcement catches violations during CI with zero runtime cost.",
+  ],
+  aiFailureCases: [
+    "AI agent attempted to share a single .env across all packages in the monorepo. This caused the database migration package to read the production DATABASE_URL instead of the staging one — because the shared .env was loaded at a higher scope than the package-specific override. Fix: each package must have its own .env.local or use Turborepo's environment variable scoping.",
+    "Claude Code generated an MCP server that imported utility functions from an adjacent package's internals (not the public API). When the package was refactored, the MCP server broke silently — no build error because TypeScript allowed deep imports. Fix: enforce exports field in package.json to prevent deep imports; add ESLint rule import/no-internal-modules.",
+    "Cursor agent suggested registering all MCP tools as a single 'super-agent' capability. This broke the governance model where Customer Support Agent should only have read tools while Admin Agent has write tools. Fix: capability manifests are per-agent, not global. No agent should have access to tools it doesn't need.",
+    "AI model duplicated 3 Zod validation schemas across 2 agent packages instead of importing from the shared types package. These copies diverged over 2 weeks — one accepted 'pending' as a status value, the other required 'in_progress'. An agent call between packages failed silently. Fix: enforce a single source of truth for shared types with import lint rules.",
+  ],
   files: {
     rules: `# Repository Rules
 
