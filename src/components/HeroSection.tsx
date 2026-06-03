@@ -29,15 +29,15 @@ export default function HeroSection() {
         {/* LEFT */}
         <div>
           <span className="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-900 px-3 py-1 text-xs text-zinc-300">
-            Repository Governance System
+            AI Coding Guardrails
           </span>
 
           <h1 className="mt-4 max-w-2xl text-5xl font-semibold leading-tight tracking-tight text-zinc-100">
-            Generate repository governance files for AI coding systems
+            Stop AI Coding Agents From Breaking Your Codebase
           </h1>
 
           <p className="mt-6 max-w-xl text-lg leading-8 text-zinc-300">
-            Analyze repository structure, generate rules.md, memory.md, architecture constraints and AI workflows.
+            Generate repository rules, memory, and architecture context that keep Claude Code, Cursor, and AI agents aligned with your system.
           </p>
 
           <div className="mt-8 flex items-center gap-4">

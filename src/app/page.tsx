@@ -3,9 +3,9 @@ import Link from "next/link";
 import HeroSection from "@/components/HeroSection";
 
 export const metadata: Metadata = {
-  title: "RepoRules.dev — AI Repository Governance",
+  title: "AI Coding Guardrails — Stop AI Agents From Breaking Your Codebase",
   description:
-    "AI repository governance system that generates rules.md, memory.md, architecture constraints, and AI workflow standards for scalable codebases.",
+    "Generate rules.md, memory.md, and architecture constraints that keep Claude Code, Cursor, and AI coding agents aligned with your repository.",
 };
 
 const CARD =
